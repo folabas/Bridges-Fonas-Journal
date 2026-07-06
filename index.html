@@ -3,97 +3,121 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bridges — Integrative Journal of Science & Technology | LCU</title>
+  <title>Bridges: An Integrative Journal of Science & Technology | LCU</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Typography: Inter for body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <!-- GSAP & Three.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 
-  <!-- TOP BAR -->
-  <div class="top-bar">
-    
-    <marquee class="top-bar-text">Faculty of Natural and Applied Sciences • <span class="top-bar-divider"></span><span class="top-bar-text">Lead City University, Ibadan • </span><span class="top-bar-divider"></span><span class="top-bar-text last">Celebrating 20 Years of Excellence</span></marquee>
-    
-  </div>
+  <!-- 3D Background Canvas -->
+  <canvas id="bg-canvas"></canvas>
 
-  <!-- HEADER -->
-  <header>
-    <div class="header-inner">
+  <!-- HEADER (Sits in Hero, becomes Pill on scroll) -->
+  <header id="main-header">
+    <div class="header-inner glass-nav">
       <a href="#" class="logo">
         <div class="logo-icon">
-          <img src="Logo_half.png" alt="Brides Logo">
+          <img src="Logo_half.png" alt="Bridges Logo">
         </div>
         <div class="logo-text">
           <span class="logo-name">Bridges</span>
           <span class="logo-sub">Integrative Journal of Science & Technology</span>
         </div>
       </a>
-      <nav>
+      
+      <!-- Desktop Nav -->
+      <nav class="desktop-nav">
         <a href="#" class="active" id="nav-home">Home</a>
         <a href="#archive" id="nav-archive">Archive</a>
-        <a href="https://forms.gle/852giH7W5hWKuX8HA" target="_blank" class="nav-submit">Submit →</a>
+        <a href="https://forms.gle/852giH7W5hWKuX8HA" target="_blank" class="nav-submit btn-glass">Submit <i class="fa-solid fa-arrow-right"></i></a>
       </nav>
+
+      <!-- Mobile Nav Toggle -->
+      <button class="mobile-nav-toggle btn-glass-icon" aria-label="Toggle Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Card Nav -->
+    <div class="mobile-nav-card glass-card">
+      <a href="#" class="active"><i class="fa-solid fa-house"></i> <span>Home</span></a>
+      <a href="#archive"><i class="fa-solid fa-folder"></i> <span>Archive</span></a>
+      <a href="https://forms.gle/852giH7W5hWKuX8HA" target="_blank" class="nav-submit-mobile"><i class="fa-solid fa-upload"></i> <span>Submit</span></a>
     </div>
   </header>
 
-  <!-- HERO -->
+  <!-- HERO (Editorial Style) -->
   <section class="hero">
-    <div class="hero-grid"></div>
-    <div class="hero-inner">
+    <!-- Switching Text in Top Middle -->
+    <div class="hero-switching-text-container">
+      <div class="hero-switching-text">
+        <span id="switching-text">Call for Papers</span>
+      </div>
+    </div>
+    
+    <div class="hero-inner full-text-hero">
       <div class="hero-content">
-        <div class="hero-badge">
-          <span class="hero-badge-dot"></span>
-          <span class="hero-badge-text">Call for Papers — Volume 1, Issue 1</span>
-        </div>
-        <h1>
-          <span class="accent">Bridges:</span><br>
-          <em>Integrative Journal</em><br>
-          of Science & Technology
+        <h1 class="hero-title">
+          <span class="accent">BRIDGES</span>
         </h1>
+        <h2 class="hero-title-sub">
+          <em>Integrative Journal</em> of Science & Technology
+        </h2>
         <p class="hero-subtitle">
-          A rigorous, peer-reviewed platform for publishing high-quality research spanning applied sciences, formal sciences, natural sciences, and social sciences — proudly published by the Faculty of Natural and Applied Sciences, Lead City University, Ibadan.
+          A rigorous, peer-reviewed platform for publishing high-quality research spanning applied sciences, formal sciences, natural sciences, and social sciences proudly published by the Faculty of Natural and Applied Sciences, Lead City University, Ibadan.
         </p>
         <div class="hero-actions">
-          <a href="https://forms.gle/852giH7W5hWKuX8HA" target="_blank" class="btn btn-primary">
+          <a href="https://forms.gle/852giH7W5hWKuX8HA" target="_blank" class="btn btn-primary glass-btn-primary">
             Submit Manuscript
           </a>
-          <a href="#about" class="btn btn-secondary">
+          <a href="#about" class="btn btn-secondary glass-btn-secondary">
             Learn More
           </a>
         </div>
       </div>
 
-      <div class="hero-card">
+      <div class="hero-card hero-card-wide glass-card">
         <div class="hero-card-header">
-          <span class="card-header-label">Inaugural Issue · 2026</span>
-          <span class="card-open-badge">Open Now</span>
+          <span class="card-header-label">Inaugural Issue 2026</span>
+          <span class="card-open-badge glass-chip">Open Now</span>
         </div>
         <div class="hero-card-body">
-          <h3 class="card-title">Inaugural Issue — Now Accepting Submissions</h3>
-          <p class="card-desc">
-            Authors of FASCON 2024 conference papers and other scholarly manuscripts are warmly invited to contribute to the founding issue of our journal.
-          </p>
-          <div class="deadline-box">
-            <div class="deadline-icon"><i data-lucide="calendar-clock"></i></div>
-            <div class="deadline-info">
-              <div class="deadline-label">Submission Deadline</div>
-              <div class="deadline-date">30th June 2026</div>
-            </div>
+          <div class="hero-card-body-content">
+            <h3 class="card-title">Inaugural Issue Now Accepting Submissions</h3>
+            <p class="card-desc">
+              Authors of FASCON 2024 conference papers and other scholarly manuscripts are warmly invited to contribute to the founding issue of our journal.
+            </p>
           </div>
-          <div class="editors-info">
-            <div class="editor-avatars">
-              <span class="editor-av">OL</span>
-              <span class="editor-av">WS</span>
+          <div class="hero-card-body-meta">
+            <div class="deadline-box glass-chip-large">
+              <div class="deadline-icon"><i class="fa-regular fa-calendar"></i></div>
+              <div class="deadline-info">
+                <div class="deadline-label">Submission Deadline</div>
+                <div class="deadline-date">30th June 2026</div>
+              </div>
             </div>
-            <div class="editors-text">
-              <span class="editors-label">Editors-in-Chief</span>
-              <span class="editors-names">Prof. Ladokun & Dr. Sakpere</span>
+            <div class="editors-info">
+              <div class="editor-avatars">
+                <span class="editor-av">OL</span>
+                <span class="editor-av">WS</span>
+              </div>
+              <div class="editors-text">
+                <span class="editors-label">Editors-in-Chief</span>
+                <span class="editors-names">Prof. Ladokun & Dr. Sakpere</span>
+              </div>
             </div>
           </div>
         </div>
@@ -101,71 +125,65 @@
     </div>
   </section>
 
-  <!-- SCOPE SECTION -->
+  <!-- TOP BAR MARQUEE (Below Hero) -->
+  <div class="top-bar">
+    <marquee class="top-bar-text">Faculty of Natural and Applied Sciences • <span class="top-bar-divider"></span><span class="top-bar-text">Lead City University, Ibadan • </span><span class="top-bar-divider"></span><span class="top-bar-text last">Celebrating 20 Years of Excellence</span></marquee>
+  </div>
+
+  <!-- SCOPE SECTION (Carousel/Scroll Stack) -->
   <section class="scope-section">
     <div class="scope-container">
       <div class="scope-header">
-        <h2>Our Research Scope</h2>
-        <p>Contributing to national and international research priorities</p>
+        <h2 class="section-title">Our Research Scope</h2>
+        <p class="section-subtitle">Contributing to national and international research priorities</p>
       </div>
-      <div class="scope-grid-main">
-        <div class="scope-card blue">
-          <div class="scope-card-icon">
-            <i data-lucide="dna"></i>
-          </div>
+      
+      <!-- Horizontal Scroll Stack / Grid -->
+      <div class="scope-grid-main" id="scope-carousel">
+        <div class="scope-card glass-card blue">
+          <div class="scope-card-icon"><i class="fa-solid fa-dna"></i></div>
           <h3>Biochemistry</h3>
           <p>Food Chemistry, Ethnopharmacology, Bioremediation, Biofuel Production</p>
         </div>
-        <div class="scope-card green">
-          <div class="scope-card-icon">
-            <i data-lucide="microscope"></i>
-          </div>
+        <div class="scope-card glass-card green">
+          <div class="scope-card-icon"><i class="fa-solid fa-microscope"></i></div>
           <h3>Microbiology</h3>
           <p>Medical Microbiology, Environmental Microbiology, Microbial Biotechnology</p>
         </div>
-        <div class="scope-card magenta">
-          <div class="scope-card-icon">
-            <i data-lucide="flask-conical"></i>
-          </div>
+        <div class="scope-card glass-card magenta">
+          <div class="scope-card-icon"><i class="fa-solid fa-flask"></i></div>
           <h3>Chemistry</h3>
           <p>Organic Chemistry, Analytical Chemistry, Physical Chemistry</p>
         </div>
-        <div class="scope-card blue">
-          <div class="scope-card-icon">
-            <i data-lucide="code-2"></i>
-          </div>
+        <div class="scope-card glass-card blue">
+          <div class="scope-card-icon"><i class="fa-solid fa-code"></i></div>
           <h3>Computer Science</h3>
           <p>Software Engineering, Cybersecurity, Data Science, AI & Machine Learning</p>
         </div>
-        <div class="scope-card green">
-          <div class="scope-card-icon">
-            <i data-lucide="leaf"></i>
-          </div>
+        <div class="scope-card glass-card green">
+          <div class="scope-card-icon"><i class="fa-solid fa-leaf"></i></div>
           <h3>Environmental Science</h3>
           <p>Environmental Management, Toxicology, Pollution Control</p>
         </div>
-        <div class="scope-card magenta">
-          <div class="scope-card-icon">
-            <i data-lucide="atom"></i>
-          </div>
+        <div class="scope-card glass-card magenta">
+          <div class="scope-card-icon"><i class="fa-solid fa-atom"></i></div>
           <h3>Physics</h3>
           <p>Theoretical Physics, Applied Physics, Electronics</p>
         </div>
-        <div class="scope-card blue">
-          <div class="scope-card-icon">
-            <i data-lucide="brain-circuit"></i>
-          </div>
-          <h3>Biology & Biotechnology</h3>
+        <div class="scope-card glass-card blue">
+          <div class="scope-card-icon"><i class="fa-solid fa-brain"></i></div>
+          <h3>Biology & Biotech</h3>
           <p>Molecular Biology, Genetics, Bioinformatics</p>
         </div>
-        <div class="scope-card green">
-          <div class="scope-card-icon">
-            <i data-lucide="sigma"></i>
-          </div>
-          <h3>Statistics & Mathematics</h3>
+        <div class="scope-card glass-card green">
+          <div class="scope-card-icon"><i class="fa-solid fa-calculator"></i></div>
+          <h3>Statistics & Math</h3>
           <p>Applied Statistics, Mathematical Modelling, Operations Research</p>
         </div>
       </div>
+
+      <!-- Pagination for Scope Carousel -->
+      <div class="carousel-pagination" id="scope-pagination"></div>
     </div>
   </section>
 
@@ -173,46 +191,53 @@
   <main class="main-container">
     <div class="content-col">
 
-      <!-- Call for Papers -->
+      <!-- Call for Papers (Bento Grid) -->
       <div class="section-header anim-section">
         <span class="section-eyebrow">Call for Papers</span>
         <div class="section-line"></div>
       </div>
-      <div class="card call-card anim-card">
-        <div class="card-body">
-          <h2>Volume 1, Issue 1 — Now Open</h2>
+      <div class="bento-grid anim-card">
+        <!-- Main Bento Cell -->
+        <div class="bento-cell bento-main glass-card">
+          <h2 class="display-heading">Volume 1, Issue 1</h2>
           <p>
             The Faculty of Natural and Applied Sciences at Lead City University invites researchers, academics, and industry professionals to submit high-quality manuscripts for the inaugural issue of <strong>Bridges: Integrative Journal of Science & Technology</strong>.
           </p>
           <p>
-            This journal serves as a bridge connecting scholars across diverse scientific disciplines — from biochemistry to computer science, from environmental management to physics. We welcome original research articles, reviews, and case studies that contribute meaningfully to scientific knowledge.
+            This journal serves as a bridge connecting scholars across diverse scientific disciplines from biochemistry to computer science, from environmental management to physics.
           </p>
-          <div class="call-highlight">
-            <div class="call-highlight-icon"><i data-lucide="clock"></i></div>
-            <div class="call-highlight-text">
-              <div class="call-highlight-label">Submission Deadline</div>
-              <div class="call-highlight-date">30th June 2026 at 11:59 PM (WAT)</div>
-            </div>
+        </div>
+        <!-- Highlight Bento Cell -->
+        <div class="bento-cell bento-highlight glass-card blue-highlight">
+          <div class="call-highlight-icon"><i class="fa-regular fa-clock"></i></div>
+          <div class="call-highlight-text">
+            <div class="call-highlight-label">Submission Deadline</div>
+            <div class="call-highlight-date">30th June 2026 at 11:59 PM (WAT)</div>
           </div>
+        </div>
+        <!-- Action Bento Cell -->
+        <div class="bento-cell bento-action glass-card">
+          <div class="bento-icon"><i class="fa-solid fa-pen-nib"></i></div>
+          <h3>Submit Today</h3>
+          <a href="https://forms.gle/852giH7W5hWKuX8HA" target="_blank" class="btn btn-primary glass-btn-primary">
+            Submit Manuscript
+          </a>
         </div>
       </div>
 
       <!-- About the Faculty -->
-      <div class="section-header anim-section">
+      <div class="section-header anim-section" id="about">
         <span class="section-eyebrow">About the Faculty</span>
         <div class="section-line"></div>
       </div>
-      <div class="card message-card anim-card" id="about">
+      <div class="card message-card glass-card anim-card">
         <div class="card-body">
-          <h3>Faculty of Natural and Applied Sciences</h3>
+          <h3 class="display-heading">Faculty of Natural and Applied Sciences</h3>
           <p>
-            The Faculty of Natural and Applied Sciences is one of the founding faculties of Lead City University, Ibadan — Nigeria's premier private university celebrating 20 years of academic excellence.
+            The Faculty of Natural and Applied Sciences is one of the founding faculties of Lead City University, Ibadan Nigeria's premier private university celebrating 20 years of academic excellence.
           </p>
           <p>
             Our scientists are actively collaborating in research and exploring innovative ways of working to improve society. Our primary strategy is ensuring that our research and education activities are mapped onto national and international research priorities.
-          </p>
-          <p>
-            The faculty contains a number of departments offering various undergraduate and postgraduate courses, including: <span class="highlight">Biochemistry, Biology, Chemistry, Computer Science, Environmental Management & Toxicology, Microbiology, and Physics</span>.
           </p>
           <div class="signature">
             <div class="sig-avatars">
@@ -235,23 +260,15 @@
         <span class="section-eyebrow">Editor's Invitation</span>
         <div class="section-line"></div>
       </div>
-      <div class="card message-card anim-card">
+      <div class="card message-card glass-card anim-card">
         <div class="card-body">
-          <h3>A Message from the Editorial Team</h3>
-          <p>
-            Dear Colleagues,
-          </p>
+          <h3 class="display-heading">A Message from the Editorial Team</h3>
+          <p>Dear Colleagues,</p>
           <p>
             We are delighted to invite you to consider preparing your <span class="highlight">FASCON 2024</span> conference papers and other scholarly manuscripts for publication in the inaugural issue of our journal.
           </p>
           <p>
             <span class="highlight">Bridges: Integrative Journal of Science and Technology</span> was established to provide a rigorous, reputable, and timely platform for high-quality research spanning applied sciences, formal sciences, natural sciences, and social sciences.
-          </p>
-          <p>
-            By contributing to this first issue, you will not only publish your work but also help establish a new scholarly outlet for our academic community. We would be honored to feature your research among the foundational articles of the journal.
-          </p>
-          <p>
-            Please feel free to share this invitation within your networks.
           </p>
           <div class="signature">
             <div class="sig-avatars stacked">
@@ -269,79 +286,41 @@
         </div>
       </div>
 
-      <!-- Research Areas -->
-      <div class="section-header anim-section">
-        <span class="section-eyebrow">Research Areas</span>
-        <div class="section-line"></div>
-      </div>
-      <div class="scope-grid anim-scope">
-        <div class="scope-item green anim-scope-item">
-          <span class="scope-icon"><i data-lucide="flask-conical"></i></span>
-          <h4>Applied Sciences</h4>
-          <p>Biochemistry, Chemistry, Environmental Management, Microbiology, and Toxicology — applying scientific principles to real-world challenges.</p>
-        </div>
-        <div class="scope-item blue anim-scope-item">
-          <span class="scope-icon"><i data-lucide="monitor"></i></span>
-          <h4>Computing & Technology</h4>
-          <p>Computer Science, Information Technology, Cyber Security, and Software Engineering — driving innovation in the digital age.</p>
-        </div>
-        <div class="scope-item green anim-scope-item">
-          <span class="scope-icon"><i data-lucide="microscope"></i></span>
-          <h4>Natural Sciences</h4>
-          <p>Biology, Physics, Geology, and Biotechnology — understanding the natural world through empirical study.</p>
-        </div>
-        <div class="scope-item magenta anim-scope-item">
-          <span class="scope-icon"><i data-lucide="git-merge"></i></span>
-          <h4>Interdisciplinary</h4>
-          <p>Forensic Science, Science Laboratory Technology, and emerging fields at the intersection of multiple disciplines.</p>
-        </div>
-      </div>
-
-      <!-- Guidelines -->
-      <div class="section-header anim-section">
+      <!-- Guidelines (Cards Scroll Stack on Mobile) -->
+      <div class="section-header anim-section" id="guidelines">
         <span class="section-eyebrow">Submission Guidelines</span>
         <div class="section-line"></div>
       </div>
-      <div class="card guidelines-card anim-card" id="guidelines">
-        <div class="card-body">
-          <h3>Manuscript Requirements</h3>
-          <ul class="guidelines-list">
-            <li class="guideline-item anim-list-item">
-              <div class="guideline-icon green"><i data-lucide="file-text"></i></div>
-              <div>
-                <h5>Document Format</h5>
-                <p>Submit as Microsoft Word (.docx). Use standard academic formatting with clearly labelled sections: Abstract, Introduction, Methodology, Results, Discussion, and References.</p>
-              </div>
-            </li>
-            <li class="guideline-item anim-list-item">
-              <div class="guideline-icon blue"><i data-lucide="ruler"></i></div>
-              <div>
-                <h5>Length & Structure</h5>
-                <p>Typical article length: 4,000–8,000 words excluding references. Include a structured abstract (150–250 words) and 5–7 keywords.</p>
-              </div>
-            </li>
-            <li class="guideline-item anim-list-item">
-              <div class="guideline-icon green"><i data-lucide="languages"></i></div>
-              <div>
-                <h5>Language</h5>
-                <p>All manuscripts must be written in clear, scholarly English. Manuscripts are screened for plagiarism before peer review.</p>
-              </div>
-            </li>
-            <li class="guideline-item anim-list-item">
-              <div class="guideline-icon magenta"><i data-lucide="book-open"></i></div>
-              <div>
-                <h5>References</h5>
-                <p>Follow APA 7th Edition referencing style consistently throughout. All in-text citations must appear in the reference list.</p>
-              </div>
-            </li>
-            <li class="guideline-item anim-list-item">
-              <div class="guideline-icon blue"><i data-lucide="search-check"></i></div>
-              <div>
-                <h5>Review Process</h5>
-                <p>All manuscripts undergo double-blind peer review. Authors will receive feedback within 4–6 weeks of submission.</p>
-              </div>
-            </li>
-          </ul>
+      <div class="guidelines-stack scroll-stack-container anim-card">
+        <!-- Card 1 -->
+        <div class="guideline-card glass-card">
+          <div class="guideline-icon green"><i class="fa-solid fa-file-lines"></i></div>
+          <h5>Document Format</h5>
+          <p>Submit as Microsoft Word (.docx). Use standard academic formatting with clearly labelled sections.</p>
+        </div>
+        <!-- Card 2 -->
+        <div class="guideline-card glass-card">
+          <div class="guideline-icon blue"><i class="fa-solid fa-ruler"></i></div>
+          <h5>Length & Structure</h5>
+          <p>Typical article length: 4,000–8,000 words. Include a structured abstract and 5–7 keywords.</p>
+        </div>
+        <!-- Card 3 -->
+        <div class="guideline-card glass-card">
+          <div class="guideline-icon green"><i class="fa-solid fa-language"></i></div>
+          <h5>Language</h5>
+          <p>All manuscripts must be written in clear, scholarly English and screened for plagiarism.</p>
+        </div>
+        <!-- Card 4 -->
+        <div class="guideline-card glass-card">
+          <div class="guideline-icon magenta"><i class="fa-solid fa-book-open"></i></div>
+          <h5>References</h5>
+          <p>Follow APA 7th Edition referencing style consistently throughout the manuscript.</p>
+        </div>
+        <!-- Card 5 -->
+        <div class="guideline-card glass-card">
+          <div class="guideline-icon blue"><i class="fa-solid fa-magnifying-glass"></i></div>
+          <h5>Review Process</h5>
+          <p>All manuscripts undergo double-blind peer review. Feedback within 4–6 weeks.</p>
         </div>
       </div>
 
@@ -351,25 +330,25 @@
     <aside class="sidebar">
 
       <!-- Countdown -->
-      <div class="sidebar-card anim-sidebar">
+      <div class="sidebar-card glass-card anim-sidebar">
         <div class="sidebar-card-header green-accent">
           <h4>Deadline Countdown</h4>
         </div>
         <div class="sidebar-card-body">
           <div class="countdown-grid">
-            <div class="countdown-unit">
+            <div class="countdown-unit glass-chip-large">
               <span class="countdown-number" id="cd-days">--</span>
               <span class="countdown-label">Days</span>
             </div>
-            <div class="countdown-unit">
+            <div class="countdown-unit glass-chip-large">
               <span class="countdown-number" id="cd-hours">--</span>
               <span class="countdown-label">Hours</span>
             </div>
-            <div class="countdown-unit">
+            <div class="countdown-unit glass-chip-large">
               <span class="countdown-number" id="cd-mins">--</span>
               <span class="countdown-label">Mins</span>
             </div>
-            <div class="countdown-unit">
+            <div class="countdown-unit glass-chip-large">
               <span class="countdown-number" id="cd-secs">--</span>
               <span class="countdown-label">Secs</span>
             </div>
@@ -379,125 +358,77 @@
       </div>
 
       <!-- Submit CTA -->
-      <div class="sidebar-card anim-sidebar">
+      <div class="sidebar-card glass-card anim-sidebar">
         <div class="sidebar-card-header magenta">
           <h4>Submit Your Manuscript</h4>
         </div>
         <div class="sidebar-card-body submit-card-body">
           <p>Ready to publish your research? Submit your manuscript through our secure online portal.</p>
-          <a href="https://forms.gle/852giH7W5hWKuX8HA" target="_blank" class="submit-btn">
-            Submit Manuscript →
+          <a href="https://forms.gle/852giH7W5hWKuX8HA" target="_blank" class="submit-btn glass-btn-primary">
+            Submit Manuscript <i class="fa-solid fa-arrow-right"></i>
           </a>
           <p class="submit-url">forms.gle/852giH7W5hWKuX8HA</p>
         </div>
       </div>
 
       <!-- Journal Info -->
-      <div class="sidebar-card anim-sidebar">
-        <div class="sidebar-card-header" style="background: var(--text); border-color: var(--text);">
-          <h4 style="color: rgba(255,255,255,0.5);">Journal Information</h4>
+      <div class="sidebar-card glass-card anim-sidebar">
+        <div class="sidebar-card-header glass-header-dark">
+          <h4>Journal Information</h4>
         </div>
         <div class="sidebar-card-body">
           <ul class="info-list">
             <li class="info-item anim-info-item">
-              <span class="info-icon"><i data-lucide="book-marked"></i></span>
+              <span class="info-icon"><i class="fa-solid fa-bookmark"></i></span>
               <div class="info-content">
                 <span class="info-label">Current Issue</span>
                 <span class="info-value">Volume 1, Issue 1 (Inaugural)</span>
               </div>
             </li>
             <li class="info-item anim-info-item">
-              <span class="info-icon"><i data-lucide="building-2"></i></span>
+              <span class="info-icon"><i class="fa-solid fa-building-columns"></i></span>
               <div class="info-content">
                 <span class="info-label">Publisher</span>
                 <span class="info-value">Lead City University, Ibadan</span>
               </div>
             </li>
             <li class="info-item anim-info-item">
-              <span class="info-icon"><i data-lucide="globe"></i></span>
+              <span class="info-icon"><i class="fa-solid fa-globe"></i></span>
               <div class="info-content">
                 <span class="info-label">Location</span>
                 <span class="info-value">Ibadan, Oyo State, Nigeria</span>
               </div>
             </li>
             <li class="info-item anim-info-item">
-              <span class="info-icon"><i data-lucide="shield-check"></i></span>
+              <span class="info-icon"><i class="fa-solid fa-shield-halved"></i></span>
               <div class="info-content">
                 <span class="info-label">Review Process</span>
                 <span class="info-value">Double-blind peer review</span>
-              </div>
-            </li>
-            <li class="info-item anim-info-item">
-              <span class="info-icon"><i data-lucide="citation"></i></span>
-              <div class="info-content">
-                <span class="info-label">Referencing</span>
-                <span class="info-value">APA 7th Edition</span>
-              </div>
-            </li>
-            <li class="info-item anim-info-item">
-              <span class="info-icon"><i data-lucide="unlock"></i></span>
-              <div class="info-content">
-                <span class="info-label">Access</span>
-                <span class="info-value">Open Access</span>
               </div>
             </li>
           </ul>
         </div>
       </div>
 
-      <!-- Editorial Board -->
-      <div class="sidebar-card anim-sidebar">
-        <div class="sidebar-card-header" style="background: var(--text); border-color: var(--text);">
-          <h4 style="color: rgba(255,255,255,0.5);">Editorial Board</h4>
-        </div>
-        <div class="sidebar-card-body">
-          <div class="editor-item anim-editor">
-            <div class="editor-avatar b">OL</div>
-            <div>
-              <span class="editor-name">Prof. Olusola Abiola Ladokun</span>
-              <span class="editor-title">Editor-in-Chief · Dean, FNAS</span>
-            </div>
-          </div>
-          <div class="editor-item anim-editor">
-            <div class="editor-avatar b">WS</div>
-            <div>
-              <span class="editor-name">Dr. Wilson E. Sakpere</span>
-              <span class="editor-title">Editor-in-Chief · HoD, CPS</span>
-            </div>
-          </div>
-          <p class="editors-footer">
-            Faculty of Natural and Applied Sciences<br>
-            Lead City University, Ibadan
-          </p>
-        </div>
-      </div>
-
       <!-- Contact -->
-      <div class="sidebar-card anim-sidebar">
-        <div class="sidebar-card-header" style="background: var(--blue); border-color: var(--blue);">
-          <h4 style="color: rgba(255,255,255,0.55);">Contact Us</h4>
+      <div class="sidebar-card glass-card anim-sidebar">
+        <div class="sidebar-card-header glass-header-blue">
+          <h4>Contact Us</h4>
         </div>
         <div class="sidebar-card-body">
           <ul class="info-list">
             <li class="info-item">
-              <span class="info-icon"><i data-lucide="map-pin"></i></span>
+              <span class="info-icon"><i class="fa-solid fa-location-dot"></i></span>
               <div class="info-content">
                 <span class="info-label">Address</span>
                 <span class="info-value">Lagos-Ibadan Expressway<br>Toll Gate Area, Ibadan</span>
               </div>
             </li>
             <li class="info-item">
-              <span class="info-icon"><i data-lucide="mail"></i></span>
+              <span class="info-icon"><i class="fa-solid fa-envelope"></i></span>
               <div class="info-content">
                 <span class="info-label">Email</span>
                 <span class="info-value">fnas@lcu.edu.ng</span>
-              </div>
-            </li>
-            <li class="info-item">
-              <span class="info-icon"><i data-lucide="globe-2"></i></span>
-              <div class="info-content">
-                <span class="info-label">Website</span>
-                <span class="info-value">www.lcu.edu.ng</span>
               </div>
             </li>
           </ul>
@@ -511,75 +442,68 @@
   <section class="archive-section" id="archive">
     <div class="archive-container">
       <div class="archive-header">
-        <h2>Journal Archive</h2>
+        <h2 class="display-heading">Journal Archive</h2>
         <p>Browse and download published articles from our journal</p>
       </div>
       
-      <div class="archive-controls">
+      <div class="archive-controls glass-card">
         <div class="search-box">
-          <i data-lucide="search"></i>
+          <i class="hgi-stroke hgi-search-01"></i>
           <input type="text" id="article-search" placeholder="Search articles by title, author, or keywords...">
         </div>
         <div class="filter-box">
-          <i data-lucide="calendar"></i>
+          <i class="hgi-stroke hgi-calendar-01"></i>
           <select id="year-filter">
             <option value="">All Years</option>
             <option value="2026">2026</option>
             <option value="2025">2025</option>
-            <option value="2024">2024</option>
-            <option value="2023">2023</option>
-            <option value="2022">2022</option>
           </select>
         </div>
       </div>
 
-      <div class="articles-grid" id="articles-grid">
+      <div class="articles-grid scroll-stack-container" id="articles-grid">
         <!-- Sample articles will be loaded here -->
       </div>
 
-      <div class="archive-note">
-        <i data-lucide="info"></i>
-        <span>Articles are sourced from our Google Drive repository. <strong>Replace the placeholder folder ID</strong> in the configuration to load your actual articles.</span>
-      </div>
+      <!-- Pagination for Archive -->
+      <div class="archive-pagination" id="archive-pagination"></div>
+
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer>
+  <!-- TAPED FOOTER -->
+  <footer class="taped-footer">
+    <div class="footer-tape"></div>
     <div class="footer-inner">
       <div class="footer-brand">
-        <div class="footer-logo">Bridges</div>
         <div class="footer-sub">Integrative Journal of Science & Technology</div>
-        <div class="footer-accent-bar"></div>
         <p>A multidisciplinary, peer-reviewed journal published by the Faculty of Natural and Applied Sciences, Lead City University. Celebrating 20 years of academic excellence.</p>
       </div>
-      <div class="footer-col">
-        <h5>Quick Links</h5>
-        <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#about">About the Faculty</a></li>
-          <li><a href="#guidelines">Submission Guidelines</a></li>
-          <li><a href="https://www.lcu.edu.ng/" target="_blank">Lead City University</a></li>
-        </ul>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h5>Quick Links</h5>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#about">About the Faculty</a></li>
+            <li><a href="#guidelines">Submission Guidelines</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Resources</h5>
+          <ul>
+            <li><a href="https://forms.gle/852giH7W5hWKuX8HA" target="_blank">Submit Manuscript</a></li>
+            <li><a href="https://www.journals.lcu.edu.ng/" target="_blank">Other Journals</a></li>
+            <li><a href="mailto:fnas@lcu.edu.ng">Contact Editors</a></li>
+          </ul>
+        </div>
       </div>
-      <div class="footer-col">
-        <h5>Resources</h5>
-        <ul>
-          <li><a href="https://forms.gle/852giH7W5hWKuX8HA" target="_blank">Submit Manuscript</a></li>
-          <li><a href="https://www.journals.lcu.edu.ng/" target="_blank">Other Journals</a></li>
-          <li><a href="https://lcu.edu.ng/index.php/conference-proceedings/facon-2022" target="_blank">FASCON 2022</a></li>
-          <li><a href="mailto:fnas@lcu.edu.ng">Contact Editors</a></li>
-        </ul>
-      </div>
+    </div>
+    <div class="footer-large-name">
+      Bridges
     </div>
     <div class="footer-bottom">
       <div class="footer-bottom-inner">
         <span>© 2026 Bridges Journal · Faculty of Natural and Applied Sciences · Lead City University, Ibadan</span>
-        <div class="footer-dots">
-          <span class="footer-dot"></span>
-          <span class="footer-dot"></span>
-          <span class="footer-dot"></span>
-        </div>
       </div>
     </div>
   </footer>

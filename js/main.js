@@ -1,15 +1,10 @@
-// Initialize Lucide icons
-document.addEventListener('DOMContentLoaded', () => {
-  if (typeof lucide !== 'undefined') {
-    lucide.createIcons();
-  }
-});
+// js/main.js
 
-// Countdown Timer
-(function() {
+document.addEventListener('DOMContentLoaded', () => {
+
+  // --- Countdown Timer ---
   const deadline = new Date('2026-06-30T23:59:59');
-  
-  function update() {
+  function updateTimer() {
     const now = new Date();
     const diff = deadline - now;
     const status = document.getElementById('cd-status');
@@ -33,272 +28,179 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('cd-mins').textContent = String(m).padStart(2, '0');
     document.getElementById('cd-secs').textContent = String(s).padStart(2, '0');
     
-    setTimeout(update, 1000);
+    setTimeout(updateTimer, 1000);
   }
-  
-  update();
-})();
+  updateTimer();
 
-// Archive Section - Google Drive Integration
-(function() {
-  // ============================================
-  // CONFIGURATION - UPDATE THIS WITH YOUR DATA
-  // ============================================
-  
-  // Google Drive Folder ID - Replace with your actual folder ID
-  // The folder ID is the long string in your Google Drive share URL:
-  // https://drive.google.com/drive/folders/[FOLDER_ID_HERE]
-  const GOOGLE_DRIVE_FOLDER_ID = 'PLACEHOLDER_FOLDER_ID';
-  
-  // Alternative: Direct folder URL
-  const GOOGLE_DRIVE_FOLDER_URL = 'https://drive.google.com/drive/folders/PLACEHOLDER_FOLDER_ID';
-  
-  // Set to true to use Google Drive API, false to use sample data
-  const USE_GOOGLE_DRIVE_API = false;
-  
-  // Google Drive API Key (optional - for public folders)
-  const GOOGLE_API_KEY = 'YOUR_API_KEY_HERE';
-  
-  // ============================================
-  // SAMPLE DATA - For demonstration
-  // ============================================
-  const sampleArticles = [
-    {
-      id: '1',
-      title: 'Advances in Natural Product Chemistry: A Comprehensive Review',
-      author: 'Dr. Adebayo O. & Prof. Chinedu E.',
-      date: '2026-03-15',
-      year: '2026',
-      abstract: 'This review explores recent developments in natural product chemistry, focusing on bioactive compounds from medicinal plants native to West Africa. The study highlights novel extraction techniques and their applications in pharmaceutical development.',
-      pdfUrl: '#',
-      thumbnail: null
-    },
-    {
-      id: '2',
-      title: 'Machine Learning Applications in Bioinformatics: Current Trends',
-      author: 'Dr. Fatima K. & Dr. Emmanuel A.',
-      date: '2026-02-28',
-      year: '2026',
-      abstract: 'An investigation into the integration of machine learning algorithms with bioinformatics workflows. This paper examines predictive models for protein structure prediction and gene expression analysis.',
-      pdfUrl: '#',
-      thumbnail: null
-    },
-    {
-      id: '3',
-      title: 'Environmental Impact Assessment of Industrial Wastewater in Lagos',
-      author: 'Prof. Olumide S. & Dr. Amina B.',
-      date: '2025-11-20',
-      year: '2025',
-      abstract: 'A critical analysis of industrial wastewater management practices in Lagos metropolitan area. The research evaluates heavy metal contamination levels and proposes sustainable remediation strategies.',
-      pdfUrl: '#',
-      thumbnail: null
-    },
-    {
-      id: '4',
-      title: 'Quantum Computing: Principles and Potential Applications',
-      author: 'Dr. Chukwuemeka N.',
-      date: '2025-09-10',
-      year: '2025',
-      abstract: 'An introductory exploration of quantum computing principles and their potential applications in solving complex computational problems. The paper discusses quantum bits, superposition, and entanglement.',
-      pdfUrl: '#',
-      thumbnail: null
-    },
-    {
-      id: '5',
-      title: 'Antimicrobial Resistance Patterns in Nigerian Healthcare Settings',
-      author: 'Dr. Grace O. & Prof. Tunde A.',
-      date: '2025-06-25',
-      year: '2025',
-      abstract: 'A multi-center study examining antimicrobial resistance patterns among common pathogenic bacteria in Nigerian hospitals. The research provides insights for empirical antibiotic therapy guidelines.',
-      pdfUrl: '#',
-      thumbnail: null
-    },
-  ];
-  
-  // ============================================
-  // ARTICLES STATE
-  // ============================================
-  let allArticles = [];
-  let displayedArticles = [];
-  
-  // ============================================
-  // GOOGLE DRIVE API FUNCTIONS
-  // ============================================
-  
-  async function fetchFromGoogleDrive() {
-    if (GOOGLE_DRIVE_FOLDER_ID === 'PLACEHOLDER_FOLDER_ID') {
-      console.warn('Please set your Google Drive Folder ID in the configuration.');
-      return sampleArticles;
-    }
-    
-    try {
-      const url = `https://www.googleapis.com/drive/v3/files?q='${GOOGLE_DRIVE_FOLDER_ID}'+in+parents+and+mimeType='application/pdf'&key=${GOOGLE_API_KEY}`;
-      const response = await fetch(url);
-      const data = await response.json();
-      
-      if (data.files && data.files.length > 0) {
-        return data.files.map(file => ({
-          id: file.id,
-          title: file.name.replace('.pdf', '').replace(/_/g, ' '),
-          author: 'Author Not Available',
-          date: file.createdTime ? new Date(file.createdTime).toISOString().split('T')[0] : '',
-          year: file.createdTime ? new Date(file.createdTime).getFullYear().toString() : '',
-          abstract: 'No abstract available. Please download the full article for details.',
-          pdfUrl: `https://drive.google.com/file/d/${file.id}/view`,
-          thumbnail: `https://drive.google.com/thumbnail?id=${file.id}&sz=w400`
-        }));
-      }
-      return sampleArticles;
-    } catch (error) {
-      console.error('Error fetching from Google Drive:', error);
-      return sampleArticles;
-    }
-  }
-  
-  // ============================================
-  // UI FUNCTIONS
-  // ============================================
-  
-  function createArticleCard(article) {
-    const dateObj = new Date(article.date);
-    const formattedDate = dateObj.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
+  // --- Mobile Card Nav Toggle ---
+  const mobileToggle = document.querySelector('.mobile-nav-toggle');
+  const mobileNav = document.querySelector('.mobile-nav-card');
+  if (mobileToggle && mobileNav) {
+    mobileToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      mobileNav.classList.toggle('active');
     });
     
-    const thumbnailHtml = article.thumbnail 
-      ? `<img src="${article.thumbnail}" alt="${article.title}" style="width:100%;height:100%;object-fit:cover;">`
-      : `<div class="article-preview-placeholder">
-           <i data-lucide="file-text"></i>
-           <span>PDF Preview</span>
-         </div>`;
+    document.addEventListener('click', (e) => {
+      if (!mobileNav.contains(e.target) && !mobileToggle.contains(e.target)) {
+        mobileNav.classList.remove('active');
+      }
+    });
+  }
+
+  // --- Navbar Scroll (Transparent to Pill) ---
+  const header = document.getElementById('main-header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+
+  // --- ARCHIVE PAGINATION & RENDERING ---
+  const articlesData = [
+    { title: "Machine Learning in Bioinformatics: A Review", author: "Dr. A. Smith", year: "2026", abstract: "This review explores recent advancements in applying machine learning algorithms to sequence analysis and structural biology." },
+    { title: "Sustainable Bioremediation of Heavy Metals", author: "Prof. O. Ladokun", year: "2026", abstract: "Investigating the use of indigenous microbial strains for the bioremediation of lead and cadmium in contaminated soils." },
+    { title: "Quantum Computing Algorithms for Optimization", author: "Dr. W. Sakpere", year: "2026", abstract: "A novel approach to solving NP-hard optimization problems using near-term quantum devices." },
+    { title: "Evaluating Dietary Antioxidants", author: "Dr. B. Johnson", year: "2025", abstract: "A comprehensive study on the bioavailability and efficacy of natural antioxidants extracted from local flora." },
+    { title: "Cybersecurity in IoT Healthcare Devices", author: "Prof. M. Adebayo", year: "2025", abstract: "Analyzing vulnerabilities in consumer health IoT devices and proposing a lightweight encryption protocol." },
+    { title: "Nanomaterials for Solar Cell Efficiency", author: "Dr. K. Lee", year: "2026", abstract: "Enhancing the photovoltaic efficiency of perovskite solar cells using engineered carbon nanotubes." },
+    { title: "Epidemiological Modelling of Viral Outbreaks", author: "Prof. S. Gupta", year: "2026", abstract: "A stochastic model for predicting the spread of respiratory viruses in high-density urban populations." },
+    { title: "Advancements in Synthetic Biology", author: "Dr. E. Wong", year: "2025", abstract: "Design and construction of novel biological parts for targeted drug delivery systems." },
+    { title: "AI-Driven Climate Change Prediction", author: "Prof. J. Doe", year: "2026", abstract: "Utilizing deep learning models to improve the accuracy of short-term regional climate predictions." },
+    { title: "Biopolymer Alternatives to Single-Use Plastics", author: "Dr. P. Okon", year: "2025", abstract: "Development and characterization of biodegradable polymers derived from cassava starch." },
+    { title: "Cryptographic Protocols for Blockchain", author: "Prof. L. Chen", year: "2026", abstract: "A survey of zero-knowledge proofs and their application in enhancing privacy on public ledgers." },
+    { title: "Ethnomedicinal Plants of South-West Nigeria", author: "Dr. A. Ojo", year: "2025", abstract: "Documentation and phytochemical analysis of plants commonly used in traditional medicine." }
+  ];
+
+  const archiveGrid = document.getElementById('articles-grid');
+  const paginationContainer = document.getElementById('archive-pagination');
+  
+  let currentPage = 1;
+  let wasMobile = window.innerWidth <= 768;
+  const isMobile = wasMobile; // Alias for itemsPerPage logic
+  const itemsPerPage = isMobile ? 4 : 9;
+
+  function initScrollStacks() {
+    if (window.innerWidth > 768) return;
+    const stacks = document.querySelectorAll('.scroll-stack-container');
+    stacks.forEach(stack => {
+      const cards = stack.children;
+      Array.from(cards).forEach((card, i) => {
+        card.classList.add('scroll-stack-card');
+        card.style.setProperty('--mobile-top', `calc(7rem + ${i * 14}px)`);
+        card.style.setProperty('--mobile-z', i + 10);
+        card.style.setProperty('--mobile-mt', i === 0 ? '0' : '2.5rem');
+      });
+    });
+  }
+
+  function destroyScrollStacks() {
+    document.querySelectorAll('.scroll-stack-card').forEach(c => {
+      c.classList.remove('scroll-stack-card');
+      c.style.removeProperty('--mobile-top');
+      c.style.removeProperty('--mobile-z');
+      c.style.removeProperty('--mobile-mt');
+    });
+  }
+
+  function renderArticles(page) {
+    if (!archiveGrid) return;
+    archiveGrid.innerHTML = '';
     
-    return `
-      <article class="article-card" data-id="${article.id}" data-year="${article.year}">
-        <div class="article-preview">
-          ${thumbnailHtml}
-        </div>
-        <div class="article-body">
-          <div class="article-meta">
-            <span class="article-year">${article.year}</span>
-            <span class="article-date">${formattedDate}</span>
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const pageItems = articlesData.slice(startIndex, endIndex);
+
+    pageItems.forEach(article => {
+      const card = document.createElement('div');
+      card.className = 'archive-card glass-card';
+      
+      card.innerHTML = `
+        <div class="archive-preview">
+          <div class="archive-preview-placeholder">
+            <i class="fa-solid fa-file-pdf"></i>
+            <span>PDF</span>
           </div>
-          <h3 class="article-title">${article.title}</h3>
-          <p class="article-author">${article.author}</p>
+        </div>
+        <div class="archive-body">
+          <div class="archive-meta">
+            <span class="article-year">${article.year}</span>
+            <span class="article-type">Research Article</span>
+          </div>
+          <h4 class="article-title">${article.title}</h4>
+          <div class="article-author">${article.author}</div>
           <p class="article-abstract">${article.abstract}</p>
           <div class="article-footer">
-            <a href="${article.pdfUrl}" target="_blank" class="download-btn" download>
-              <i data-lucide="download"></i>
-              Download
-            </a>
+            <a href="#" class="download-btn">Download PDF <i class="fa-solid fa-download"></i></a>
           </div>
         </div>
-      </article>
-    `;
-  }
-  
-  function renderArticles(articles) {
-    const grid = document.getElementById('articles-grid');
-    if (!grid) return;
-    
-    if (articles.length === 0) {
-      grid.innerHTML = `
-        <div class="no-results" style="grid-column:1/-1;text-align:center;padding:3rem;">
-          <i data-lucide="search-x" style="width:3rem;height:3rem;color:var(--text-lighter);margin-bottom:1rem;"></i>
-          <p style="color:var(--text-light);font-size:1.1rem;">No articles found matching your criteria.</p>
-        </div>
       `;
-    } else {
-      grid.innerHTML = articles.map(createArticleCard).join('');
-    }
-    
-    // Reinitialize Lucide icons for new elements
-    if (typeof lucide !== 'undefined') {
-      lucide.createIcons();
-    }
-  }
-  
-  function filterArticles() {
-    const searchTerm = document.getElementById('article-search')?.value.toLowerCase() || '';
-    const yearFilter = document.getElementById('year-filter')?.value || '';
-    
-    displayedArticles = allArticles.filter(article => {
-      const matchesSearch = 
-        article.title.toLowerCase().includes(searchTerm) ||
-        article.author.toLowerCase().includes(searchTerm) ||
-        article.abstract.toLowerCase().includes(searchTerm);
-      
-      const matchesYear = !yearFilter || article.year === yearFilter;
-      
-      return matchesSearch && matchesYear;
+      archiveGrid.appendChild(card);
     });
-    
-    renderArticles(displayedArticles);
+
+    renderPagination();
+    // Re-apply scroll stack logic to newly rendered cards
+    initScrollStacks();
   }
-  
-  function populateYearFilter() {
-    const select = document.getElementById('year-filter');
-    if (!select) return;
+
+  function renderPagination() {
+    if (!paginationContainer) return;
+    paginationContainer.innerHTML = '';
     
-    const years = [...new Set(allArticles.map(a => a.year))].sort().reverse();
-    const currentValue = select.value;
-    
-    select.innerHTML = '<option value="">All Years</option>';
-    years.forEach(year => {
-      select.innerHTML += `<option value="${year}">${year}</option>`;
+    const totalPages = Math.ceil(articlesData.length / itemsPerPage);
+    if (totalPages <= 1) return;
+
+    // Prev Button
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'pagination-arrow';
+    prevBtn.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
+    prevBtn.disabled = currentPage === 1;
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderArticles(currentPage);
+      }
     });
-    
-    if (years.includes(currentValue)) {
-      select.value = currentValue;
-    }
+    paginationContainer.appendChild(prevBtn);
+
+    // Info text
+    const infoText = document.createElement('div');
+    infoText.className = 'pagination-info';
+    infoText.textContent = `Page ${currentPage} of ${totalPages}`;
+    paginationContainer.appendChild(infoText);
+
+    // Next Button
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'pagination-arrow';
+    nextBtn.innerHTML = '<i class="fa-solid fa-arrow-right"></i>';
+    nextBtn.disabled = currentPage === totalPages;
+    nextBtn.addEventListener('click', () => {
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderArticles(currentPage);
+      }
+    });
+    paginationContainer.appendChild(nextBtn);
   }
-  
-  async function initArchive() {
-    const grid = document.getElementById('articles-grid');
-    if (!grid) return;
+
+  // Initial render
+  renderArticles(currentPage);
+
+  window.addEventListener('resize', () => {
+    const nowMobile = window.innerWidth <= 768;
     
-    // Show loading state
-    grid.innerHTML = `
-      <div class="loading-state" style="grid-column:1/-1;text-align:center;padding:3rem;">
-        <i data-lucide="loader-2" style="width:2.5rem;height:2.5rem;color:var(--blue);animation:spin 1s linear infinite;"></i>
-        <p style="color:var(--text-light);margin-top:1rem;">Loading articles...</p>
-        <style>@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}</style>
-      </div>
-    `;
-    if (typeof lucide !== 'undefined') {
-      lucide.createIcons();
+    if (wasMobile !== nowMobile) {
+      if (nowMobile) {
+        initScrollStacks();
+      } else {
+        destroyScrollStacks();
+      }
+      // Reload page or force complete re-render because pagination logic changes
+      window.location.reload(); 
     }
-    
-    // Fetch articles
-    if (USE_GOOGLE_DRIVE_API) {
-      allArticles = await fetchFromGoogleDrive();
-    } else {
-      // Simulate loading delay
-      await new Promise(resolve => setTimeout(resolve, 500));
-      allArticles = sampleArticles;
-    }
-    
-    displayedArticles = [...allArticles];
-    populateYearFilter();
-    renderArticles(displayedArticles);
-    
-    // Add event listeners
-    const searchInput = document.getElementById('article-search');
-    const yearSelect = document.getElementById('year-filter');
-    
-    if (searchInput) {
-      searchInput.addEventListener('input', filterArticles);
-    }
-    if (yearSelect) {
-      yearSelect.addEventListener('change', filterArticles);
-    }
-  }
-  
-  // Initialize when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initArchive);
-  } else {
-    initArchive();
-  }
-})();
+  });
+
+});
