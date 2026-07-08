@@ -547,12 +547,13 @@ a {
   font-size: 1.1rem;
 }
 
+/* Scope Grid Main: Scroll Stack (Mobile) & Bento Grid (Desktop) */
 .scope-grid-main {
   display: flex;
-  gap: 24px;
-  overflow-x: auto;
-  padding: 20px 10px 40px 10px;
-  scroll-snap-type: x mandatory;
+  flex-direction: column;
+  position: relative;
+  gap: 16px;
+  padding: 20px 0;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -560,10 +561,49 @@ a {
   display: none;
 }
 .scope-card {
-  min-width: 300px;
-  flex: 0 0 auto;
-  padding: 40px;
-  scroll-snap-align: center;
+  padding: 24px;
+  position: sticky;
+  transition: transform 0.3s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Top and Z-index will be set via JS or nth-child below */
+}
+
+/* Scroll Stack Specific Offsets */
+.scope-card:nth-child(1) { top: 100px; z-index: 1; }
+.scope-card:nth-child(2) { top: 114px; z-index: 2; }
+.scope-card:nth-child(3) { top: 128px; z-index: 3; }
+.scope-card:nth-child(4) { top: 142px; z-index: 4; }
+.scope-card:nth-child(5) { top: 156px; z-index: 5; }
+.scope-card:nth-child(6) { top: 170px; z-index: 6; }
+.scope-card:nth-child(7) { top: 184px; z-index: 7; }
+.scope-card:nth-child(8) { top: 198px; z-index: 8; }
+
+/* Bento Grid on Desktop */
+@media (min-width: 992px) {
+  .scope-grid-main {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 250px;
+    gap: 24px;
+    padding: 20px 0;
+  }
+  .scope-card {
+    position: static;
+    top: auto;
+    z-index: auto;
+  }
+  /* Bento Layout for 8 cards */
+  .scope-card:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+  .scope-card:nth-child(2) { grid-column: span 1; grid-row: span 1; }
+  .scope-card:nth-child(3) { grid-column: span 1; grid-row: span 1; }
+  .scope-card:nth-child(4) { grid-column: span 2; grid-row: span 1; }
+  .scope-card:nth-child(5) { grid-column: span 1; grid-row: span 1; }
+  .scope-card:nth-child(6) { grid-column: span 1; grid-row: span 1; }
+  .scope-card:nth-child(7) { grid-column: span 2; grid-row: span 1; }
+  .scope-card:nth-child(8) { grid-column: span 2; grid-row: span 1; }
 }
 .scope-card-icon {
   font-size: 40px;
@@ -1141,21 +1181,27 @@ a {
     font-size: 1.8rem;
   }
 
+  /* Mobile Call for Papers - Scroll Stack */
   .bento-grid {
     display: flex;
-    gap: 24px;
-    overflow-x: auto;
-    padding: 10px 10px 30px 10px;
-    scroll-snap-type: x mandatory;
+    flex-direction: column;
+    position: relative;
+    gap: 16px;
+    padding-bottom: 30px;
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
   .bento-grid::-webkit-scrollbar { display: none; }
   .bento-cell {
-    min-width: 280px;
-    flex: 0 0 auto;
-    scroll-snap-align: center;
+    position: sticky;
+    transition: transform 0.3s ease;
   }
+  
+  /* Offsets for up to 4 bento cards */
+  .bento-cell:nth-child(1) { top: 100px; z-index: 1; }
+  .bento-cell:nth-child(2) { top: 114px; z-index: 2; }
+  .bento-cell:nth-child(3) { top: 128px; z-index: 3; }
+  .bento-cell:nth-child(4) { top: 142px; z-index: 4; }
 
   .guidelines-stack {
     display: flex;
@@ -1206,6 +1252,16 @@ a {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0;
+  }
+  .modal-content {
+    padding: 1.5rem;
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-group.full-width {
+    grid-column: 1;
+  }
 }
 
 /* PAGINATION ARROWS */
@@ -1243,4 +1299,235 @@ a {
   font-size: 14px;
   font-weight: 500;
   color: var(--text-light);
+}
+/* ==========================================================================
+   MULTI-STEP MODAL (Submission)
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 2rem;
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal-content {
+  transform: translateY(0);
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.modal-close:hover {
+  color: var(--text-primary);
+}
+
+.modal-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  position: relative;
+  z-index: 1;
+}
+
+.step.active {
+  color: var(--blue);
+}
+
+.step.completed {
+  color: var(--green);
+}
+
+.step-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.3s;
+}
+
+.step.active .step-circle {
+  background: var(--blue);
+  color: white;
+  border-color: var(--blue);
+}
+
+.step.completed .step-circle {
+  background: var(--green);
+  color: white;
+  border-color: var(--green);
+}
+
+.step-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.step-line {
+  flex-grow: 1;
+  height: 2px;
+  background: var(--glass-border);
+  margin: 0 10px;
+  margin-bottom: 20px; /* offset to align with circle */
+}
+
+/* Modal Steps */
+.modal-step {
+  display: none;
+  animation: fadeIn 0.4s ease forwards;
+}
+
+.modal-step.active {
+  display: block;
+}
+
+.modal-step h3 {
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.guideline-content ul {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.guideline-content li {
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group.full-width {
+  grid-column: span 2;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--blue);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.file-upload input[type="file"] {
+  padding: 0.5rem;
+  background: none;
+  border: 1px dashed var(--blue);
+  cursor: pointer;
+}
+
+.confirm-box {
+  background: rgba(13, 110, 253, 0.1);
+  border: 1px solid rgba(13, 110, 253, 0.2);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+.checkbox-container input {
+  margin-top: 4px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
+  gap: 1rem;
+}
+
+.modal-actions.split {
+  justify-content: space-between;
 }

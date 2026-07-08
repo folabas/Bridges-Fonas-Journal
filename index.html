@@ -28,7 +28,7 @@
   <!-- HEADER (Sits in Hero, becomes Pill on scroll) -->
   <header id="main-header">
     <div class="header-inner glass-nav">
-      <a href="#" class="logo">
+      <a href="index.html" class="logo">
         <div class="logo-icon">
           <img src="Logo_half.png" alt="Bridges Logo">
         </div>
@@ -40,9 +40,9 @@
       
       <!-- Desktop Nav -->
       <nav class="desktop-nav">
-        <a href="#" class="active" id="nav-home">Home</a>
-        <a href="#archive" id="nav-archive">Archive</a>
-        <a href="https://forms.gle/852giH7W5hWKuX8HA" target="_blank" class="nav-submit btn-glass">Submit <i class="fa-solid fa-arrow-right"></i></a>
+        <a href="index.html" class="active" id="nav-home">Home</a>
+        <a href="articles.html" id="nav-archive">Archive</a>
+        <a href="#" class="nav-submit btn-glass btn-submit-modal">Submit <i class="fa-solid fa-arrow-right"></i></a>
       </nav>
 
       <!-- Mobile Nav Toggle -->
@@ -53,9 +53,9 @@
 
     <!-- Mobile Card Nav -->
     <div class="mobile-nav-card glass-card">
-      <a href="#" class="active"><i class="fa-solid fa-house"></i> <span>Home</span></a>
-      <a href="#archive"><i class="fa-solid fa-folder"></i> <span>Archive</span></a>
-      <a href="https://forms.gle/852giH7W5hWKuX8HA" target="_blank" class="nav-submit-mobile"><i class="fa-solid fa-upload"></i> <span>Submit</span></a>
+      <a href="index.html" class="active"><i class="fa-solid fa-house"></i> <span>Home</span></a>
+      <a href="articles.html"><i class="fa-solid fa-folder"></i> <span>Archive</span></a>
+      <a href="#" class="nav-submit-mobile btn-submit-modal"><i class="fa-solid fa-upload"></i> <span>Submit</span></a>
     </div>
   </header>
 
@@ -80,7 +80,7 @@
           A rigorous, peer-reviewed platform for publishing high-quality research spanning applied sciences, formal sciences, natural sciences, and social sciences proudly published by the Faculty of Natural and Applied Sciences, Lead City University, Ibadan.
         </p>
         <div class="hero-actions">
-          <a href="https://forms.gle/852giH7W5hWKuX8HA" target="_blank" class="btn btn-primary glass-btn-primary">
+          <a href="#" class="btn btn-primary glass-btn-primary btn-submit-modal">
             Submit Manuscript
           </a>
           <a href="#about" class="btn btn-secondary glass-btn-secondary">
@@ -182,8 +182,6 @@
         </div>
       </div>
 
-      <!-- Pagination for Scope Carousel -->
-      <div class="carousel-pagination" id="scope-pagination"></div>
     </div>
   </section>
 
@@ -219,7 +217,7 @@
         <div class="bento-cell bento-action glass-card">
           <div class="bento-icon"><i class="fa-solid fa-pen-nib"></i></div>
           <h3>Submit Today</h3>
-          <a href="https://forms.gle/852giH7W5hWKuX8HA" target="_blank" class="btn btn-primary glass-btn-primary">
+          <a href="#" class="btn btn-primary glass-btn-primary btn-submit-modal">
             Submit Manuscript
           </a>
         </div>
@@ -241,11 +239,11 @@
           </p>
           <div class="signature">
             <div class="sig-avatars">
-              <span class="sig-av b">OL</span>
+              <span class="sig-av b">BA</span>
               <span class="sig-av b">WS</span>
             </div>
             <div class="sig-info">
-              <span class="sig-name">Prof. Olusola Abiola Ladokun</span>
+              <span class="sig-name">Prof. Babatunde Adebo</span>
               <span class="sig-role">
                 Dean, Faculty of Natural and Applied Sciences<br>
                 Lead City University, Ibadan
@@ -364,10 +362,9 @@
         </div>
         <div class="sidebar-card-body submit-card-body">
           <p>Ready to publish your research? Submit your manuscript through our secure online portal.</p>
-          <a href="https://forms.gle/852giH7W5hWKuX8HA" target="_blank" class="submit-btn glass-btn-primary">
+          <a href="#" class="btn-submit-modal submit-btn glass-btn-primary">
             Submit Manuscript <i class="fa-solid fa-arrow-right"></i>
           </a>
-          <p class="submit-url">forms.gle/852giH7W5hWKuX8HA</p>
         </div>
       </div>
 
@@ -438,38 +435,6 @@
     </aside>
   </main>
 
-  <!-- ARCHIVE SECTION -->
-  <section class="archive-section" id="archive">
-    <div class="archive-container">
-      <div class="archive-header">
-        <h2 class="display-heading">Journal Archive</h2>
-        <p>Browse and download published articles from our journal</p>
-      </div>
-      
-      <div class="archive-controls glass-card">
-        <div class="search-box">
-          <i class="hgi-stroke hgi-search-01"></i>
-          <input type="text" id="article-search" placeholder="Search articles by title, author, or keywords...">
-        </div>
-        <div class="filter-box">
-          <i class="hgi-stroke hgi-calendar-01"></i>
-          <select id="year-filter">
-            <option value="">All Years</option>
-            <option value="2026">2026</option>
-            <option value="2025">2025</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="articles-grid scroll-stack-container" id="articles-grid">
-        <!-- Sample articles will be loaded here -->
-      </div>
-
-      <!-- Pagination for Archive -->
-      <div class="archive-pagination" id="archive-pagination"></div>
-
-    </div>
-  </section>
 
   <!-- TAPED FOOTER -->
   <footer class="taped-footer">
@@ -491,7 +456,7 @@
         <div class="footer-col">
           <h5>Resources</h5>
           <ul>
-            <li><a href="https://forms.gle/852giH7W5hWKuX8HA" target="_blank">Submit Manuscript</a></li>
+            <li><a href="#" class="btn-submit-modal">Submit Manuscript</a></li>
             <li><a href="https://www.journals.lcu.edu.ng/" target="_blank">Other Journals</a></li>
             <li><a href="mailto:fnas@lcu.edu.ng">Contact Editors</a></li>
           </ul>
@@ -507,6 +472,148 @@
       </div>
     </div>
   </footer>
+
+  <!-- MULTI-STEP SUBMISSION MODAL -->
+  <div id="submit-modal" class="modal-overlay">
+    <div class="modal-content glass-card">
+      <button class="modal-close" id="modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div class="modal-header">
+        <h2 class="display-heading">Submit Manuscript</h2>
+        <p>Follow the steps below to complete your submission.</p>
+        
+        <!-- Step Indicator -->
+        <div class="step-indicator">
+          <div class="step active" data-step="1"><div class="step-circle">1</div><span class="step-label">Guidelines</span></div>
+          <div class="step-line"></div>
+          <div class="step" data-step="2"><div class="step-circle">2</div><span class="step-label">Author Info</span></div>
+          <div class="step-line"></div>
+          <div class="step" data-step="3"><div class="step-circle">3</div><span class="step-label">Manuscript</span></div>
+          <div class="step-line"></div>
+          <div class="step" data-step="4"><div class="step-circle">4</div><span class="step-label">Confirm</span></div>
+        </div>
+      </div>
+      
+      <div class="modal-body">
+        <form id="submission-form" enctype="multipart/form-data">
+          
+          <!-- STEP 1: Guidelines -->
+          <div class="modal-step active" id="step-1">
+            <h3>Submission Guidelines</h3>
+            <div class="guideline-content">
+              <ul>
+                <li>Manuscripts should be typed in English, double-spaced with 1-inch margins.</li>
+                <li>Include an abstract (max 250 words) and 4-6 keywords.</li>
+                <li>Ensure all figures and tables are numbered sequentially and cited in the text.</li>
+                <li>Plagiarism is strictly prohibited and submissions are screened.</li>
+              </ul>
+              <p>By proceeding, you agree to these guidelines.</p>
+            </div>
+            <div class="modal-actions">
+              <button type="button" class="btn btn-primary next-btn">Proceed <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+          </div>
+          
+          <!-- STEP 2: Author Info -->
+          <div class="modal-step" id="step-2">
+            <h3>Author Information</h3>
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label>Email Address *</label>
+                <input type="email" name="email" required placeholder="name@university.edu">
+              </div>
+              <div class="form-group">
+                <label>Title *</label>
+                <select name="title" required>
+                  <option value="">Select...</option>
+                  <option value="Prof">Prof</option>
+                  <option value="Dr">Dr</option>
+                  <option value="Mr">Mr</option>
+                  <option value="Mrs">Mrs</option>
+                  <option value="Ms">Ms</option>
+                  <option value="Miss">Miss</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Gender *</label>
+                <select name="gender" required>
+                  <option value="">Select...</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Prefer not to say">Prefer not to say</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Surname *</label>
+                <input type="text" name="surname" required>
+              </div>
+              <div class="form-group">
+                <label>Other Names *</label>
+                <input type="text" name="otherNames" required>
+              </div>
+              <div class="form-group full-width">
+                <label>Affiliation (Dept & Institution) *</label>
+                <input type="text" name="affiliation" required placeholder="e.g., Dept of Chemistry, Lead City University">
+              </div>
+            </div>
+            <div class="modal-actions split">
+              <button type="button" class="btn btn-secondary prev-btn"><i class="fa-solid fa-arrow-left"></i> Back</button>
+              <button type="button" class="btn btn-primary next-btn">Next <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+          </div>
+          
+          <!-- STEP 3: Manuscript -->
+          <div class="modal-step" id="step-3">
+            <h3>Manuscript Details</h3>
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label>Manuscript Title *</label>
+                <input type="text" name="manuscriptTitle" required>
+              </div>
+              <div class="form-group full-width">
+                <label>Research Area / Specialization *</label>
+                <input type="text" name="researchArea" required placeholder="e.g., Medical Microbiology">
+              </div>
+              <div class="form-group full-width">
+                <label>Keywords (Comma separated) *</label>
+                <input type="text" name="keywords" required placeholder="e.g., Toxicology, Environment, Lead">
+              </div>
+              <div class="form-group full-width">
+                <label>Co-Authors (Optional)</label>
+                <textarea name="coAuthors" rows="2" placeholder="List co-authors and their affiliations..."></textarea>
+              </div>
+              <div class="form-group full-width file-upload">
+                <label>Upload Main Manuscript (PDF/Word) *</label>
+                <input type="file" name="manuscriptFile" accept=".pdf,.doc,.docx" required>
+              </div>
+            </div>
+            <div class="modal-actions split">
+              <button type="button" class="btn btn-secondary prev-btn"><i class="fa-solid fa-arrow-left"></i> Back</button>
+              <button type="button" class="btn btn-primary next-btn">Next <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+          </div>
+          
+          <!-- STEP 4: Confirm -->
+          <div class="modal-step" id="step-4">
+            <h3>Confirm Submission</h3>
+            <div class="confirm-box">
+              <label class="checkbox-container">
+                <input type="checkbox" id="confirm-plagiarism" required>
+                <span class="checkmark"></span>
+                I confirm that this manuscript is original, has not been published elsewhere, and I agree to the Journal's ethical standards against plagiarism.
+              </label>
+            </div>
+            <div class="modal-actions split">
+              <button type="button" class="btn btn-secondary prev-btn"><i class="fa-solid fa-arrow-left"></i> Back</button>
+              <button type="submit" class="btn btn-primary submit-final-btn">Submit Manuscript <i class="fa-solid fa-check"></i></button>
+            </div>
+            <div class="submit-message" style="display: none; text-align: center; margin-top: 15px; color: var(--blue);"></div>
+          </div>
+          
+        </form>
+      </div>
+    </div>
+  </div>
 
   <script src="js/main.js"></script>
   <script src="js/animations.js"></script>

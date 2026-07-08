@@ -10,10 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const status = document.getElementById('cd-status');
     
     if (diff <= 0) {
-      document.getElementById('cd-days').textContent = '00';
-      document.getElementById('cd-hours').textContent = '00';
-      document.getElementById('cd-mins').textContent = '00';
-      document.getElementById('cd-secs').textContent = '00';
+      const dEl = document.getElementById('cd-days');
+      if (dEl) {
+        dEl.textContent = '00';
+        document.getElementById('cd-hours').textContent = '00';
+        document.getElementById('cd-mins').textContent = '00';
+        document.getElementById('cd-secs').textContent = '00';
+      }
       if (status) status.textContent = 'Submission deadline has passed';
       return;
     }
@@ -23,10 +26,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const m = Math.floor((diff % 3600000) / 60000);
     const s = Math.floor((diff % 60000) / 1000);
     
-    document.getElementById('cd-days').textContent = String(d).padStart(2, '0');
-    document.getElementById('cd-hours').textContent = String(h).padStart(2, '0');
-    document.getElementById('cd-mins').textContent = String(m).padStart(2, '0');
-    document.getElementById('cd-secs').textContent = String(s).padStart(2, '0');
+    const daysEl = document.getElementById('cd-days');
+    const hoursEl = document.getElementById('cd-hours');
+    const minsEl = document.getElementById('cd-mins');
+    const secsEl = document.getElementById('cd-secs');
+    
+    if (daysEl) daysEl.textContent = String(d).padStart(2, '0');
+    if (hoursEl) hoursEl.textContent = String(h).padStart(2, '0');
+    if (minsEl) minsEl.textContent = String(m).padStart(2, '0');
+    if (secsEl) secsEl.textContent = String(s).padStart(2, '0');
     
     setTimeout(updateTimer, 1000);
   }
@@ -60,28 +68,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // --- ARCHIVE PAGINATION & RENDERING ---
-  const articlesData = [
-    { title: "Machine Learning in Bioinformatics: A Review", author: "Dr. A. Smith", year: "2026", abstract: "This review explores recent advancements in applying machine learning algorithms to sequence analysis and structural biology." },
-    { title: "Sustainable Bioremediation of Heavy Metals", author: "Prof. O. Ladokun", year: "2026", abstract: "Investigating the use of indigenous microbial strains for the bioremediation of lead and cadmium in contaminated soils." },
-    { title: "Quantum Computing Algorithms for Optimization", author: "Dr. W. Sakpere", year: "2026", abstract: "A novel approach to solving NP-hard optimization problems using near-term quantum devices." },
-    { title: "Evaluating Dietary Antioxidants", author: "Dr. B. Johnson", year: "2025", abstract: "A comprehensive study on the bioavailability and efficacy of natural antioxidants extracted from local flora." },
-    { title: "Cybersecurity in IoT Healthcare Devices", author: "Prof. M. Adebayo", year: "2025", abstract: "Analyzing vulnerabilities in consumer health IoT devices and proposing a lightweight encryption protocol." },
-    { title: "Nanomaterials for Solar Cell Efficiency", author: "Dr. K. Lee", year: "2026", abstract: "Enhancing the photovoltaic efficiency of perovskite solar cells using engineered carbon nanotubes." },
-    { title: "Epidemiological Modelling of Viral Outbreaks", author: "Prof. S. Gupta", year: "2026", abstract: "A stochastic model for predicting the spread of respiratory viruses in high-density urban populations." },
-    { title: "Advancements in Synthetic Biology", author: "Dr. E. Wong", year: "2025", abstract: "Design and construction of novel biological parts for targeted drug delivery systems." },
-    { title: "AI-Driven Climate Change Prediction", author: "Prof. J. Doe", year: "2026", abstract: "Utilizing deep learning models to improve the accuracy of short-term regional climate predictions." },
-    { title: "Biopolymer Alternatives to Single-Use Plastics", author: "Dr. P. Okon", year: "2025", abstract: "Development and characterization of biodegradable polymers derived from cassava starch." },
-    { title: "Cryptographic Protocols for Blockchain", author: "Prof. L. Chen", year: "2026", abstract: "A survey of zero-knowledge proofs and their application in enhancing privacy on public ledgers." },
-    { title: "Ethnomedicinal Plants of South-West Nigeria", author: "Dr. A. Ojo", year: "2025", abstract: "Documentation and phytochemical analysis of plants commonly used in traditional medicine." }
-  ];
+  let allArticles = []; // raw fetched data
+  let articlesData = []; // filtered/searched data
 
   const archiveGrid = document.getElementById('articles-grid');
   const paginationContainer = document.getElementById('archive-pagination');
+  const searchInput = document.getElementById('article-search');
+  const yearFilter = document.getElementById('year-filter');
   
   let currentPage = 1;
   let wasMobile = window.innerWidth <= 768;
   const isMobile = wasMobile; // Alias for itemsPerPage logic
   const itemsPerPage = isMobile ? 4 : 9;
+
+  // Fetch articles from mock backend
+  async function fetchArticles() {
+    if (!archiveGrid) return;
+    try {
+      const res = await fetch('http://localhost:5000/api/articles');
+      allArticles = await res.json();
+      articlesData = [...allArticles];
+      renderArticles(1);
+    } catch (err) {
+      console.error('Error fetching articles:', err);
+      archiveGrid.innerHTML = '<p style="color:red; text-align:center;">Failed to load articles. Ensure backend is running.</p>';
+    }
+  }
+
+  // Filter/Search Logic
+  function applyFilters() {
+    if (!archiveGrid) return;
+    const term = searchInput.value.toLowerCase();
+    const year = yearFilter.value;
+    
+    articlesData = allArticles.filter(a => {
+      const matchSearch = a.title.toLowerCase().includes(term) || a.author.toLowerCase().includes(term) || a.abstract.toLowerCase().includes(term);
+      const matchYear = year ? a.year === year : true;
+      return matchSearch && matchYear;
+    });
+    
+    currentPage = 1;
+    renderArticles(currentPage);
+  }
+
+  if (searchInput) searchInput.addEventListener('input', applyFilters);
+  if (yearFilter) yearFilter.addEventListener('change', applyFilters);
+
+  if (archiveGrid) {
+    fetchArticles();
+  }
 
   function initScrollStacks() {
     if (window.innerWidth > 768) return;
@@ -105,6 +140,9 @@ document.addEventListener('DOMContentLoaded', () => {
       c.style.removeProperty('--mobile-mt');
     });
   }
+
+  // Call immediately for elements already in DOM
+  initScrollStacks();
 
   function renderArticles(page) {
     if (!archiveGrid) return;
@@ -200,6 +238,147 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       // Reload page or force complete re-render because pagination logic changes
       window.location.reload(); 
+    }
+  });
+
+});
+/* ==========================================================================
+   MULTI-STEP SUBMISSION MODAL
+   ========================================================================== */
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('submit-modal');
+  if (!modal) return;
+  
+  const openBtns = document.querySelectorAll('.btn-submit-modal');
+  const closeBtn = document.getElementById('modal-close-btn');
+  const form = document.getElementById('submission-form');
+  const steps = document.querySelectorAll('.modal-step');
+  const stepIndicators = document.querySelectorAll('.step');
+  
+  let currentStep = 1;
+  const totalSteps = 4;
+  
+  // Open Modal
+  openBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden'; // prevent background scrolling
+    });
+  });
+  
+  // Close Modal
+  const closeModal = () => {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+  
+  // Navigation
+  const updateSteps = () => {
+    steps.forEach((step, idx) => {
+      if (idx + 1 === currentStep) {
+        step.classList.add('active');
+      } else {
+        step.classList.remove('active');
+      }
+    });
+    
+    stepIndicators.forEach((indicator, idx) => {
+      if (idx + 1 < currentStep) {
+        indicator.classList.add('completed');
+        indicator.classList.remove('active');
+      } else if (idx + 1 === currentStep) {
+        indicator.classList.add('active');
+        indicator.classList.remove('completed');
+      } else {
+        indicator.classList.remove('active', 'completed');
+      }
+    });
+  };
+  
+  // Next Buttons
+  document.querySelectorAll('.next-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Basic validation before next
+      const currentStepEl = document.getElementById('step-' + currentStep);
+      const inputs = currentStepEl.querySelectorAll('input[required], select[required], textarea[required]');
+      let valid = true;
+      inputs.forEach(input => {
+        if (!input.checkValidity()) {
+          input.reportValidity();
+          valid = false;
+        }
+      });
+      
+      if (valid && currentStep < totalSteps) {
+        currentStep++;
+        updateSteps();
+      }
+    });
+  });
+  
+  // Prev Buttons
+  document.querySelectorAll('.prev-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (currentStep > 1) {
+        currentStep--;
+        updateSteps();
+      }
+    });
+  });
+  
+  // Form Submit
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = form.querySelector('.submit-final-btn');
+    const msgDiv = form.querySelector('.submit-message');
+    
+    if (!document.getElementById('confirm-plagiarism').checked) {
+      msgDiv.textContent = "You must confirm the originality statement.";
+      msgDiv.style.display = 'block';
+      msgDiv.style.color = 'red';
+      return;
+    }
+    
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Submitting... <i class="fa-solid fa-spinner fa-spin"></i>';
+    
+    try {
+      const formData = new FormData(form);
+      const res = await fetch('http://localhost:5000/api/submit', {
+        method: 'POST',
+        body: formData
+      });
+      
+      const data = await res.json();
+      
+      if (data.success) {
+        msgDiv.textContent = data.message;
+        msgDiv.style.color = 'var(--green)';
+        msgDiv.style.display = 'block';
+        setTimeout(() => {
+          closeModal();
+          form.reset();
+          currentStep = 1;
+          updateSteps();
+          msgDiv.style.display = 'none';
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = 'Submit Manuscript <i class="fa-solid fa-check"></i>';
+        }, 3000);
+      } else {
+        throw new Error(data.message || 'Submission failed');
+      }
+    } catch (err) {
+      console.error(err);
+      msgDiv.textContent = 'Error: ' + err.message;
+      msgDiv.style.color = 'red';
+      msgDiv.style.display = 'block';
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Submit Manuscript <i class="fa-solid fa-check"></i>';
     }
   });
 
