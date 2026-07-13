@@ -1253,15 +1253,6 @@ a {
     position: absolute;
     top: 0; left: 0; right: 0;
   }
-  .modal-content {
-    padding: 1.5rem;
-  }
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-  .form-group.full-width {
-    grid-column: 1;
-  }
 }
 
 /* PAGINATION ARROWS */
