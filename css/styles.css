@@ -5,9 +5,9 @@
   --bg-primary: #F8F7F4;
   --text: #1A1A2E;
   --text-light: #5A5A72;
-  --blue: #3B5BDB;
-  --blue-light: #6A86F3;
-  --blue-dark: #233D9E;
+  --blue: #6CAADE;
+  --blue-light: #8ECAFA;
+  --blue-dark: #4A8CC0;
   --accent: #ac3750;
   
   --green: #2B8A3E;
@@ -235,11 +235,15 @@ a {
 .logo {
   display: flex;
   align-items: center;
-  gap: 12px;
+  height: 50px;
+}
+.logo-icon {
+  display: flex;
+  align-items: center;
 }
 .logo-icon img {
-  width: 70px;
-  height: 70px;
+  width: 100px;
+  height: 100px;
   border-radius: 10px;
 }
 .logo-text { display: flex; flex-direction: column; }
