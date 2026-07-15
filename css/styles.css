@@ -521,6 +521,7 @@ a {
   justify-content: center;
   font-weight: 600;
   font-size: 12px;
+  object-fit: cover;
   border: 2px solid #fff;
   margin-left: -12px;
 }
@@ -1128,7 +1129,7 @@ a {
   font-size: 18vw;
   font-weight: 800;
   text-align: center;
-  color: rgba(255,255,255,0.03);
+  color: rgba(255,255,255,0.8);
   line-height: 0.8;
   margin-top: 40px;
   user-select: none;
@@ -1525,4 +1526,23 @@ a {
 
 .modal-actions.split {
   justify-content: space-between;
+}
+
+.sig-av {
+  object-fit: cover;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  border: 3px solid #fff;
+  margin-left: -15px;
+  background-color: var(--glass-bg);
+}
+
+.sig-av:first-child {
+  margin-left: 0;
+}
+
+.footer-col ul li a:hover {
+  border-bottom: 2px solid var(--blue);
+  padding-bottom: 2px; /* to avoid jumping if possible, though a transparent border initially is best */
 }
