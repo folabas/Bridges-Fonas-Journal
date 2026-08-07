@@ -40,19 +40,32 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   updateTimer();
 
-  // --- Mobile Card Nav Toggle ---
+  // --- Mobile Sidebar Toggle ---
   const mobileToggle = document.querySelector('.mobile-nav-toggle');
-  const mobileNav = document.querySelector('.mobile-nav-card');
-  if (mobileToggle && mobileNav) {
+  const mobileNav = document.querySelector('.mobile-sidebar');
+  const mobileOverlay = document.querySelector('.mobile-sidebar-overlay');
+  const mobileClose = document.querySelector('.mobile-nav-toggle-close');
+  
+  if (mobileToggle && mobileNav && mobileOverlay) {
     mobileToggle.addEventListener('click', (e) => {
       e.stopPropagation();
-      mobileNav.classList.toggle('active');
+      mobileNav.classList.add('active');
+      mobileOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
     });
     
-    document.addEventListener('click', (e) => {
-      if (!mobileNav.contains(e.target) && !mobileToggle.contains(e.target)) {
-        mobileNav.classList.remove('active');
-      }
+    const closeSidebar = () => {
+      mobileNav.classList.remove('active');
+      mobileOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    };
+    
+    mobileOverlay.addEventListener('click', closeSidebar);
+    if(mobileClose) mobileClose.addEventListener('click', closeSidebar);
+    
+    // Close sidebar on link click
+    mobileNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', closeSidebar);
     });
   }
 
@@ -119,11 +132,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function initScrollStacks() {
-    if (window.innerWidth > 768) return;
+    destroyScrollStacks();
+    if (window.innerWidth > 1024) return;
     const stacks = document.querySelectorAll('.scroll-stack-container');
     stacks.forEach(stack => {
       const cards = stack.children;
       Array.from(cards).forEach((card, i) => {
+        // Skip comment nodes, though children only returns elements
         card.classList.add('scroll-stack-card');
         card.style.setProperty('--mobile-top', `calc(7rem + ${i * 14}px)`);
         card.style.setProperty('--mobile-z', i + 10);
@@ -141,8 +156,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Call immediately for elements already in DOM
+  // Call immediately and on resize
   initScrollStacks();
+  window.addEventListener('resize', initScrollStacks);
 
   function renderArticles(page) {
     if (!archiveGrid) return;
@@ -240,146 +256,36 @@ document.addEventListener('DOMContentLoaded', () => {
       window.location.reload(); 
     }
   });
+  const setupCarousel = () => {
+    const carousel = document.getElementById('guidelines-carousel');
+    const dots = document.querySelectorAll('#guidelines-pagination .page-dot');
+    if (!carousel || dots.length === 0) return;
 
-});
-/* ==========================================================================
-   MULTI-STEP SUBMISSION MODAL
-   ========================================================================== */
-document.addEventListener('DOMContentLoaded', () => {
-  const modal = document.getElementById('submit-modal');
-  if (!modal) return;
-  
-  const openBtns = document.querySelectorAll('.btn-submit-modal');
-  const closeBtn = document.getElementById('modal-close-btn');
-  const form = document.getElementById('submission-form');
-  const steps = document.querySelectorAll('.modal-step');
-  const stepIndicators = document.querySelectorAll('.step');
-  
-  let currentStep = 1;
-  const totalSteps = 4;
-  
-  // Open Modal
-  openBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden'; // prevent background scrolling
-    });
-  });
-  
-  // Close Modal
-  const closeModal = () => {
-    modal.classList.remove('active');
-    document.body.style.overflow = '';
-  };
-  closeBtn.addEventListener('click', closeModal);
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-  });
-  
-  // Navigation
-  const updateSteps = () => {
-    steps.forEach((step, idx) => {
-      if (idx + 1 === currentStep) {
-        step.classList.add('active');
-      } else {
-        step.classList.remove('active');
-      }
-    });
-    
-    stepIndicators.forEach((indicator, idx) => {
-      if (idx + 1 < currentStep) {
-        indicator.classList.add('completed');
-        indicator.classList.remove('active');
-      } else if (idx + 1 === currentStep) {
-        indicator.classList.add('active');
-        indicator.classList.remove('completed');
-      } else {
-        indicator.classList.remove('active', 'completed');
-      }
-    });
-  };
-  
-  // Next Buttons
-  document.querySelectorAll('.next-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      // Basic validation before next
-      const currentStepEl = document.getElementById('step-' + currentStep);
-      const inputs = currentStepEl.querySelectorAll('input[required], select[required], textarea[required]');
-      let valid = true;
-      inputs.forEach(input => {
-        if (!input.checkValidity()) {
-          input.reportValidity();
-          valid = false;
+    // Use IntersectionObserver for perfect dot updates
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const index = Array.from(carousel.children).indexOf(entry.target);
+          if (index !== -1) {
+            dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+          }
         }
       });
-      
-      if (valid && currentStep < totalSteps) {
-        currentStep++;
-        updateSteps();
-      }
-    });
-  });
-  
-  // Prev Buttons
-  document.querySelectorAll('.prev-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (currentStep > 1) {
-        currentStep--;
-        updateSteps();
-      }
-    });
-  });
-  
-  // Form Submit
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const submitBtn = form.querySelector('.submit-final-btn');
-    const msgDiv = form.querySelector('.submit-message');
-    
-    if (!document.getElementById('confirm-plagiarism').checked) {
-      msgDiv.textContent = "You must confirm the originality statement.";
-      msgDiv.style.display = 'block';
-      msgDiv.style.color = 'red';
-      return;
-    }
-    
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = 'Submitting... <i class="fa-solid fa-spinner fa-spin"></i>';
-    
-    try {
-      const formData = new FormData(form);
-      const res = await fetch('http://localhost:5000/api/submit', {
-        method: 'POST',
-        body: formData
+    }, { root: carousel, threshold: 0.6 });
+
+    Array.from(carousel.children).forEach(card => observer.observe(card));
+
+    // Click listener on dots
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        const target = carousel.children[index];
+        if(target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
       });
-      
-      const data = await res.json();
-      
-      if (data.success) {
-        msgDiv.textContent = data.message;
-        msgDiv.style.color = 'var(--green)';
-        msgDiv.style.display = 'block';
-        setTimeout(() => {
-          closeModal();
-          form.reset();
-          currentStep = 1;
-          updateSteps();
-          msgDiv.style.display = 'none';
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = 'Submit Manuscript <i class="fa-solid fa-check"></i>';
-        }, 3000);
-      } else {
-        throw new Error(data.message || 'Submission failed');
-      }
-    } catch (err) {
-      console.error(err);
-      msgDiv.textContent = 'Error: ' + err.message;
-      msgDiv.style.color = 'red';
-      msgDiv.style.display = 'block';
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = 'Submit Manuscript <i class="fa-solid fa-check"></i>';
-    }
-  });
+    });
+  };
+  setupCarousel();
 
 });
+/

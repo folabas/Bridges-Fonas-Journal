@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bridges: An Integrative Journal of Science & Technology | LCU</title>
+  <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css" crossorigin="anonymous">
 
   <!-- Typography: Inter for body -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,6 +14,7 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+  <link href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   
   <!-- GSAP & Three.js -->
@@ -37,24 +39,43 @@
       
       <!-- Desktop Nav -->
       <nav class="desktop-nav">
-        <a href="index.html" class="active" id="nav-home">Home</a>
+        <a href="#about" id="nav-about">About</a>
+        <a href="#scope" id="nav-scope">Scope</a>
+        <a href="#guidelines" id="nav-guidelines">Guidelines</a>
         <a href="articles.html" id="nav-archive">Archive</a>
-        <a href="#" class="nav-submit btn-glass btn-submit-modal">Submit <i class="fa-solid fa-arrow-right"></i></a>
+        <a href="/management-system" class="nav-submit btn-primary" style="background: var(--blue); color: white; border: none; padding: 10px 20px; border-radius: 50px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease;">Submit <i class="fa-solid fa-arrow-right"></i></a>
       </nav>
 
       <!-- Mobile Nav Toggle -->
-      <button class="mobile-nav-toggle btn-glass-icon" aria-label="Toggle Menu">
-        <i class="fa-solid fa-bars"></i>
+      <button class="mobile-nav-toggle" aria-label="Toggle Menu" onclick="document.querySelector('.mobile-sidebar').classList.add('active'); document.querySelector('.mobile-sidebar-overlay').classList.add('active'); document.body.style.overflow='hidden';">
+        <img src="layout-align-left-stroke-rounded.svg" alt="Menu" style="width: 24px; height: 24px; transform: rotate(-90deg); pointer-events: none;">
       </button>
     </div>
-
-    <!-- Mobile Card Nav -->
-    <div class="mobile-nav-card glass-card">
-      <a href="index.html" class="active"><i class="fa-solid fa-house"></i> <span>Home</span></a>
-      <a href="articles.html"><i class="fa-solid fa-folder"></i> <span>Archive</span></a>
-      <a href="#" class="nav-submit-mobile btn-submit-modal"><i class="fa-solid fa-upload"></i> <span>Submit</span></a>
-    </div>
   </header>
+
+  <!-- Mobile Sidebar Overlay -->
+  <div class="mobile-sidebar-overlay"></div>
+
+  <!-- Mobile Sidebar -->
+  <nav class="mobile-sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <div class="logo-icon"><img src="Logo_half.png" alt="BIJST Logo" style="height: 65px; width: auto; object-fit: contain;"></div>
+      </div>
+      <button class="close-sidebar mobile-nav-toggle-close" style="background: none; border: none; font-size: 1.5rem; color: var(--text); cursor: pointer;" onclick="document.querySelector('.mobile-sidebar').classList.remove('active'); document.querySelector('.mobile-sidebar-overlay').classList.remove('active'); document.body.style.overflow='';"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="sidebar-links">
+      <a href="#about"><i class="fa-solid fa-info-circle"></i> About</a>
+      <a href="#scope"><i class="fa-solid fa-microscope"></i> Scope</a>
+      <a href="#guidelines"><i class="fa-solid fa-file-lines"></i> Guidelines</a>
+      <a href="#policies"><i class="fa-solid fa-shield"></i> Policies</a>
+      <a href="articles.html"><i class="fa-solid fa-folder"></i> Archive</a>
+    </div>
+    <div class="sidebar-footer">
+      <a href="/management-system" class="btn btn-primary glass-btn-primary" style="width: 100%; text-align: center; margin-bottom: 20px;">Submit Manuscript</a>
+      <div class="sidebar-sponsor" style="font-size: 0.8rem; text-align: center; color: var(--text-muted);">Sponsored by <strong><a href="https://waltiklabs.vercel.app" target="_blank" style="color: inherit; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='inherit'">Waltik Labs</a></strong></div>
+    </div>
+  </nav>
 
   <!-- HERO (Editorial Style) -->
   <section class="hero">
@@ -74,10 +95,10 @@
           <em>Integrative Journal</em> of Science & Technology
         </h2>
         <p class="hero-subtitle">
-          A rigorous, peer-reviewed platform for publishing high-quality research spanning applied sciences, formal sciences, natural sciences, and social sciences proudly published by the Faculty of Natural and Applied Sciences, Lead City University, Ibadan.
+          Bridges Integrative Journal of Science and Technology (BIJST) is a peer-reviewed, multidisciplinary scholarly journal dedicated to advancing innovative research across the sciences and technology.
         </p>
         <div class="hero-actions">
-          <a href="#" class="btn btn-primary glass-btn-primary btn-submit-modal">
+          <a href="/management-system" class="btn btn-primary glass-btn-primary">
             Submit Manuscript
           </a>
           <a href="#about" class="btn btn-secondary glass-btn-secondary">
@@ -127,55 +148,40 @@
     <marquee class="top-bar-text">Faculty of Natural and Applied Sciences • <span class="top-bar-divider"></span><span class="top-bar-text">Lead City University, Ibadan • </span><span class="top-bar-divider"></span><span class="top-bar-text last">Celebrating 20 Years of Excellence</span></marquee>
   </div>
 
-  <!-- SCOPE SECTION (Carousel/Scroll Stack) -->
-  <section class="scope-section">
+    <!-- SCOPE SECTION (Carousel/Scroll Stack) -->
+  <section class="scope-section" id="scope">
     <div class="scope-container">
       <div class="scope-header">
         <h2 class="section-title">Our Research Scope</h2>
-        <p class="section-subtitle">Contributing to national and international research priorities</p>
+        <p class="section-subtitle">Integrating multiple scientific disciplines</p>
       </div>
       
       <!-- Horizontal Scroll Stack / Grid -->
       <div class="scope-grid-main" id="scope-carousel">
         <div class="scope-card glass-card blue">
-          <div class="scope-card-icon"><i class="fa-solid fa-dna"></i></div>
-          <h3>Biochemistry</h3>
-          <p>Food Chemistry, Ethnopharmacology, Bioremediation, Biofuel Production</p>
+          <div class="scope-card-icon"><i class="fa-solid fa-microchip"></i></div>
+          <h3>Applied Sciences</h3>
+          <p>Engineering, Medicine, Health Sciences, Pharmacy, Nursing, Public Health, Biotechnology, Agricultural Sciences, Food Science</p>
         </div>
         <div class="scope-card glass-card green">
-          <div class="scope-card-icon"><i class="fa-solid fa-microscope"></i></div>
-          <h3>Microbiology</h3>
-          <p>Medical Microbiology, Environmental Microbiology, Microbial Biotechnology</p>
-        </div>
-        <div class="scope-card glass-card magenta">
-          <div class="scope-card-icon"><i class="fa-solid fa-flask"></i></div>
-          <h3>Chemistry</h3>
-          <p>Organic Chemistry, Analytical Chemistry, Physical Chemistry</p>
-        </div>
-        <div class="scope-card glass-card blue">
           <div class="scope-card-icon"><i class="fa-solid fa-code"></i></div>
-          <h3>Computer Science</h3>
-          <p>Software Engineering, Cybersecurity, Data Science, AI & Machine Learning</p>
-        </div>
-        <div class="scope-card glass-card green">
-          <div class="scope-card-icon"><i class="fa-solid fa-leaf"></i></div>
-          <h3>Environmental Science</h3>
-          <p>Environmental Management, Toxicology, Pollution Control</p>
+          <h3>Formal Sciences</h3>
+          <p>Computer Science, AI, Machine Learning, Data Science, Cybersecurity, Software Eng., Math, Statistics, Logic</p>
         </div>
         <div class="scope-card glass-card magenta">
           <div class="scope-card-icon"><i class="fa-solid fa-atom"></i></div>
-          <h3>Physics</h3>
-          <p>Theoretical Physics, Applied Physics, Electronics</p>
+          <h3>Physical Sciences</h3>
+          <p>Physics, Chemistry, Earth Sciences, Environmental Science, Atmospheric Science, Geology, Geophysics</p>
         </div>
         <div class="scope-card glass-card blue">
-          <div class="scope-card-icon"><i class="fa-solid fa-brain"></i></div>
-          <h3>Biology & Biotech</h3>
-          <p>Molecular Biology, Genetics, Bioinformatics</p>
+          <div class="scope-card-icon"><i class="fa-solid fa-dna"></i></div>
+          <h3>Life Sciences</h3>
+          <p>Biology, Microbiology, Biochemistry, Genetics, Molecular Biology, Ecology, Zoology, Botany</p>
         </div>
         <div class="scope-card glass-card green">
-          <div class="scope-card-icon"><i class="fa-solid fa-calculator"></i></div>
-          <h3>Statistics & Math</h3>
-          <p>Applied Statistics, Mathematical Modelling, Operations Research</p>
+          <div class="scope-card-icon"><i class="fa-solid fa-globe"></i></div>
+          <h3>Social Sciences</h3>
+          <p>Economics, Psychology, Sociology, Political Science, Geography, Education, Public Administration, Innovation Policy</p>
         </div>
       </div>
 
@@ -214,96 +220,140 @@
         <div class="bento-cell bento-action glass-card">
           <div class="bento-icon"><i class="fa-solid fa-pen-nib"></i></div>
           <h3>Submit Today</h3>
-          <a href="#" class="btn btn-primary glass-btn-primary btn-submit-modal">
+          <a href="/management-system" class="btn btn-primary glass-btn-primary">
             Submit Manuscript
           </a>
         </div>
       </div>
 
-      <!-- About the Faculty -->
+      <!-- About the Journal -->
       <div class="section-header anim-section" id="about">
-        <span class="section-eyebrow">About the Faculty</span>
+        <span class="section-eyebrow">About the Journal</span>
         <div class="section-line"></div>
       </div>
       <div class="card message-card glass-card anim-card">
         <div class="card-body">
-          <h3 class="display-heading">Faculty of Natural and Applied Sciences</h3>
+          <h3 class="display-heading">Bridges Integrative Journal of Science and Technology (BIJST)</h3>
           <p>
-            The Faculty of Natural and Applied Sciences is one of the founding faculties of Lead City University, Ibadan Nigeria's premier private university celebrating 20 years of academic excellence.
+            Bridges Integrative Journal of Science and Technology (BIJST) is a peer-reviewed, multidisciplinary scholarly journal dedicated to advancing innovative research across the sciences and technology. The journal provides a rigorous, reputable, and timely platform for the dissemination of high-quality original research, review articles, short communications, case studies, and technical reports that address contemporary scientific and technological challenges.
           </p>
           <p>
-            Our scientists are actively collaborating in research and exploring innovative ways of working to improve society. Our primary strategy is ensuring that our research and education activities are mapped onto national and international research priorities.
+            BIJST fosters interdisciplinary collaboration by publishing research that bridges traditional disciplinary boundaries and promotes the integration of knowledge across engineering, medicine, computing, mathematics, natural sciences, and the social sciences. The journal is committed to promoting scientific excellence, research integrity, innovation, and evidence-based solutions that contribute to sustainable development and societal advancement.
           </p>
-
+          <p>
+            The journal welcomes submissions from researchers, academics, industry professionals, policymakers, and postgraduate students worldwide.
+          </p>
         </div>
       </div>
 
-      <!-- Editor's Message -->
+      <!-- Aim -->
       <div class="section-header anim-section">
-        <span class="section-eyebrow">Editor's Invitation</span>
+        <span class="section-eyebrow">Our Aim</span>
         <div class="section-line"></div>
       </div>
-      <div class="card message-card glass-card anim-card">
-        <div class="card-body">
-          <h3 class="display-heading">A Message from the Editorial Team</h3>
-          <p>Dear Colleagues,</p>
+      <div class="bento-grid anim-card">
+        <div class="bento-cell bento-main glass-card blue-highlight">
+          <h3 class="display-heading">Advancing Knowledge & Innovation</h3>
           <p>
-            We are delighted to invite you to consider preparing your <span class="highlight">FASCON 2024</span> conference papers and other scholarly manuscripts for publication in the inaugural issue of our journal.
+            The primary aim of BIJST is to provide an international platform for the publication of original, high-quality, and impactful research that advances scientific knowledge, technological innovation, and interdisciplinary collaboration. Interdisciplinary studies that integrate multiple scientific disciplines are particularly encouraged.
           </p>
-          <p>
-            <span class="highlight">Bridges: Integrative Journal of Science and Technology</span> was established to provide a rigorous, reputable, and timely platform for high-quality research spanning applied sciences, formal sciences, natural sciences, and social sciences.
-          </p>
-          <div class="signature">
-            <div class="sig-avatars stacked">
-              <img src="Olusola Ladokun.jpeg" alt="Prof. Ladokun" class="sig-av">
-              <img src="Wilson Sakpere.jpeg" alt="Dr. Sakpere" class="sig-av">
-            </div>
-            <div class="sig-info">
-              <span class="sig-name">Prof. Ladokun & Dr. Sakpere</span>
-              <span class="sig-role">
-                Editors-in-Chief, Bridges Journal<br>
-                Faculty of Natural and Applied Sciences, LCU
-              </span>
-            </div>
-          </div>
         </div>
       </div>
 
-      <!-- Guidelines (Cards Scroll Stack on Mobile) -->
+      <!-- Guidelines -->
       <div class="section-header anim-section" id="guidelines">
         <span class="section-eyebrow">Submission Guidelines</span>
         <div class="section-line"></div>
       </div>
-      <div class="guidelines-stack scroll-stack-container anim-card">
-        <!-- Card 1 -->
-        <div class="guideline-card glass-card">
-          <div class="guideline-icon green"><i class="fa-solid fa-file-lines"></i></div>
-          <h5>Document Format</h5>
-          <p>Submit as Microsoft Word (.docx). Use standard academic formatting with clearly labelled sections.</p>
+      <div class="guidelines-carousel-wrapper" style="margin-bottom: 2rem;">
+        <div class="guidelines-carousel" id="guidelines-carousel">
+          <!-- Card 1 -->
+          <div class="guideline-card glass-card">
+            <div class="guideline-icon green"><i class="fa-solid fa-file-lines"></i></div>
+            <h5>Manuscript Requirements</h5>
+            <p>Submissions should be original, scientifically sound, and written in clear English. Follow the journal template with abstract, keywords, intro, methodology, results, discussion, and references.</p>
+          </div>
+          <!-- Card 2 -->
+          <div class="guideline-card glass-card">
+            <div class="guideline-icon blue"><i class="fa-solid fa-magnifying-glass"></i></div>
+            <h5>Peer Review Process</h5>
+            <p>All manuscripts undergo editorial screening, followed by double-blind peer review by at least two independent reviewers before the editorial decision.</p>
+          </div>
+          <!-- Card 3 -->
+          <div class="guideline-card glass-card">
+            <div class="guideline-icon magenta"><i class="fa-solid fa-upload"></i></div>
+            <h5>Submission Process</h5>
+            <p>Submit manuscript in MS Word, cover letter, declaration of originality, ethical approval, and conflict of interest statement through the portal or email.</p>
+          </div>
         </div>
-        <!-- Card 2 -->
-        <div class="guideline-card glass-card">
-          <div class="guideline-icon blue"><i class="fa-solid fa-ruler"></i></div>
-          <h5>Length & Structure</h5>
-          <p>Typical article length: 4,000–8,000 words. Include a structured abstract and 5–7 keywords.</p>
+        <div class="carousel-pagination" id="guidelines-pagination" style="display: flex; justify-content: center; gap: 8px; margin-top: 16px;">
+          <!-- Dots will be populated by JS if needed, or static here -->
+          <div class="page-dot active" data-index="0"></div>
+          <div class="page-dot" data-index="1"></div>
+          <div class="page-dot" data-index="2"></div>
         </div>
-        <!-- Card 3 -->
-        <div class="guideline-card glass-card">
-          <div class="guideline-icon green"><i class="fa-solid fa-language"></i></div>
-          <h5>Language</h5>
-          <p>All manuscripts must be written in clear, scholarly English and screened for plagiarism.</p>
+      </div>
+
+      <!-- Information for Authors -->
+      <div class="section-header anim-section" id="authors">
+        <span class="section-eyebrow">Information for Authors</span>
+        <div class="section-line"></div>
+      </div>
+      <div class="card message-card glass-card anim-card">
+        <div class="card-body">
+          <h3 class="display-heading">Before Submitting</h3>
+          <ul class="styled-list" style="list-style: none; padding-left: 0;">
+            <li style="margin-bottom: 8px;"><i class="fa-solid fa-check" style="color: var(--green); margin-right: 8px;"></i> The work is original and not under review elsewhere.</li>
+            <li style="margin-bottom: 8px;"><i class="fa-solid fa-check" style="color: var(--green); margin-right: 8px;"></i> All authors have approved the submission.</li>
+            <li style="margin-bottom: 8px;"><i class="fa-solid fa-check" style="color: var(--green); margin-right: 8px;"></i> References are complete and correctly formatted.</li>
+            <li style="margin-bottom: 8px;"><i class="fa-solid fa-check" style="color: var(--green); margin-right: 8px;"></i> Figures and tables are of publication quality.</li>
+            <li style="margin-bottom: 8px;"><i class="fa-solid fa-check" style="color: var(--green); margin-right: 8px;"></i> Funding information disclosed and conflicts of interest declared.</li>
+            <li style="margin-bottom: 8px;"><i class="fa-solid fa-check" style="color: var(--green); margin-right: 8px;"></i> Ethical approval has been obtained where necessary.</li>
+          </ul>
+          <h4 style="margin-top:20px; font-weight:600;">Types of Articles Accepted</h4>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+            <span class="glass-chip">Original Research</span>
+            <span class="glass-chip">Review Articles</span>
+            <span class="glass-chip">Short Communications</span>
+            <span class="glass-chip">Case Studies</span>
+          </div>
+          <p style="margin-top:15px; font-size:0.9rem; color:var(--text-muted);"><em>All manuscripts must be written in English.</em></p>
         </div>
-        <!-- Card 4 -->
-        <div class="guideline-card glass-card">
-          <div class="guideline-icon magenta"><i class="fa-solid fa-book-open"></i></div>
-          <h5>References</h5>
-          <p>Follow APA 7th Edition referencing style consistently throughout the manuscript.</p>
+      </div>
+
+      <!-- Policies & Info -->
+      <div class="section-header anim-section" id="policies">
+        <span class="section-eyebrow">Policies & Information</span>
+        <div class="section-line"></div>
+      </div>
+      <div class="bento-grid anim-card">
+        <!-- APC -->
+        <div class="bento-cell glass-card magenta" style="grid-column: span 2;">
+          <div class="bento-icon"><i class="fa-solid fa-credit-card"></i></div>
+          <h3>Article Processing Charge (APC)</h3>
+          <p>
+            To sustain high editorial standards, BIJST charges an APC of <strong>₦40,000</strong> or <strong>US$100</strong> for accepted manuscripts.
+          </p>
+          <ul style="margin-top:10px; padding-left: 20px;">
+            <li>There is <strong>no submission fee</strong>.</li>
+            <li>APCs are payable only after formal acceptance.</li>
+          </ul>
         </div>
-        <!-- Card 5 -->
-        <div class="guideline-card glass-card">
-          <div class="guideline-icon blue"><i class="fa-solid fa-magnifying-glass"></i></div>
-          <h5>Review Process</h5>
-          <p>All manuscripts undergo double-blind peer review. Feedback within 4–6 weeks.</p>
+        <!-- Privacy -->
+        <div class="bento-cell glass-card blue">
+          <div class="bento-icon"><i class="fa-solid fa-user-shield"></i></div>
+          <h3>Privacy Statement</h3>
+          <p>
+            Names and emails are used exclusively for editorial processes. Reviewers' identities remain confidential.
+          </p>
+        </div>
+        <!-- Template -->
+        <div class="bento-cell glass-card green">
+          <div class="bento-icon"><i class="fa-solid fa-file-word"></i></div>
+          <h3>Manuscript Template</h3>
+          <p>
+            Please use the official BIJST manuscript template to speed up the review process.
+          </p>
         </div>
       </div>
 
@@ -347,7 +397,7 @@
         </div>
         <div class="sidebar-card-body submit-card-body">
           <p>Ready to publish your research? Submit your manuscript through our secure online portal.</p>
-          <a href="#" class="btn-submit-modal submit-btn glass-btn-primary">
+          <a href="/management-system" class="submit-btn glass-btn-primary">
             Submit Manuscript <i class="fa-solid fa-arrow-right"></i>
           </a>
         </div>
@@ -407,10 +457,17 @@
               </div>
             </li>
             <li class="info-item">
+              <span class="info-icon"><i class="fa-solid fa-globe"></i></span>
+              <div class="info-content">
+                <span class="info-label">Website</span>
+                <span class="info-value">www.bijst.com.ng</span>
+              </div>
+            </li>
+            <li class="info-item">
               <span class="info-icon"><i class="fa-solid fa-envelope"></i></span>
               <div class="info-content">
                 <span class="info-label">Email</span>
-                <span class="info-value">fnas@lcu.edu.ng</span>
+                <span class="info-value">editor@bijst.com.ng</span>
               </div>
             </li>
           </ul>
@@ -426,24 +483,26 @@
     <div class="footer-tape"></div>
     <div class="footer-inner">
       <div class="footer-brand">
-        <div class="footer-sub">Integrative Journal of Science & Technology</div>
-        <p>A multidisciplinary, peer-reviewed journal published by the Faculty of Natural and Applied Sciences, Lead City University. Celebrating 20 years of academic excellence.</p>
+        <div class="footer-sub">Bridges Integrative Journal of Science & Technology (BIJST)</div>
+        <p>A peer-reviewed, multidisciplinary scholarly journal dedicated to advancing innovative research across the sciences and technology.</p>
       </div>
       <div class="footer-links">
         <div class="footer-col">
           <h5>Quick Links</h5>
           <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#about">About the Faculty</a></li>
+            <li><a href="#about">About the Journal</a></li>
+            <li><a href="#scope">Aim & Scope</a></li>
             <li><a href="#guidelines">Submission Guidelines</a></li>
+            <li><a href="#policies">Policies</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h5>Resources</h5>
           <ul>
-            <li><a href="#" class="btn-submit-modal">Submit Manuscript</a></li>
+            <li><a href="/management-system">Submit Manuscript</a></li>
             <li><a href="https://www.journals.lcu.edu.ng/" target="_blank">Other Journals</a></li>
-            <li><a href="mailto:fnas@lcu.edu.ng">Contact Editors</a></li>
+            <li><a href="mailto:editor@bijst.com.ng">Contact Editors</a></li>
+            <li><a href="https://www.bijst.com.ng">www.bijst.com.ng</a></li>
           </ul>
         </div>
       </div>
@@ -459,147 +518,7 @@
     </div>
   </footer>
 
-  <!-- MULTI-STEP SUBMISSION MODAL -->
-  <div id="submit-modal" class="modal-overlay">
-    <div class="modal-content glass-card">
-      <button class="modal-close" id="modal-close-btn"><i class="fa-solid fa-xmark"></i></button>
-      
-      <div class="modal-header">
-        <h2 class="display-heading">Submit Manuscript</h2>
-        <p>Follow the steps below to complete your submission.</p>
-        
-        <!-- Step Indicator -->
-        <div class="step-indicator">
-          <div class="step active" data-step="1"><div class="step-circle">1</div><span class="step-label">Guidelines</span></div>
-          <div class="step-line"></div>
-          <div class="step" data-step="2"><div class="step-circle">2</div><span class="step-label">Author Info</span></div>
-          <div class="step-line"></div>
-          <div class="step" data-step="3"><div class="step-circle">3</div><span class="step-label">Manuscript</span></div>
-          <div class="step-line"></div>
-          <div class="step" data-step="4"><div class="step-circle">4</div><span class="step-label">Confirm</span></div>
-        </div>
-      </div>
-      
-      <div class="modal-body">
-        <form id="submission-form" enctype="multipart/form-data">
-          
-          <!-- STEP 1: Guidelines -->
-          <div class="modal-step active" id="step-1">
-            <h3>Submission Guidelines</h3>
-            <div class="guideline-content">
-              <ul>
-                <li>Manuscripts should be typed in English, double-spaced with 1-inch margins.</li>
-                <li>Include an abstract (max 250 words) and 4-6 keywords.</li>
-                <li>Ensure all figures and tables are numbered sequentially and cited in the text.</li>
-                <li>Plagiarism is strictly prohibited and submissions are screened.</li>
-              </ul>
-              <p>By proceeding, you agree to these guidelines.</p>
-            </div>
-            <div class="modal-actions">
-              <button type="button" class="btn btn-primary next-btn">Proceed <i class="fa-solid fa-arrow-right"></i></button>
-            </div>
-          </div>
-          
-          <!-- STEP 2: Author Info -->
-          <div class="modal-step" id="step-2">
-            <h3>Author Information</h3>
-            <div class="form-grid">
-              <div class="form-group full-width">
-                <label>Email Address *</label>
-                <input type="email" name="email" required placeholder="name@university.edu">
-              </div>
-              <div class="form-group">
-                <label>Title *</label>
-                <select name="title" required>
-                  <option value="">Select...</option>
-                  <option value="Prof">Prof</option>
-                  <option value="Dr">Dr</option>
-                  <option value="Mr">Mr</option>
-                  <option value="Mrs">Mrs</option>
-                  <option value="Ms">Ms</option>
-                  <option value="Miss">Miss</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Gender *</label>
-                <select name="gender" required>
-                  <option value="">Select...</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Prefer not to say">Prefer not to say</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Surname *</label>
-                <input type="text" name="surname" required>
-              </div>
-              <div class="form-group">
-                <label>Other Names *</label>
-                <input type="text" name="otherNames" required>
-              </div>
-              <div class="form-group full-width">
-                <label>Affiliation (Dept & Institution) *</label>
-                <input type="text" name="affiliation" required placeholder="e.g., Dept of Chemistry, Lead City University">
-              </div>
-            </div>
-            <div class="modal-actions split">
-              <button type="button" class="btn btn-secondary prev-btn"><i class="fa-solid fa-arrow-left"></i> Back</button>
-              <button type="button" class="btn btn-primary next-btn">Next <i class="fa-solid fa-arrow-right"></i></button>
-            </div>
-          </div>
-          
-          <!-- STEP 3: Manuscript -->
-          <div class="modal-step" id="step-3">
-            <h3>Manuscript Details</h3>
-            <div class="form-grid">
-              <div class="form-group full-width">
-                <label>Manuscript Title *</label>
-                <input type="text" name="manuscriptTitle" required>
-              </div>
-              <div class="form-group full-width">
-                <label>Research Area / Specialization *</label>
-                <input type="text" name="researchArea" required placeholder="e.g., Medical Microbiology">
-              </div>
-              <div class="form-group full-width">
-                <label>Keywords (Comma separated) *</label>
-                <input type="text" name="keywords" required placeholder="e.g., Toxicology, Environment, Lead">
-              </div>
-              <div class="form-group full-width">
-                <label>Co-Authors (Optional)</label>
-                <textarea name="coAuthors" rows="2" placeholder="List co-authors and their affiliations..."></textarea>
-              </div>
-              <div class="form-group full-width file-upload">
-                <label>Upload Main Manuscript (PDF/Word) *</label>
-                <input type="file" name="manuscriptFile" accept=".pdf,.doc,.docx" required>
-              </div>
-            </div>
-            <div class="modal-actions split">
-              <button type="button" class="btn btn-secondary prev-btn"><i class="fa-solid fa-arrow-left"></i> Back</button>
-              <button type="button" class="btn btn-primary next-btn">Next <i class="fa-solid fa-arrow-right"></i></button>
-            </div>
-          </div>
-          
-          <!-- STEP 4: Confirm -->
-          <div class="modal-step" id="step-4">
-            <h3>Confirm Submission</h3>
-            <div class="confirm-box">
-              <label class="checkbox-container">
-                <input type="checkbox" id="confirm-plagiarism" required>
-                <span class="checkmark"></span>
-                I confirm that this manuscript is original, has not been published elsewhere, and I agree to the Journal's ethical standards against plagiarism.
-              </label>
-            </div>
-            <div class="modal-actions split">
-              <button type="button" class="btn btn-secondary prev-btn"><i class="fa-solid fa-arrow-left"></i> Back</button>
-              <button type="submit" class="btn btn-primary submit-final-btn">Submit Manuscript <i class="fa-solid fa-check"></i></button>
-            </div>
-            <div class="submit-message" style="display: none; text-align: center; margin-top: 15px; color: var(--blue);"></div>
-          </div>
-          
-        </form>
-      </div>
-    </div>
-  </div>
+
 
   <script src="js/main.js"></script>
   <script src="js/animations.js"></script>
