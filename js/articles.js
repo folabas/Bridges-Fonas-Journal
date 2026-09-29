@@ -22,7 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   async function fetchArticles() {
     try {
-      articlesGrid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 40px; color: var(--text-muted);">Loading articles...</div>';
+      articlesGrid.innerHTML = `
+        <div class="skeleton-card"><div class="skeleton-box skeleton-title"></div><div class="skeleton-box skeleton-text"></div><div class="skeleton-box skeleton-text short"></div><div class="skeleton-box skeleton-btn"></div></div>
+        <div class="skeleton-card"><div class="skeleton-box skeleton-title"></div><div class="skeleton-box skeleton-text"></div><div class="skeleton-box skeleton-text short"></div><div class="skeleton-box skeleton-btn"></div></div>
+        <div class="skeleton-card"><div class="skeleton-box skeleton-title"></div><div class="skeleton-box skeleton-text"></div><div class="skeleton-box skeleton-text short"></div><div class="skeleton-box skeleton-btn"></div></div>
+      `;
       
       let url = `https://bridges-journal.onrender.com/api/articles?page=${currentPage}&limit=${limit}`;
       if (currentSearch) url += `&search=${encodeURIComponent(currentSearch)}`;
@@ -53,7 +57,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderArticles(articles) {
     if (!articles || articles.length === 0) {
-      articlesGrid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 40px; color: var(--text-muted);">No articles found matching your criteria.</div>';
+      articlesGrid.innerHTML = `
+        <div class="empty-state">
+          <img src="empty_illustration.jpg" alt="Empty Folder">
+          <h3>No Articles Found</h3>
+          <p>We couldn't find any articles matching your search criteria. Try adjusting your filters.</p>
+        </div>
+      `;
       return;
     }
 
@@ -106,7 +116,13 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   function renderFallback() {
-    articlesGrid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 40px; color: red;">Failed to connect to the backend server.</div>';
+    articlesGrid.innerHTML = `
+      <div class="empty-state">
+        <img src="error_illustration.jpg" alt="Server Error">
+        <h3>Server Connection Error</h3>
+        <p>We are currently unable to reach the database. Please check your connection or try again later.</p>
+      </div>
+    `;
   }
 
   // Event Listeners for Filters

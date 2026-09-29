@@ -99,7 +99,7 @@ router.post('/articles', auth, upload.single('pdf'), async (req, res) => {
     res.json(article);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).json({ msg: 'Server Error' });
   }
 });
 
@@ -134,7 +134,7 @@ router.put('/articles/:id', auth, async (req, res) => {
     res.json(article);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).json({ msg: 'Server Error' });
   }
 });
 
@@ -164,7 +164,7 @@ router.delete('/articles/:id', auth, async (req, res) => {
     res.json({ msg: 'Article removed' });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).json({ msg: 'Server Error' });
   }
 });
 
