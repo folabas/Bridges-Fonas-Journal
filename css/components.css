@@ -176,25 +176,36 @@
   }
 }
 
-/* ─── Accordion Gallery — Mobile: horizontal scroll stack ─── */
+/* ─── Accordion Gallery — Mobile: sticky scroll stack ─── */
 @media (max-width: 900px) {
   .scope-grid-main.accordion-gallery {
     display: flex !important;
-    flex-direction: column;
-    gap: 16px;
+    flex-direction: column !important;
+    gap: 0 !important;
     height: auto !important;
     perspective: none !important;
+    overflow-y: visible;
+    padding-bottom: 0;
   }
+
+  /* Restore sticky scroll stack offsets */
   .ag-panel {
-    position: relative !important;
+    position: sticky !important;
     border-radius: 18px;
     overflow: hidden;
-    min-height: 200px;
+    height: 220px;
     flex: none !important;
     transform: none !important;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     cursor: pointer;
+    margin-bottom: 0;
   }
+  .ag-panel:nth-child(1) { top: 80px;  z-index: 1; }
+  .ag-panel:nth-child(2) { top: 94px;  z-index: 2; }
+  .ag-panel:nth-child(3) { top: 108px; z-index: 3; }
+  .ag-panel:nth-child(4) { top: 122px; z-index: 4; }
+  .ag-panel:nth-child(5) { top: 136px; z-index: 5; }
+
   .ag-panel__frame { position: absolute; inset: 0; }
   .ag-panel__media {
     position: absolute;
@@ -202,13 +213,13 @@
     width: 100%;
     height: 100%;
     transform: none !important;
-    filter: brightness(0.7);
+    filter: brightness(0.65);
   }
   .ag-panel__media img { width: 100%; height: 100%; object-fit: cover; }
   .ag-panel__overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, transparent 30%, rgba(0,0,10,0.9) 100%);
+    background: linear-gradient(180deg, transparent 25%, rgba(0,0,10,0.9) 100%);
   }
   .ag-panel__label {
     position: absolute;
@@ -225,7 +236,7 @@
     opacity: 1 !important;
     transform: none !important;
     width: 3px;
-    min-height: 28px;
+    min-height: 26px;
     background: var(--blue, #2563eb);
     border-radius: 3px;
     flex: 0 0 3px;
@@ -235,9 +246,11 @@
     opacity: 1 !important;
     transform: none !important;
   }
-  .ag-panel__text .scope-card-icon { font-size: 22px; color: #fff; margin-bottom: 6px; }
-  .ag-panel__text h3 { color: #fff; font-size: 1.1rem; margin: 0 0 4px; }
-  .ag-panel__text p { color: rgba(255,255,255,0.75); font-size: 0.82rem; margin: 0; }
+  .ag-panel__text .scope-card-icon { font-size: 20px; color: #fff; margin-bottom: 4px; }
+  .ag-panel__text h3 { color: #fff; font-size: 1rem; margin: 0 0 3px; }
+  .ag-panel__text p { color: rgba(255,255,255,0.72); font-size: 0.8rem; margin: 0;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
 }
 
 
@@ -245,16 +258,16 @@
    2. CARD SWAP — Editorial Board
    ========================================================================= */
 
-/* Desktop: 3D card stack container */
+/* Desktop: 3D card stack container — 70% width, centred */
 @media (min-width: 901px) {
   .card-swap-wrapper {
     position: relative;
     height: 520px;
-    width: 100%;
+    width: 70%;
+    margin: 0 auto 2.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 2.5rem;
     perspective: 900px;
     overflow: visible;
   }
@@ -391,12 +404,15 @@
    3. DEPTH CAROUSEL — Submission Guidelines
    ========================================================================= */
 
-/* Desktop */
+/* Desktop — Depth Carousel 70% width, centred */
 @media (min-width: 901px) {
   .guidelines-carousel-wrapper {
     overflow: visible;
     position: relative;
     margin-bottom: 2.5rem;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   #guidelines-carousel {
