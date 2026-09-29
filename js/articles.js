@@ -106,38 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   function renderFallback() {
-    // If backend isn't up, render some dummy data so UI is visible
-    const dummy = [
-      {
-        title: "Integration of AI in Sustainable Agriculture",
-        authors: ["Prof. O. Ladokun", "Dr. A. Adebayo"],
-        abstract: "This paper explores the applications of artificial intelligence in optimizing crop yield and reducing resource waste in sub-Saharan agriculture.",
-        category: "Agriculture",
-        year: 2026, volume: "1", issue: "1",
-        thumbnailUrl: "https://images.unsplash.com/photo-1586771107445-d3af11116297?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-        pdfUrl: "dummy.pdf"
-      },
-      {
-        title: "Blockchain for Transparent Peer Review Systems",
-        authors: ["Dr. W. Sakpere"],
-        abstract: "A novel architecture proposing the use of distributed ledger technology to maintain anonymity and immutability in academic peer review.",
-        category: "Computer Science",
-        year: 2026, volume: "1", issue: "1",
-        thumbnailUrl: "https://images.unsplash.com/photo-1639762681485-074b7f4fc302?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-        pdfUrl: "dummy.pdf"
-      },
-      {
-        title: "Advancements in Nano-materials for Water Purification",
-        authors: ["Prof. B. Adebo", "C. Nwankwo"],
-        abstract: "Evaluating the efficacy of carbon nanotube filters in removing heavy metal contaminants from industrial wastewater.",
-        category: "Materials Science",
-        year: 2026, volume: "1", issue: "1",
-        thumbnailUrl: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-        pdfUrl: "dummy.pdf"
-      }
-    ];
-    renderArticles(dummy);
-    renderPagination(1, 1);
+    articlesGrid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 40px; color: red;">Failed to connect to the backend server.</div>';
   }
 
   // Event Listeners for Filters
