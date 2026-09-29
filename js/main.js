@@ -288,4 +288,31 @@ document.addEventListener('DOMContentLoaded', () => {
   setupCarousel();
 
 });
-/
+
+// Coming Soon Modal logic
+window.openComingSoonModal = function() {
+  const modal = document.getElementById('coming-soon-modal');
+  const overlay = document.getElementById('coming-soon-overlay');
+  if (modal && overlay) {
+    modal.classList.add('active');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+};
+
+window.closeComingSoonModal = function() {
+  const modal = document.getElementById('coming-soon-modal');
+  const overlay = document.getElementById('coming-soon-overlay');
+  if (modal && overlay) {
+    modal.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+};
+
+// Esc key listener for modal
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeComingSoonModal();
+  }
+});

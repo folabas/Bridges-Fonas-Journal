@@ -40,7 +40,7 @@
       <nav class="desktop-nav">
         <a href="index.html" id="nav-home">Home</a>
         <a href="#" class="active" id="nav-archive">Archive</a>
-        <a href="/management-system" class="nav-submit btn-primary" style="background: var(--blue); color: white; border: none; padding: 10px 20px; border-radius: 50px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease;">Submit <i class="fa-solid fa-arrow-right"></i></a>
+        <a href="javascript:void(0)" onclick="openComingSoonModal()" class="nav-submit btn-primary" style="background: var(--blue); color: white; border: none; padding: 10px 20px; border-radius: 50px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease;">Submit <i class="fa-solid fa-arrow-right"></i></a>
       </nav>
 
       <!-- Mobile Nav Toggle -->
@@ -69,7 +69,7 @@
       <a href="articles.html"><i class="fa-solid fa-folder"></i> Archive</a>
     </div>
     <div class="sidebar-footer">
-      <a href="/management-system" class="btn btn-primary glass-btn-primary" style="width: 100%; text-align: center; margin-bottom: 20px;">Submit Manuscript</a>
+      <a href="javascript:void(0)" onclick="openComingSoonModal()" class="btn btn-primary glass-btn-primary" style="width: 100%; text-align: center; margin-bottom: 20px;">Submit Manuscript</a>
       <div class="sidebar-sponsor" style="font-size: 0.8rem; text-align: center; color: var(--text-muted);">Sponsored by <strong><a href="https://waltiklabs.vercel.app" target="_blank" style="color: inherit; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--blue)'" onmouseout="this.style.color='inherit'">Waltik Labs</a></strong></div>
     </div>
   </nav>
@@ -127,7 +127,7 @@
         <div class="footer-col">
           <h5>Resources</h5>
           <ul>
-            <li><a href="/management-system">Submit Manuscript</a></li>
+            <li><a href="javascript:void(0)" onclick="openComingSoonModal()">Submit Manuscript</a></li>
             <li><a href="https://www.journals.lcu.edu.ng/" target="_blank">Other Journals</a></li>
             <li><a href="mailto:fnas@lcu.edu.ng">Contact Editors</a></li>
           </ul>
@@ -147,7 +147,44 @@
 
 
 
+  <!-- Coming Soon Modal -->
+  <div class="modal-overlay" id="coming-soon-overlay" onclick="closeComingSoonModal()"></div>
+  <div class="coming-soon-modal glass-card" id="coming-soon-modal">
+    <div class="modal-header">
+      <div class="modal-icon"><i class="fa-solid fa-person-digging"></i></div>
+      <h3>Coming Soon</h3>
+      <button class="close-modal-btn" onclick="closeComingSoonModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <p style="margin-bottom: 8px;"><strong>Journal Management System</strong></p>
+      <p style="margin-bottom: 16px; color: var(--text-muted); font-size: 0.95rem;">The Journal Management System will be available from the 2nd Publication.</p>
+      <p style="margin-bottom: 8px; font-size: 0.95rem;">In the meantime, please reach us at:</p>
+      <a href="mailto:editor@bijst.com.ng" class="modal-email">editor@bijst.com.ng</a>
+    </div>
+    <div class="modal-footer" style="margin-top: 24px;">
+      <button class="btn btn-secondary glass-btn-secondary" style="width: 100%; border-radius: 50px;" onclick="closeComingSoonModal()">Close</button>
+    </div>
+  </div>
+
+  <!-- PDF Viewer Modal -->
+  <div class="modal-overlay" id="pdf-viewer-overlay" onclick="closePdfModal()"></div>
+  <div class="pdf-viewer-modal" id="pdf-viewer-modal">
+    <div class="pdf-modal-header">
+      <h3 id="pdf-modal-title">Article Title</h3>
+      <button class="close-pdf-btn" onclick="closePdfModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="pdf-modal-body" id="pdf-modal-body">
+      <!-- iframe will be injected here -->
+    </div>
+    <div class="pdf-modal-footer">
+      <a href="#" id="pdf-download-btn" class="btn btn-primary glass-btn-primary" download target="_blank">
+        <i class="fa-solid fa-download"></i> Download PDF
+      </a>
+    </div>
+  </div>
+
   <script src="js/main.js"></script>
+  <script src="js/articles.js"></script>
   <script src="js/animations.js"></script>
 
 </body>
