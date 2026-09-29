@@ -17,6 +17,7 @@
 
   <link href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/components.css">
   
   <!-- GSAP & Three.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -159,32 +160,93 @@
       </div>
       
       <!-- Horizontal Scroll Stack / Grid -->
-      <div class="scope-grid-main" id="scope-carousel">
-        <div class="scope-card glass-card blue">
-          <div class="scope-card-icon"><i class="fa-solid fa-microchip"></i></div>
-          <h3>Applied Sciences</h3>
-          <p>Engineering, Medicine, Health Sciences, Pharmacy, Nursing, Public Health, Biotechnology, Agricultural Sciences, Food Science</p>
+      <div class="scope-grid-main accordion-gallery" id="scope-carousel">
+        
+        <div class="scope-card ag-panel active" tabindex="0">
+          <span class="ag-panel__frame">
+            <span class="ag-panel__media">
+              <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800" alt="Applied Sciences" draggable="false">
+            </span>
+            <span class="ag-panel__overlay"></span>
+          </span>
+          <div class="scope-card-content ag-panel__label">
+            <span class="ag-panel__bar"></span>
+            <div class="ag-panel__text">
+              <div class="scope-card-icon"><i class="fa-solid fa-microchip"></i></div>
+              <h3>Applied Sciences</h3>
+              <p>Engineering, Medicine, Health Sciences, Pharmacy, Nursing, Public Health, Biotechnology, Agricultural Sciences, Food Science</p>
+            </div>
+          </div>
         </div>
-        <div class="scope-card glass-card green">
-          <div class="scope-card-icon"><i class="fa-solid fa-code"></i></div>
-          <h3>Formal Sciences</h3>
-          <p>Computer Science, AI, Machine Learning, Data Science, Cybersecurity, Software Eng., Math, Statistics, Logic</p>
+
+        <div class="scope-card ag-panel" tabindex="0">
+          <span class="ag-panel__frame">
+            <span class="ag-panel__media">
+              <img src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&q=80&w=800" alt="Formal Sciences" draggable="false">
+            </span>
+            <span class="ag-panel__overlay"></span>
+          </span>
+          <div class="scope-card-content ag-panel__label">
+            <span class="ag-panel__bar"></span>
+            <div class="ag-panel__text">
+              <div class="scope-card-icon"><i class="fa-solid fa-code"></i></div>
+              <h3>Formal Sciences</h3>
+              <p>Computer Science, AI, Machine Learning, Data Science, Cybersecurity, Software Eng., Math, Statistics, Logic</p>
+            </div>
+          </div>
         </div>
-        <div class="scope-card glass-card magenta">
-          <div class="scope-card-icon"><i class="fa-solid fa-atom"></i></div>
-          <h3>Physical Sciences</h3>
-          <p>Physics, Chemistry, Earth Sciences, Environmental Science, Atmospheric Science, Geology, Geophysics</p>
+
+        <div class="scope-card ag-panel" tabindex="0">
+          <span class="ag-panel__frame">
+            <span class="ag-panel__media">
+              <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&q=80&w=800" alt="Physical Sciences" draggable="false">
+            </span>
+            <span class="ag-panel__overlay"></span>
+          </span>
+          <div class="scope-card-content ag-panel__label">
+            <span class="ag-panel__bar"></span>
+            <div class="ag-panel__text">
+              <div class="scope-card-icon"><i class="fa-solid fa-atom"></i></div>
+              <h3>Physical Sciences</h3>
+              <p>Physics, Chemistry, Earth Sciences, Environmental Science, Atmospheric Science, Geology, Geophysics</p>
+            </div>
+          </div>
         </div>
-        <div class="scope-card glass-card blue">
-          <div class="scope-card-icon"><i class="fa-solid fa-dna"></i></div>
-          <h3>Life Sciences</h3>
-          <p>Biology, Microbiology, Biochemistry, Genetics, Molecular Biology, Ecology, Zoology, Botany</p>
+
+        <div class="scope-card ag-panel" tabindex="0">
+          <span class="ag-panel__frame">
+            <span class="ag-panel__media">
+              <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&q=80&w=800" alt="Life Sciences" draggable="false">
+            </span>
+            <span class="ag-panel__overlay"></span>
+          </span>
+          <div class="scope-card-content ag-panel__label">
+            <span class="ag-panel__bar"></span>
+            <div class="ag-panel__text">
+              <div class="scope-card-icon"><i class="fa-solid fa-dna"></i></div>
+              <h3>Life Sciences</h3>
+              <p>Biology, Microbiology, Biochemistry, Genetics, Molecular Biology, Ecology, Zoology, Botany</p>
+            </div>
+          </div>
         </div>
-        <div class="scope-card glass-card green">
-          <div class="scope-card-icon"><i class="fa-solid fa-globe"></i></div>
-          <h3>Social Sciences</h3>
-          <p>Economics, Psychology, Sociology, Political Science, Geography, Education, Public Administration, Innovation Policy</p>
+
+        <div class="scope-card ag-panel" tabindex="0">
+          <span class="ag-panel__frame">
+            <span class="ag-panel__media">
+              <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=800" alt="Social Sciences" draggable="false">
+            </span>
+            <span class="ag-panel__overlay"></span>
+          </span>
+          <div class="scope-card-content ag-panel__label">
+            <span class="ag-panel__bar"></span>
+            <div class="ag-panel__text">
+              <div class="scope-card-icon"><i class="fa-solid fa-globe"></i></div>
+              <h3>Social Sciences</h3>
+              <p>Economics, Psychology, Sociology, Political Science, Geography, Education, Public Administration, Innovation Policy</p>
+            </div>
+          </div>
         </div>
+
       </div>
 
     </div>
@@ -267,32 +329,34 @@
         <span class="section-eyebrow">Editorial Board</span>
         <div class="section-line"></div>
       </div>
-      <div class="bento-grid anim-card" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); margin-bottom: 2rem;">
-        
-        <div class="bento-cell glass-card" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1rem;">
-          <img src="Olusola Ladokun.jpeg" alt="Professor Olusola Ladokun" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-          <div>
-            <h4 style="margin: 0; font-size: 1.1rem; color: var(--text);">Professor Olusola Ladokun</h4>
-            <p style="margin: 0; font-size: 0.9rem; color: var(--blue); font-weight: 600;">Editor-in-Chief</p>
+      <div class="card-swap-wrapper anim-card" style="height: 600px; position: relative; width: 100%; max-width: 500px; margin: 0 auto 2rem;">
+        <div class="card-swap-container">
+          
+          <div class="card card-swap-card">
+            <img src="Olusola Ladokun.jpeg" alt="Professor Olusola Ladokun">
+            <div class="card-swap-overlay">
+              <h4>Professor Olusola Ladokun</h4>
+              <p>Editor-in-Chief</p>
+            </div>
           </div>
-        </div>
-        
-        <div class="bento-cell glass-card" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1rem;">
-          <img src="Wilson Sakpere.jpeg" alt="Dr. Wilson Sakpere" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-          <div>
-            <h4 style="margin: 0; font-size: 1.1rem; color: var(--text);">Dr. Wilson Sakpere</h4>
-            <p style="margin: 0; font-size: 0.9rem; color: var(--blue); font-weight: 600;">General Editor</p>
+          
+          <div class="card card-swap-card">
+            <img src="Wilson Sakpere.jpeg" alt="Dr. Wilson Sakpere">
+            <div class="card-swap-overlay">
+              <h4>Dr. Wilson Sakpere</h4>
+              <p>General Editor</p>
+            </div>
           </div>
-        </div>
 
-        <div class="bento-cell glass-card" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1rem;">
-          <img src="Professor Adebo.PNG" alt="Professor Babatunde Adebo" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-          <div>
-            <h4 style="margin: 0; font-size: 1.1rem; color: var(--text);">Professor Babatunde Adebo</h4>
-            <p style="margin: 0; font-size: 0.9rem; color: var(--blue); font-weight: 600;">Associate Editor</p>
+          <div class="card card-swap-card">
+            <img src="Professor Adebo.PNG" alt="Professor Babatunde Adebo">
+            <div class="card-swap-overlay">
+              <h4>Professor Babatunde Adebo</h4>
+              <p>Associate Editor</p>
+            </div>
           </div>
-        </div>
 
+        </div>
       </div>
 
       <!-- Guidelines -->
@@ -301,25 +365,41 @@
         <div class="section-line"></div>
       </div>
       <div class="guidelines-carousel-wrapper" style="margin-bottom: 2rem;">
-        <div class="guidelines-carousel" id="guidelines-carousel">
-          <!-- Card 1 -->
-          <div class="guideline-card glass-card">
-            <div class="guideline-icon green"><i class="fa-solid fa-file-lines"></i></div>
-            <h5>Manuscript Requirements</h5>
-            <p>Submissions should be original, scientifically sound, and written in clear English. Follow the journal template with abstract, keywords, intro, methodology, results, discussion, and references.</p>
+        <div class="depth-carousel" id="guidelines-carousel">
+          <div class="depth-carousel__stage">
+            <!-- Card 1 -->
+            <div class="depth-carousel__card guideline-card glass-card">
+              <div class="guideline-icon green"><i class="fa-solid fa-file-lines"></i></div>
+              <h5>Manuscript Requirements</h5>
+              <p>Submissions should be original, scientifically sound, and written in clear English. Follow the journal template with abstract, keywords, intro, methodology, results, discussion, and references.</p>
+              <span class="depth-carousel__tint"></span>
+            </div>
+            <!-- Card 2 -->
+            <div class="depth-carousel__card guideline-card glass-card">
+              <div class="guideline-icon blue"><i class="fa-solid fa-magnifying-glass"></i></div>
+              <h5>Peer Review Process</h5>
+              <p>All manuscripts undergo editorial screening, followed by double-blind peer review by at least two independent reviewers before the editorial decision.</p>
+              <span class="depth-carousel__tint"></span>
+            </div>
+            <!-- Card 3 -->
+            <div class="depth-carousel__card guideline-card glass-card">
+              <div class="guideline-icon magenta"><i class="fa-solid fa-upload"></i></div>
+              <h5>Submission Process</h5>
+              <p>Submit manuscript in MS Word, cover letter, declaration of originality, ethical approval, and conflict of interest statement through the portal or email.</p>
+              <span class="depth-carousel__tint"></span>
+            </div>
           </div>
-          <!-- Card 2 -->
-          <div class="guideline-card glass-card">
-            <div class="guideline-icon blue"><i class="fa-solid fa-magnifying-glass"></i></div>
-            <h5>Peer Review Process</h5>
-            <p>All manuscripts undergo editorial screening, followed by double-blind peer review by at least two independent reviewers before the editorial decision.</p>
-          </div>
-          <!-- Card 3 -->
-          <div class="guideline-card glass-card">
-            <div class="guideline-icon magenta"><i class="fa-solid fa-upload"></i></div>
-            <h5>Submission Process</h5>
-            <p>Submit manuscript in MS Word, cover letter, declaration of originality, ethical approval, and conflict of interest statement through the portal or email.</p>
-          </div>
+          
+          <button type="button" class="depth-carousel__arrow depth-carousel__arrow--prev" aria-label="Previous">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+              <path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+          <button type="button" class="depth-carousel__arrow depth-carousel__arrow--next" aria-label="Next">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+              <path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
         </div>
         <div class="carousel-pagination" id="guidelines-pagination" style="display: flex; justify-content: center; gap: 8px; margin-top: 16px;">
           <!-- Dots will be populated by JS if needed, or static here -->
@@ -573,7 +653,7 @@
       <button class="btn btn-secondary glass-btn-secondary" style="width: 100%; border-radius: 50px;" onclick="closeComingSoonModal()">Close</button>
     </div>
   </div>
-
+  <script src="js/components.js"></script>
   <script src="js/main.js"></script>
   <script src="js/animations.js"></script>
 

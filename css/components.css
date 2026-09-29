@@ -1,0 +1,367 @@
+/* ==========================================================================
+   React Bits Natively Translated Components
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Accordion Gallery (Our Research Scope)
+   -------------------------------------------------------------------------- */
+@media (min-width: 769px) {
+  .accordion-gallery {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+    max-width: 100%;
+    height: 460px;
+    perspective: 1400px;
+    perspective-origin: 50% 50%;
+  }
+
+  .ag-panel {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    border-radius: 16px;
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+    outline: none;
+    transform-style: preserve-3d;
+    transform-origin: center center;
+    background: var(--surface-light);
+    box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.8);
+    will-change: flex-grow, transform;
+    border: none;
+  }
+
+  .ag-panel:focus-visible {
+    box-shadow: 0 0 0 2px var(--blue), 0 10px 30px -18px rgba(0, 0, 0, 0.8);
+  }
+
+  .ag-panel__frame {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: inherit;
+  }
+
+  .ag-panel__media {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    transition: filter 0.6s ease;
+    filter: grayscale(1);
+  }
+  
+  .ag-panel.active .ag-panel__media {
+    filter: grayscale(0);
+  }
+
+  .ag-panel__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  .ag-panel__overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, transparent 20%, rgba(6, 0, 16, 0.95) 100%);
+    transition: background 0.6s ease;
+  }
+  
+  .ag-panel:not(.active) .ag-panel__overlay {
+    background: rgba(6, 0, 16, 0.7);
+  }
+
+  .ag-panel__label {
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .ag-panel__bar {
+    flex: 0 0 auto;
+    width: 3px;
+    height: 36px;
+    border-radius: 3px;
+    background: var(--blue);
+    opacity: 0;
+    transform: translateX(-14px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    box-shadow: 0 0 12px rgba(var(--blue-rgb), 0.6);
+  }
+
+  .ag-panel__text {
+    color: #ffffff;
+    font-family: inherit;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateX(-14px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    transition-delay: 0.06s;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
+  }
+  
+  .ag-panel__text h3 {
+    color: #fff;
+    margin-bottom: 8px;
+    font-size: 1.4rem;
+  }
+  
+  .ag-panel__text p {
+    color: rgba(255,255,255,0.8);
+    font-size: 0.9rem;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .ag-panel__text .scope-card-icon {
+    margin-bottom: 12px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+  }
+
+  .ag-panel.active .ag-panel__bar,
+  .ag-panel.active .ag-panel__text {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Card Swap (Editorial Board)
+   -------------------------------------------------------------------------- */
+@media (min-width: 769px) {
+  .card-swap-wrapper {
+    display: block;
+  }
+  .card-swap-container {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    transform: translate(-10%, -10%);
+    transform-origin: bottom right;
+    perspective: 900px;
+    overflow: visible;
+  }
+
+  .card-swap-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: #000;
+    transform-style: preserve-3d;
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow: hidden;
+    width: 320px;
+    height: 400px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  }
+  
+  .card-swap-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+}
+
+/* Common Card Swap / Editors Mobile styles */
+.card-swap-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  background: var(--surface-light);
+  border: 1px solid var(--border);
+}
+
+.card-swap-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+@media (max-width: 768px) {
+  .card-swap-wrapper {
+    height: auto !important;
+  }
+  .card-swap-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    position: relative;
+    transform: none;
+  }
+  .card-swap-card {
+    width: 100%;
+    height: 300px;
+  }
+}
+
+.card-swap-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 24px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s ease;
+  pointer-events: none;
+}
+
+.card-swap-card:hover .card-swap-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card-swap-card:hover img {
+  transform: scale(1.05);
+}
+
+.card-swap-overlay h4 {
+  color: #fff;
+  font-size: 1.4rem;
+  margin-bottom: 4px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.card-swap-overlay p {
+  color: var(--blue-light);
+  font-weight: 600;
+  margin: 0;
+  font-size: 1rem;
+}
+
+
+/* --------------------------------------------------------------------------
+   Depth Carousel (Submission Guidelines)
+   -------------------------------------------------------------------------- */
+@media (min-width: 769px) {
+  .depth-carousel {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective-origin: 50% 50%;
+    touch-action: pan-y;
+    outline: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .depth-carousel__stage {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+  }
+
+  .depth-carousel__card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: center center;
+    overflow: hidden;
+    background: var(--surface);
+    box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.65), 0 8px 20px -10px rgba(0, 0, 0, 0.5);
+    will-change: transform, opacity, filter;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .depth-carousel__tint {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    transition: opacity 0.3s;
+  }
+
+  .depth-carousel__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3000;
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    background: rgba(18, 20, 26, 0.55);
+    backdrop-filter: blur(8px);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .depth-carousel__arrow:hover {
+    background: rgba(28, 31, 40, 0.85);
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+
+  .depth-carousel__arrow:active {
+    transform: translateY(-50%) scale(0.94);
+  }
+
+  .depth-carousel__arrow--prev {
+    left: 16px;
+  }
+
+  .depth-carousel__arrow--next {
+    right: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .depth-carousel {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .depth-carousel__card {
+    position: relative;
+    width: 100% !important;
+    height: auto !important;
+    padding: 24px;
+  }
+  .depth-carousel__arrow {
+    display: none;
+  }
+}
