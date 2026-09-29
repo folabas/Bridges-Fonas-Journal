@@ -1,302 +1,264 @@
-// Accordion Gallery Logic
+/* =========================================================================
+   BIJST Components — Accordion Gallery · Card Swap · Depth Carousel
+   ========================================================================= */
+
+/* ─── 1. ACCORDION GALLERY (Our Research Scope) ─────────────────────────── */
 class AccordionGallery {
-  constructor(container, options = {}) {
-    this.container = typeof container === 'string' ? document.querySelector(container) : container;
-    if (!this.container) return;
-    
-    this.panels = Array.from(this.container.querySelectorAll('.ag-panel'));
-    this.active = options.defaultIndex || Math.floor(this.panels.length / 2);
-    this.expandRatio = options.expandRatio || 0.52;
-    this.tilt = options.tilt || 8;
-    this.duration = options.duration || 0.6;
-    
-    this.init();
+  constructor(selector) {
+    this.root = document.querySelector(selector);
+    if (!this.root) return;
+    this.panels = Array.from(this.root.querySelectorAll('.ag-panel'));
+    this.active = 0;
+    this.expandRatio = 0.52;
+    this.duration = 0.55;
+    this.count = this.panels.length;
+    this._init();
   }
 
-  init() {
+  _init() {
+    // Clamp: only run on desktop
+    if (window.innerWidth <= 900) return;
+    this._apply(false);
+
     this.panels.forEach((panel, i) => {
-      panel.addEventListener('mouseenter', () => this.setActive(i));
-      panel.addEventListener('focus', () => this.setActive(i));
-      panel.addEventListener('keydown', (e) => this.handleKeyDown(i, e));
+      panel.addEventListener('mouseenter', () => this._setActive(i));
+      panel.addEventListener('focus', () => this._setActive(i));
     });
-    this.applyLayout();
-    
-    // Add window resize listener
+
     window.addEventListener('resize', () => {
-        if(window.innerWidth > 768) {
-            this.applyLayout();
-        } else {
-            // Remove GSAP styles on mobile so CSS takes over
-            gsap.set(this.panels, { clearProps: "all" });
-        }
-    });
-  }
-
-  setActive(index) {
-    if (this.active === index) return;
-    this.active = index;
-    if (window.innerWidth > 768) {
-      this.applyLayout();
-    }
-  }
-
-  handleKeyDown(index, e) {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-      e.preventDefault();
-      this.setActive((index + 1) % this.panels.length);
-    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-      e.preventDefault();
-      this.setActive((index - 1 + this.panels.length) % this.panels.length);
-    }
-  }
-
-  applyLayout() {
-    if (window.innerWidth <= 768) return;
-    const count = this.panels.length;
-    const grow = count > 1 ? (this.expandRatio * (count - 1)) / (1 - this.expandRatio) : 1;
-    
-    gsap.killTweensOf(this.panels);
-    
-    this.panels.forEach((panel, i) => {
-      const isActive = i === this.active;
-      const rot = isActive ? 0 : i < this.active ? this.tilt : -this.tilt;
-      
-      gsap.to(panel, {
-        flexGrow: isActive ? grow : 1,
-        rotateY: rot,
-        duration: this.duration,
-        ease: 'power3.out'
-      });
-      
-      if(isActive) {
-          panel.classList.add('active');
+      if (window.innerWidth <= 900) {
+        // Clear GSAP inline styles — CSS handles mobile
+        gsap.set(this.panels, { clearProps: 'all' });
       } else {
-          panel.classList.remove('active');
+        this._apply(false);
       }
     });
   }
-}
 
-// Card Swap Logic
-class CardSwap {
-  constructor(container, options = {}) {
-    this.container = typeof container === 'string' ? document.querySelector(container) : container;
-    if (!this.container) return;
-    
-    this.cards = Array.from(this.container.querySelectorAll('.card-swap-card'));
-    if(this.cards.length === 0) return;
-    
-    this.cardDistance = options.cardDistance || 60;
-    this.verticalDistance = options.verticalDistance || 70;
-    this.delay = options.delay || 5000;
-    this.skewAmount = options.skewAmount || 6;
-    
-    this.order = this.cards.map((_, i) => i);
-    this.interval = null;
-    
-    this.init();
+  _setActive(i) {
+    if (i === this.active) return;
+    this.active = i;
+    this._apply(true);
   }
 
-  makeSlot(i) {
+  _apply(animate) {
+    if (window.innerWidth <= 900) return;
+    const n = this.count;
+    const r = this.expandRatio;
+    const grow = (r * (n - 1)) / (1 - r);
+    const dur = animate ? this.duration : 0;
+
+    this.panels.forEach((panel, i) => {
+      const isActive = i === this.active;
+      const tilt = isActive ? 0 : i < this.active ? 8 : -8;
+
+      gsap.to(panel, {
+        flexGrow: isActive ? grow : 1,
+        rotateY: tilt,
+        duration: dur,
+        ease: 'power3.out',
+      });
+
+      // toggle active class for CSS label transitions
+      panel.classList.toggle('active', isActive);
+    });
+  }
+}
+
+/* ─── 2. CARD SWAP (Editorial Board) ────────────────────────────────────── */
+class CardSwap {
+  constructor(selector) {
+    this.root = document.querySelector(selector);
+    if (!this.root) return;
+    this.cards = Array.from(this.root.querySelectorAll('.card-swap-card'));
+    if (!this.cards.length) return;
+
+    this.cardW = 300;
+    this.cardH = 390;
+    this.distX = 55;
+    this.distY = 65;
+    this.skew = 6;
+    this.delay = 4500;
+    this.order = this.cards.map((_, i) => i);
+    this._interval = null;
+
+    if (window.innerWidth > 900) this._boot();
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth <= 900) {
+        clearInterval(this._interval);
+        gsap.set(this.cards, { clearProps: 'all' });
+      } else if (!this._booted) {
+        this._boot();
+      }
+    });
+  }
+
+  _slot(i) {
     return {
-      x: i * this.cardDistance,
-      y: -i * this.verticalDistance,
-      z: -i * this.cardDistance * 1.5,
-      zIndex: this.cards.length - i
+      x: i * this.distX,
+      y: -i * this.distY,
+      z: -i * this.distX * 1.5,
+      zIndex: this.cards.length - i,
     };
   }
 
-  init() {
-    if (window.innerWidth <= 768) return; // Desktop only
-    
+  _boot() {
+    this._booted = true;
+    const n = this.cards.length;
+
     this.cards.forEach((card, i) => {
-      const slot = this.makeSlot(i);
+      const s = this._slot(i);
+      // Give card explicit size so GSAP translate works in absolute-positioned context
       gsap.set(card, {
-        x: slot.x,
-        y: slot.y,
-        z: slot.z,
+        width: this.cardW,
+        height: this.cardH,
+        x: s.x,
+        y: s.y,
+        z: s.z,
         xPercent: -50,
         yPercent: -50,
-        skewY: this.skewAmount,
+        skewY: this.skew,
         transformOrigin: 'center center',
-        zIndex: slot.zIndex,
-        force3D: true
+        zIndex: s.zIndex,
+        force3D: true,
+        position: 'absolute',
       });
     });
 
-    this.startInterval();
+    this._swap();
+    this._interval = setInterval(() => this._swap(), this.delay);
 
-    this.container.addEventListener('mouseenter', () => this.stopInterval());
-    this.container.addEventListener('mouseleave', () => this.startInterval());
-    
-    window.addEventListener('resize', () => {
-        if(window.innerWidth <= 768) {
-            this.stopInterval();
-            gsap.set(this.cards, { clearProps: "all" });
-        } else {
-            this.init();
-        }
+    this.root.addEventListener('mouseenter', () => clearInterval(this._interval));
+    this.root.addEventListener('mouseleave', () => {
+      this._interval = setInterval(() => this._swap(), this.delay);
     });
   }
 
-  startInterval() {
-    if (this.interval) clearInterval(this.interval);
-    this.interval = setInterval(() => this.swap(), this.delay);
-  }
-
-  stopInterval() {
-    if (this.interval) clearInterval(this.interval);
-  }
-
-  swap() {
+  _swap() {
     if (this.order.length < 2) return;
-    const frontIdx = this.order[0];
-    const rest = this.order.slice(1);
-    const elFront = this.cards[frontIdx];
-    
+    const [front, ...rest] = this.order;
+    const elFront = this.cards[front];
     const tl = gsap.timeline();
-    
-    tl.to(elFront, {
-      y: '+=500',
-      duration: 2,
-      ease: 'elastic.out(0.6,0.9)'
-    });
-    
-    tl.addLabel('promote', `-=1.8`);
-    
+
+    // 1. Fling front card down off screen
+    tl.to(elFront, { y: '+=600', duration: 2, ease: 'elastic.out(0.6,0.9)' });
+
+    // 2. Promote remaining cards
+    tl.addLabel('promote', '-=1.75');
     rest.forEach((idx, i) => {
-      const el = this.cards[idx];
-      const slot = this.makeSlot(i);
-      tl.set(el, { zIndex: slot.zIndex }, 'promote');
-      tl.to(el, {
-        x: slot.x,
-        y: slot.y,
-        z: slot.z,
-        duration: 2,
-        ease: 'elastic.out(0.6,0.9)'
-      }, `promote+=${i * 0.15}`);
+      const s = this._slot(i);
+      tl.set(this.cards[idx], { zIndex: s.zIndex }, 'promote');
+      tl.to(this.cards[idx], { x: s.x, y: s.y, z: s.z, duration: 2, ease: 'elastic.out(0.6,0.9)' }, `promote+=${i * 0.12}`);
     });
-    
-    const backSlot = this.makeSlot(this.cards.length - 1);
-    tl.addLabel('return', `promote+=0.4`);
-    tl.call(() => gsap.set(elFront, { zIndex: backSlot.zIndex }), undefined, 'return');
-    
-    tl.to(elFront, {
-      x: backSlot.x,
-      y: backSlot.y,
-      z: backSlot.z,
-      duration: 2,
-      ease: 'elastic.out(0.6,0.9)'
-    }, 'return');
-    
-    tl.call(() => {
-      this.order = [...rest, frontIdx];
-    });
+
+    // 3. Return front card to back slot
+    const back = this._slot(this.cards.length - 1);
+    tl.addLabel('return', 'promote+=0.35');
+    tl.call(() => gsap.set(elFront, { zIndex: back.zIndex }), undefined, 'return');
+    tl.to(elFront, { x: back.x, y: back.y, z: back.z, duration: 2, ease: 'elastic.out(0.6,0.9)' }, 'return');
+    tl.call(() => { this.order = [...rest, front]; });
   }
 }
 
-// Depth Carousel Logic
+/* ─── 3. DEPTH CAROUSEL (Submission Guidelines) ─────────────────────────── */
 class DepthCarousel {
-  constructor(container, options = {}) {
-    this.container = typeof container === 'string' ? document.querySelector(container) : container;
-    if (!this.container) return;
-    
-    this.stage = this.container.querySelector('.depth-carousel__stage');
-    this.cards = Array.from(this.container.querySelectorAll('.depth-carousel__card'));
-    if(this.cards.length === 0) return;
+  constructor(selector) {
+    this.root = document.querySelector(selector);
+    if (!this.root) return;
+    this.cards = Array.from(this.root.querySelectorAll('.depth-carousel__card'));
+    if (!this.cards.length) return;
 
-    this.depth = options.depth || 220;
-    this.spread = options.spread || 90;
-    this.tilt = options.tilt || 22;
-    this.tiltDirection = options.tiltDirection || 'right';
-    this.visibleCards = options.visibleCards || 4;
-    this.falloff = options.falloff || 0.2;
-    
+    // Config
+    this.CARD_W = 340;
+    this.CARD_H = 300;
+    this.DEPTH = 180;
+    this.SPREAD = 110;
+    this.TILT = 20;
+    this.FALLOFF = 0.25;
+    this.VISIBLE = 3;
+
     this.pos = 0;
     this.focus = 0;
-    
-    this.init();
-  }
+    this.n = this.cards.length;
 
-  init() {
-    if (window.innerWidth <= 768) return;
-    
-    this.layout(this.pos);
-    
-    const prevBtn = this.container.querySelector('.depth-carousel__arrow--prev');
-    const nextBtn = this.container.querySelector('.depth-carousel__arrow--next');
-    
-    if(prevBtn) prevBtn.addEventListener('click', () => this.navigateBy(-1));
-    if(nextBtn) nextBtn.addEventListener('click', () => this.navigateBy(1));
-    
-    this.cards.forEach((card, i) => {
-        card.addEventListener('click', () => this.setFocus(i));
-    });
+    this._mobileInit();
 
-    setInterval(() => {
-        if(!this.container.matches(':hover')) {
-            this.navigateBy(1);
-        }
-    }, 4000);
-    
+    if (window.innerWidth > 900) {
+      this._desktopInit();
+    }
+
     window.addEventListener('resize', () => {
-        if(window.innerWidth <= 768) {
-            gsap.set(this.cards, { clearProps: "all" });
-        } else {
-            this.layout(this.pos);
-        }
+      if (window.innerWidth <= 900) {
+        gsap.set(this.cards, { clearProps: 'all' });
+      } else {
+        this._layout(this.pos);
+      }
     });
   }
 
-  navigateBy(step) {
-    this.setFocus(this.focus + step);
+  /* ── DESKTOP ── */
+  _desktopInit() {
+    this._layout(this.pos);
+
+    this.root.querySelector('.depth-carousel__arrow--prev')
+      ?.addEventListener('click', () => this._go(-1));
+    this.root.querySelector('.depth-carousel__arrow--next')
+      ?.addEventListener('click', () => this._go(1));
+
+    this.cards.forEach((c, i) => c.addEventListener('click', () => this._goTo(i)));
+
+    // Autoplay
+    this._autoTimer = setInterval(() => {
+      if (!this.root.matches(':hover')) this._go(1);
+    }, 4000);
   }
 
-  setFocus(targetIndex) {
-    const n = this.cards.length;
-    let delta = targetIndex - this.pos;
+  _go(step) { this._goTo(this.focus + step); }
+
+  _goTo(raw) {
+    const n = this.n;
+    const idx = ((raw % n) + n) % n;
+    let delta = idx - this.pos;
     delta = ((delta % n) + n) % n;
     if (delta > n / 2) delta -= n;
-    
-    const newPos = this.pos + delta;
-    this.focus = ((targetIndex % n) + n) % n;
-    
-    gsap.to(this, {
-        pos: newPos,
-        duration: 0.7,
-        ease: 'power3.out',
-        onUpdate: () => this.layout(this.pos),
-        onComplete: () => {
-            this.pos = ((this.pos % n) + n) % n;
-            this.layout(this.pos);
-        }
+
+    const target = this.pos + delta;
+    this.focus = idx;
+
+    const proxy = { p: this.pos };
+    gsap.to(proxy, {
+      p: target,
+      duration: 0.65,
+      ease: 'power3.out',
+      onUpdate: () => { this.pos = proxy.p; this._layout(this.pos); },
+      onComplete: () => { this.pos = ((proxy.p % n) + n) % n; this._layout(this.pos); },
     });
+
+    // Update mobile dots too
+    this._updateDots(idx);
   }
 
-  layout(pos) {
-    if (window.innerWidth <= 768) return;
-    const n = this.cards.length;
-    const dir = this.tiltDirection === 'left' ? -1 : 1;
-    
+  _layout(pos) {
+    if (window.innerWidth <= 900) return;
+    const n = this.n;
+
     this.cards.forEach((el, i) => {
       let d = i - pos;
       d = ((d % n) + n) % n;
       if (d > n / 2) d -= n;
-      
+
       const back = Math.max(0, d);
-      const az = Math.abs(d);
-      const shown = az <= this.visibleCards + 0.5;
-      
-      const tz = -this.depth * d;
-      const tx = dir * this.spread * d;
-      const ry = dir * this.tilt * Math.max(Math.min(d, 1), 0);
-      
-      let opacity = d < 0 ? Math.max(0, 1 + d) : 1;
-      if (!shown) opacity = 0;
-      
-      const brightness = Math.max(0.15, 1 - back * this.falloff);
+      const shown = Math.abs(d) <= this.VISIBLE + 0.5;
+      const tx = this.SPREAD * d;
+      const tz = -this.DEPTH * d;
+      const ry = this.TILT * Math.min(Math.max(d, 0), 1);
+      const opacity = d < 0 ? Math.max(0, 1 + d) : shown ? 1 : 0;
+      const brightness = Math.max(0.15, 1 - back * this.FALLOFF);
       const zi = Math.round(2000 - d * 20);
-      
+
+      el.style.width = this.CARD_W + 'px';
+      el.style.height = this.CARD_H + 'px';
       el.style.transform = `translate(-50%, -50%) translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg)`;
       el.style.opacity = opacity;
       el.style.filter = `brightness(${brightness})`;
@@ -304,11 +266,61 @@ class DepthCarousel {
       el.style.pointerEvents = shown && opacity > 0.05 ? 'auto' : 'none';
     });
   }
+
+  /* ── MOBILE — touch-swipe scrollable + dot pagination ── */
+  _mobileInit() {
+    // Build dot indicators
+    const dotsWrap = this.root.querySelector('.dc-dots');
+    if (dotsWrap) {
+      this.cards.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'dc-dot' + (i === 0 ? ' is-active' : '');
+        dot.setAttribute('aria-label', `Slide ${i + 1}`);
+        dot.addEventListener('click', () => {
+          this._mobileSlideTo(i);
+          this._updateDots(i);
+          // sync desktop focus too
+          this.focus = i;
+        });
+        dotsWrap.appendChild(dot);
+      });
+      this._dots = Array.from(dotsWrap.querySelectorAll('.dc-dot'));
+    }
+
+    // Wire mobile prev/next if present
+    this.root.querySelector('.depth-carousel__arrow--prev')
+      ?.addEventListener('click', () => {
+        const newIdx = ((this.focus - 1) + this.n) % this.n;
+        this._mobileSlideTo(newIdx);
+        this._updateDots(newIdx);
+        this.focus = newIdx;
+      });
+    this.root.querySelector('.depth-carousel__arrow--next')
+      ?.addEventListener('click', () => {
+        const newIdx = (this.focus + 1) % this.n;
+        this._mobileSlideTo(newIdx);
+        this._updateDots(newIdx);
+        this.focus = newIdx;
+      });
+  }
+
+  _mobileSlideTo(i) {
+    const track = this.root.querySelector('.dc-mobile-track');
+    if (!track) return;
+    const card = track.children[i];
+    if (!card) return;
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
+
+  _updateDots(i) {
+    if (!this._dots) return;
+    this._dots.forEach((d, idx) => d.classList.toggle('is-active', idx === i));
+  }
 }
 
-// Initialize Components on DOM Load
+/* ─── INIT ──────────────────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   new AccordionGallery('#scope-carousel');
-  new CardSwap('.card-swap-container');
-  new DepthCarousel('.depth-carousel');
+  new CardSwap('#card-swap-container');
+  new DepthCarousel('#guidelines-carousel');
 });

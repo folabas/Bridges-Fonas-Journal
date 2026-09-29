@@ -329,10 +329,10 @@
         <span class="section-eyebrow">Editorial Board</span>
         <div class="section-line"></div>
       </div>
-      <div class="card-swap-wrapper anim-card" style="height: 600px; position: relative; width: 100%; max-width: 500px; margin: 0 auto 2rem;">
-        <div class="card-swap-container">
+      <div class="card-swap-wrapper anim-card">
+        <div id="card-swap-container">
           
-          <div class="card card-swap-card">
+          <div class="card-swap-card">
             <img src="Olusola Ladokun.jpeg" alt="Professor Olusola Ladokun">
             <div class="card-swap-overlay">
               <h4>Professor Olusola Ladokun</h4>
@@ -340,7 +340,7 @@
             </div>
           </div>
           
-          <div class="card card-swap-card">
+          <div class="card-swap-card">
             <img src="Wilson Sakpere.jpeg" alt="Dr. Wilson Sakpere">
             <div class="card-swap-overlay">
               <h4>Dr. Wilson Sakpere</h4>
@@ -348,7 +348,7 @@
             </div>
           </div>
 
-          <div class="card card-swap-card">
+          <div class="card-swap-card">
             <img src="Professor Adebo.PNG" alt="Professor Babatunde Adebo">
             <div class="card-swap-overlay">
               <h4>Professor Babatunde Adebo</h4>
@@ -364,48 +364,59 @@
         <span class="section-eyebrow">Submission Guidelines</span>
         <div class="section-line"></div>
       </div>
-      <div class="guidelines-carousel-wrapper" style="margin-bottom: 2rem;">
-        <div class="depth-carousel" id="guidelines-carousel">
+      <div class="guidelines-carousel-wrapper">
+        <div id="guidelines-carousel">
+          <!-- Desktop stage (JS positions these in 3D) -->
           <div class="depth-carousel__stage">
-            <!-- Card 1 -->
-            <div class="depth-carousel__card guideline-card glass-card">
+            <div class="depth-carousel__card guideline-card">
               <div class="guideline-icon green"><i class="fa-solid fa-file-lines"></i></div>
               <h5>Manuscript Requirements</h5>
               <p>Submissions should be original, scientifically sound, and written in clear English. Follow the journal template with abstract, keywords, intro, methodology, results, discussion, and references.</p>
               <span class="depth-carousel__tint"></span>
             </div>
-            <!-- Card 2 -->
-            <div class="depth-carousel__card guideline-card glass-card">
+            <div class="depth-carousel__card guideline-card">
               <div class="guideline-icon blue"><i class="fa-solid fa-magnifying-glass"></i></div>
               <h5>Peer Review Process</h5>
               <p>All manuscripts undergo editorial screening, followed by double-blind peer review by at least two independent reviewers before the editorial decision.</p>
               <span class="depth-carousel__tint"></span>
             </div>
-            <!-- Card 3 -->
-            <div class="depth-carousel__card guideline-card glass-card">
+            <div class="depth-carousel__card guideline-card">
               <div class="guideline-icon magenta"><i class="fa-solid fa-upload"></i></div>
               <h5>Submission Process</h5>
               <p>Submit manuscript in MS Word, cover letter, declaration of originality, ethical approval, and conflict of interest statement through the portal or email.</p>
               <span class="depth-carousel__tint"></span>
             </div>
           </div>
-          
+
+          <!-- Desktop arrows -->
           <button type="button" class="depth-carousel__arrow depth-carousel__arrow--prev" aria-label="Previous">
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-              <path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
           <button type="button" class="depth-carousel__arrow depth-carousel__arrow--next" aria-label="Next">
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-              <path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
-        </div>
-        <div class="carousel-pagination" id="guidelines-pagination" style="display: flex; justify-content: center; gap: 8px; margin-top: 16px;">
-          <!-- Dots will be populated by JS if needed, or static here -->
-          <div class="page-dot active" data-index="0"></div>
-          <div class="page-dot" data-index="1"></div>
-          <div class="page-dot" data-index="2"></div>
+
+          <!-- Mobile scroll track (hidden on desktop via CSS) -->
+          <div class="dc-mobile-track">
+            <div class="depth-carousel__card guideline-card">
+              <div class="guideline-icon green"><i class="fa-solid fa-file-lines"></i></div>
+              <h5>Manuscript Requirements</h5>
+              <p>Submissions should be original, scientifically sound, and written in clear English. Follow the journal template with abstract, keywords, intro, methodology, results, discussion, and references.</p>
+            </div>
+            <div class="depth-carousel__card guideline-card">
+              <div class="guideline-icon blue"><i class="fa-solid fa-magnifying-glass"></i></div>
+              <h5>Peer Review Process</h5>
+              <p>All manuscripts undergo editorial screening, followed by double-blind peer review by at least two independent reviewers before the editorial decision.</p>
+            </div>
+            <div class="depth-carousel__card guideline-card">
+              <div class="guideline-icon magenta"><i class="fa-solid fa-upload"></i></div>
+              <h5>Submission Process</h5>
+              <p>Submit manuscript in MS Word, cover letter, declaration of originality, ethical approval, and conflict of interest statement through the portal or email.</p>
+            </div>
+          </div>
+
+          <!-- Mobile dot pagination (JS populates) -->
+          <div class="dc-dots"></div>
         </div>
       </div>
 

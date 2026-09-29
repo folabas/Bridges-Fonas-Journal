@@ -1,18 +1,52 @@
-/* ==========================================================================
-   React Bits Natively Translated Components
-   ========================================================================== */
+/* =========================================================================
+   BIJST Components — CSS
+   Accordion Gallery · Card Swap · Depth Carousel
+   ========================================================================= */
 
-/* --------------------------------------------------------------------------
-   Accordion Gallery (Our Research Scope)
-   -------------------------------------------------------------------------- */
-@media (min-width: 769px) {
+/* ─── Desktop: hide mobile-only track; Mobile: hide desktop stage & arrows ─── */
+@media (min-width: 901px) {
+  .dc-mobile-track { display: none !important; }
+  .dc-dots          { display: none !important; }
+}
+@media (max-width: 900px) {
+  #guidelines-carousel .depth-carousel__stage { display: none !important; }
+  #guidelines-carousel .depth-carousel__arrow { display: none; }
+}
+
+/* ─── RESET old conflicting desktop scope-grid overrides ─── */
+@media (min-width: 900px) {
+  /* Prevent the Bento grid from overriding the accordion flex */
+  .scope-grid-main.accordion-gallery {
+    display: flex !important;
+    grid-template-columns: none !important;
+    grid-auto-rows: unset !important;
+  }
+  .scope-grid-main.accordion-gallery .scope-card {
+    position: relative !important;
+    top: auto !important;
+    z-index: auto !important;
+    grid-column: unset !important;
+    grid-row: unset !important;
+    flex-grow: 1;
+    padding: 0 !important;
+  }
+  .scope-card-icon {
+    background: none !important;
+    border: none !important;
+    backdrop-filter: none !important;
+  }
+}
+
+/* =========================================================================
+   1. ACCORDION GALLERY — Desktop
+   ========================================================================= */
+@media (min-width: 901px) {
   .accordion-gallery {
     display: flex;
     flex-direction: row;
     gap: 10px;
     width: 100%;
-    max-width: 100%;
-    height: 460px;
+    height: 480px;
     perspective: 1400px;
     perspective-origin: 50% 50%;
   }
@@ -20,24 +54,16 @@
   .ag-panel {
     position: relative;
     flex: 1 1 0;
-    min-width: 0;
-    min-height: 0;
+    min-width: 48px;
     overflow: hidden;
-    border-radius: 16px;
+    border-radius: 18px;
     cursor: pointer;
-    display: block;
-    text-decoration: none;
     outline: none;
     transform-style: preserve-3d;
     transform-origin: center center;
-    background: var(--surface-light);
-    box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.8);
     will-change: flex-grow, transform;
-    border: none;
-  }
-
-  .ag-panel:focus-visible {
-    box-shadow: 0 0 0 2px var(--blue), 0 10px 30px -18px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 12px 36px -16px rgba(0,0,0,0.5);
+    transition: box-shadow 0.3s;
   }
 
   .ag-panel__frame {
@@ -47,19 +73,20 @@
     border-radius: inherit;
   }
 
+  /* Image zooms into the expanded panel */
   .ag-panel__media {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 150%;
-    height: 100%;
+    width: 160%;
+    height: 110%;
     transform: translate(-50%, -50%);
-    transition: filter 0.6s ease;
-    filter: grayscale(1);
+    transition: filter 0.55s ease, transform 0.55s ease;
+    filter: grayscale(0.85) brightness(0.7);
   }
-  
   .ag-panel.active .ag-panel__media {
-    filter: grayscale(0);
+    filter: grayscale(0) brightness(1);
+    transform: translate(-50%, -50%) scale(1.04);
   }
 
   .ag-panel__media img {
@@ -67,79 +94,54 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    user-select: none;
+    pointer-events: none;
     -webkit-user-drag: none;
   }
 
+  /* Gradient overlay */
   .ag-panel__overlay {
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background: linear-gradient(180deg, transparent 20%, rgba(6, 0, 16, 0.95) 100%);
-    transition: background 0.6s ease;
+    background: linear-gradient(180deg, rgba(0,0,0,0.05) 30%, rgba(0,0,10,0.92) 100%);
+    transition: opacity 0.55s ease;
   }
-  
   .ag-panel:not(.active) .ag-panel__overlay {
-    background: rgba(6, 0, 16, 0.7);
+    background: rgba(6, 0, 16, 0.65);
   }
 
+  /* Label at bottom */
   .ag-panel__label {
     position: absolute;
-    left: 20px;
-    bottom: 20px;
-    right: 20px;
+    left: 24px;
+    bottom: 24px;
+    right: 24px;
     display: flex;
     align-items: flex-end;
-    gap: 12px;
-    pointer-events: none;
+    gap: 14px;
     z-index: 2;
+    pointer-events: none;
   }
 
+  /* Accent bar */
   .ag-panel__bar {
-    flex: 0 0 auto;
+    flex: 0 0 3px;
     width: 3px;
-    height: 36px;
+    min-height: 34px;
     border-radius: 3px;
-    background: var(--blue);
+    background: var(--blue, #2563eb);
     opacity: 0;
-    transform: translateX(-14px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-    box-shadow: 0 0 12px rgba(var(--blue-rgb), 0.6);
+    transform: translateX(-12px);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    box-shadow: 0 0 14px rgba(37,99,235,0.7);
+    align-self: stretch;
   }
 
   .ag-panel__text {
-    color: #ffffff;
-    font-family: inherit;
-    font-weight: 500;
     opacity: 0;
-    transform: translateX(-14px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-    transition-delay: 0.06s;
-    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
-  }
-  
-  .ag-panel__text h3 {
-    color: #fff;
-    margin-bottom: 8px;
-    font-size: 1.4rem;
-  }
-  
-  .ag-panel__text p {
-    color: rgba(255,255,255,0.8);
-    font-size: 0.9rem;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  
-  .ag-panel__text .scope-card-icon {
-    margin-bottom: 12px;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(4px);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: #fff;
+    transform: translateX(-12px);
+    transition: opacity 0.45s ease 0.06s, transform 0.45s ease 0.06s;
+    min-width: 0;
   }
 
   .ag-panel.active .ag-panel__bar,
@@ -147,173 +149,300 @@
     opacity: 1;
     transform: translateX(0);
   }
+
+  /* Text inside label */
+  .ag-panel__text .scope-card-icon {
+    margin-bottom: 10px;
+    font-size: 28px;
+    color: rgba(255,255,255,0.9);
+  }
+  .ag-panel__text h3 {
+    color: #fff;
+    font-size: 1.35rem;
+    margin: 0 0 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ag-panel__text p {
+    color: rgba(255,255,255,0.75);
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }
 
-/* --------------------------------------------------------------------------
-   Card Swap (Editorial Board)
-   -------------------------------------------------------------------------- */
-@media (min-width: 769px) {
-  .card-swap-wrapper {
-    display: block;
+/* ─── Accordion Gallery — Mobile: horizontal scroll stack ─── */
+@media (max-width: 900px) {
+  .scope-grid-main.accordion-gallery {
+    display: flex !important;
+    flex-direction: column;
+    gap: 16px;
+    height: auto !important;
+    perspective: none !important;
   }
-  .card-swap-container {
+  .ag-panel {
+    position: relative !important;
+    border-radius: 18px;
+    overflow: hidden;
+    min-height: 200px;
+    flex: none !important;
+    transform: none !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    cursor: pointer;
+  }
+  .ag-panel__frame { position: absolute; inset: 0; }
+  .ag-panel__media {
     position: absolute;
-    bottom: 0;
-    right: 0;
-    transform: translate(-10%, -10%);
-    transform-origin: bottom right;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform: none !important;
+    filter: brightness(0.7);
+  }
+  .ag-panel__media img { width: 100%; height: 100%; object-fit: cover; }
+  .ag-panel__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 30%, rgba(0,0,10,0.9) 100%);
+  }
+  .ag-panel__label {
+    position: absolute;
+    left: 20px;
+    bottom: 16px;
+    right: 20px;
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .ag-panel__bar {
+    opacity: 1 !important;
+    transform: none !important;
+    width: 3px;
+    min-height: 28px;
+    background: var(--blue, #2563eb);
+    border-radius: 3px;
+    flex: 0 0 3px;
+    align-self: stretch;
+  }
+  .ag-panel__text {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .ag-panel__text .scope-card-icon { font-size: 22px; color: #fff; margin-bottom: 6px; }
+  .ag-panel__text h3 { color: #fff; font-size: 1.1rem; margin: 0 0 4px; }
+  .ag-panel__text p { color: rgba(255,255,255,0.75); font-size: 0.82rem; margin: 0; }
+}
+
+
+/* =========================================================================
+   2. CARD SWAP — Editorial Board
+   ========================================================================= */
+
+/* Desktop: 3D card stack container */
+@media (min-width: 901px) {
+  .card-swap-wrapper {
+    position: relative;
+    height: 520px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2.5rem;
     perspective: 900px;
     overflow: visible;
   }
 
+  #card-swap-container {
+    position: relative;
+    width: 300px;
+    height: 390px;
+    transform-style: preserve-3d;
+    /* GSAP will absolutely position cards inside here */
+  }
+
   .card-swap-card {
     position: absolute;
     top: 50%;
     left: 50%;
-    border-radius: 16px;
-    border: 1px solid rgba(255,255,255,0.1);
-    background: #000;
+    border-radius: 18px;
+    overflow: hidden;
+    background: #111;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.45);
     transform-style: preserve-3d;
     will-change: transform;
     backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    overflow: hidden;
-    width: 320px;
-    height: 400px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
   }
-  
+
   .card-swap-card img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+    pointer-events: none;
     transition: transform 0.5s ease;
   }
-}
 
-/* Common Card Swap / Editors Mobile styles */
-.card-swap-card {
-  position: relative;
-  overflow: hidden;
-  border-radius: 16px;
-  background: var(--surface-light);
-  border: 1px solid var(--border);
-}
-
-.card-swap-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.5s ease;
-}
-
-@media (max-width: 768px) {
-  .card-swap-wrapper {
-    height: auto !important;
-  }
-  .card-swap-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    position: relative;
-    transform: none;
-  }
-  .card-swap-card {
-    width: 100%;
-    height: 300px;
+  .card-swap-card:hover img {
+    transform: scale(1.06);
   }
 }
 
+/* Hover overlay — name & title slide up */
 .card-swap-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+  z-index: 2;
+  background: linear-gradient(0deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.15) 55%, transparent 100%);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 24px;
+  padding: 28px 24px;
   opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.4s ease;
+  transform: translateY(14px);
+  transition: opacity 0.38s ease, transform 0.38s ease;
   pointer-events: none;
 }
-
 .card-swap-card:hover .card-swap-overlay {
   opacity: 1;
   transform: translateY(0);
 }
-
-.card-swap-card:hover img {
-  transform: scale(1.05);
-}
-
 .card-swap-overlay h4 {
   color: #fff;
-  font-size: 1.4rem;
-  margin-bottom: 4px;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 0 0 5px;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.5);
 }
-
 .card-swap-overlay p {
-  color: var(--blue-light);
+  color: var(--blue-light, #60a5fa);
   font-weight: 600;
+  font-size: 0.95rem;
   margin: 0;
-  font-size: 1rem;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+
+/* Mobile: scroll-snap horizontal strip */
+@media (max-width: 900px) {
+  .card-swap-wrapper {
+    height: auto !important;
+    overflow: visible;
+    margin-bottom: 2rem;
+  }
+
+  #card-swap-container {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 8px 4px 20px;
+    scrollbar-width: none;
+    width: 100%;
+    position: relative;
+    top: auto;
+    left: auto;
+    perspective: none;
+  }
+  #card-swap-container::-webkit-scrollbar { display: none; }
+
+  .card-swap-card {
+    flex: 0 0 82vw;
+    max-width: 320px;
+    height: 340px;
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    will-change: auto;
+    scroll-snap-align: center;
+    background: #111;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  }
+
+  .card-swap-card img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Show overlay always on mobile (no hover) */
+  .card-swap-overlay {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
 }
 
 
-/* --------------------------------------------------------------------------
-   Depth Carousel (Submission Guidelines)
-   -------------------------------------------------------------------------- */
-@media (min-width: 769px) {
-  .depth-carousel {
+/* =========================================================================
+   3. DEPTH CAROUSEL — Submission Guidelines
+   ========================================================================= */
+
+/* Desktop */
+@media (min-width: 901px) {
+  .guidelines-carousel-wrapper {
+    overflow: visible;
+    position: relative;
+    margin-bottom: 2.5rem;
+  }
+
+  #guidelines-carousel {
     position: relative;
     width: 100%;
-    height: 400px;
+    height: 340px;
     display: flex;
     align-items: center;
     justify-content: center;
+    perspective: 1200px;
     perspective-origin: 50% 50%;
-    touch-action: pan-y;
-    outline: none;
     user-select: none;
-    -webkit-user-select: none;
+    overflow: visible;
   }
 
-  .depth-carousel__stage {
+  #guidelines-carousel .depth-carousel__stage {
     position: absolute;
     inset: 0;
     transform-style: preserve-3d;
   }
 
-  .depth-carousel__card {
+  #guidelines-carousel .depth-carousel__card {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform-origin: center center;
-    overflow: hidden;
-    background: var(--surface);
-    box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.65), 0 8px 20px -10px rgba(0, 0, 0, 0.5);
+    border-radius: 18px;
+    overflow: visible;
     will-change: transform, opacity, filter;
     cursor: pointer;
-    border: 1px solid var(--border);
-    padding: 32px;
+    padding: 36px 32px;
     display: flex;
     flex-direction: column;
+    background: var(--surface, #fff);
+    border: 1px solid var(--border, rgba(0,0,0,0.08));
+    box-shadow: 0 20px 50px rgba(0,0,0,0.14);
+    transition: box-shadow 0.3s;
+  }
+  #guidelines-carousel .depth-carousel__card:hover {
+    box-shadow: 0 28px 64px rgba(0,0,0,0.2);
   }
 
-  .depth-carousel__tint {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    pointer-events: none;
-    mix-blend-mode: multiply;
-    transition: opacity 0.3s;
+  #guidelines-carousel .depth-carousel__tint {
+    display: none;
   }
 
-  .depth-carousel__arrow {
+  #guidelines-carousel .depth-carousel__arrow {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -322,46 +451,170 @@
     height: 42px;
     display: grid;
     place-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 999px;
-    background: rgba(18, 20, 26, 0.55);
-    backdrop-filter: blur(8px);
-    color: #fff;
+    border: 1px solid var(--border, rgba(0,0,0,0.12));
+    border-radius: 50%;
+    background: var(--surface, #fff);
+    color: var(--text, #111);
     cursor: pointer;
-    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  }
+  #guidelines-carousel .depth-carousel__arrow:hover {
+    background: var(--blue, #2563eb);
+    color: #fff;
+    box-shadow: 0 6px 24px rgba(37,99,235,0.35);
+  }
+  #guidelines-carousel .depth-carousel__arrow:active {
+    transform: translateY(-50%) scale(0.92);
+  }
+  #guidelines-carousel .depth-carousel__arrow--prev { left: -24px; }
+  #guidelines-carousel .depth-carousel__arrow--next { right: -24px; }
+}
+
+/* Card content styling (shared) */
+.guideline-card .guideline-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+.guideline-card .guideline-icon.green { background: rgba(16,185,129,0.12); color: #10b981; }
+.guideline-card .guideline-icon.blue  { background: rgba(37,99,235,0.12);  color: #2563eb; }
+.guideline-card .guideline-icon.magenta { background: rgba(236,72,153,0.12); color: #ec4899; }
+.guideline-card h5 { font-size: 1.15rem; font-weight: 700; margin: 0 0 12px; }
+.guideline-card p  { font-size: 0.9rem; line-height: 1.6; margin: 0; color: var(--text-muted, #666); }
+
+/* Mobile: snap scroll + dot pagination */
+@media (max-width: 900px) {
+  .guidelines-carousel-wrapper {
+    overflow: visible;
+    margin-bottom: 1.5rem;
   }
 
-  .depth-carousel__arrow:hover {
-    background: rgba(28, 31, 40, 0.85);
-    border-color: rgba(255, 255, 255, 0.4);
+  #guidelines-carousel {
+    display: block !important;
+    height: auto !important;
+    perspective: none !important;
+    overflow: visible;
   }
 
-  .depth-carousel__arrow:active {
-    transform: translateY(-50%) scale(0.94);
+  #guidelines-carousel .depth-carousel__stage {
+    position: relative !important;
+    inset: auto;
+    transform-style: flat;
+    display: block;
   }
 
-  .depth-carousel__arrow--prev {
-    left: 16px;
+  /* Mobile track — horizontal scroll snap */
+  .dc-mobile-track {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 8px 4px 12px;
+    scrollbar-width: none;
+  }
+  .dc-mobile-track::-webkit-scrollbar { display: none; }
+
+  #guidelines-carousel .depth-carousel__card {
+    flex: 0 0 84vw;
+    max-width: 340px;
+    height: auto !important;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    pointer-events: auto !important;
+    border-radius: 18px;
+    padding: 28px 24px;
+    background: var(--surface, #fff);
+    border: 1px solid var(--border, rgba(0,0,0,0.08));
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    scroll-snap-align: center;
+    display: flex;
+    flex-direction: column;
   }
 
-  .depth-carousel__arrow--next {
-    right: 16px;
+  #guidelines-carousel .depth-carousel__arrow {
+    display: none;
   }
 }
 
-@media (max-width: 768px) {
-  .depth-carousel {
+/* Dot pagination (mobile) */
+.dc-dots {
+  display: none;
+}
+@media (max-width: 900px) {
+  .dc-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 8px 12px;
+  }
+}
+.dc-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: var(--border, rgba(0,0,0,0.2));
+  cursor: pointer;
+  padding: 0;
+  transition: width 0.25s ease, background 0.25s ease;
+}
+.dc-dot.is-active {
+  width: 22px;
+  border-radius: 4px;
+  background: var(--blue, #2563eb);
+}
+
+/* Mobile arrow buttons for depth carousel */
+@media (max-width: 900px) {
+  .dc-mobile-nav {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .dc-mobile-nav .depth-carousel__arrow {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  .depth-carousel__card {
     position: relative;
-    width: 100% !important;
-    height: auto !important;
-    padding: 24px;
+    top: auto;
+    transform: none !important;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   }
-  .depth-carousel__arrow {
-    display: none;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Fix: mobile footer padding bleed
+   ────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  footer,
+  .footer-inner {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    box-sizing: border-box;
+  }
+  .footer-large-name {
+    overflow: hidden;
+    width: 100%;
   }
 }
