@@ -297,9 +297,9 @@ class DepthCarousel {
       const brightness = Math.max(0.15, 1 - back * this.falloff);
       const zi = Math.round(2000 - d * 20);
       
-      el.style.transform = \`translate(-50%, -50%) translateX(\${tx}px) translateZ(\${tz}px) rotateY(\${ry}deg)\`;
+      el.style.transform = `translate(-50%, -50%) translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg)`;
       el.style.opacity = opacity;
-      el.style.filter = \`brightness(\${brightness})\`;
+      el.style.filter = `brightness(${brightness})`;
       el.style.zIndex = zi;
       el.style.pointerEvents = shown && opacity > 0.05 ? 'auto' : 'none';
     });
