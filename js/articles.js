@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       articlesGrid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; padding: 40px; color: var(--text-muted);">Loading articles...</div>';
       
-      let url = `/api/articles?page=${currentPage}&limit=${limit}`;
+      let url = `https://bridges-journal.onrender.com/api/articles?page=${currentPage}&limit=${limit}`;
       if (currentSearch) url += `&search=${encodeURIComponent(currentSearch)}`;
       if (currentYear) url += `&year=${currentYear}`;
 
