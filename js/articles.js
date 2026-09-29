@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!articles || articles.length === 0) {
       articlesGrid.innerHTML = `
         <div class="empty-state">
-          <img src="empty_illustration.jpg" alt="Empty Folder">
+          <i class="fa-solid fa-folder-open" style="font-size: 64px; color: var(--text-muted); margin-bottom: 24px;"></i>
           <h3>No Articles Found</h3>
           <p>We couldn't find any articles matching your search criteria. Try adjusting your filters.</p>
         </div>
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderFallback() {
     articlesGrid.innerHTML = `
       <div class="empty-state">
-        <img src="error_illustration.jpg" alt="Server Error">
+        <i class="fa-solid fa-server" style="font-size: 64px; color: var(--danger); margin-bottom: 24px;"></i>
         <h3>Server Connection Error</h3>
         <p>We are currently unable to reach the database. Please check your connection or try again later.</p>
       </div>
