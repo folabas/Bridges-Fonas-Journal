@@ -1236,12 +1236,12 @@ a {
   #guidelines-pagination {
     display: flex !important;
   }
-  /* SCROLL STACK LOGIC (Removed for guidelines) */
+  /* SCROLL STACK LOGIC */
   .scroll-stack-container {
-    display: flex;
+    display: flex !important;
     flex-direction: column;
     position: relative;
-    gap: 0 !important;
+    gap: 24px !important;
   }
   .scroll-stack-card {
     position: sticky;

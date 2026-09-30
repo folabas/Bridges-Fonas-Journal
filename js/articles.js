@@ -9,19 +9,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!grid) return;
 
-  // Grid layout
-  Object.assign(grid.style, {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-    gap: '24px',
-  });
-
   const isMobile   = window.innerWidth <= 768;
-  const LIMIT      = isMobile ? 5 : 12;
+  const LIMIT      = isMobile ? 3 : 6;
   let page         = 1;
   let search       = '';
   let year         = '';
   let category     = '';
+  
+  // Set layout
+  if (!isMobile) {
+    Object.assign(grid.style, {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+      gap: '24px',
+    });
+  }
 
   // ── Skeletons ──────────────────────────────────────────────────────────────
   function showSkeletons() {
@@ -74,9 +76,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     grid.innerHTML = '';
-    articles.forEach(a => {
+    articles.forEach((a, i) => {
       const card = document.createElement('article');
-      card.className = 'ac-card';
+      card.className = 'ac-card scroll-stack-card';
+      
+      if (isMobile) {
+        card.style.setProperty('--mobile-top', `calc(7rem + ${i * 1.5}rem)`);
+        card.style.setProperty('--mobile-z', 10 + i);
+        card.style.setProperty('--mobile-mt', i === 0 ? '0' : '2.5rem');
+      }
+
       card.innerHTML = `
         <div class="ac-thumb" style="${a.thumbnailUrl ? `background-image:url('${a.thumbnailUrl}')` : ''}">
           ${!a.thumbnailUrl ? '<i class="fa-solid fa-file-pdf ac-thumb-icon"></i>' : ''}
