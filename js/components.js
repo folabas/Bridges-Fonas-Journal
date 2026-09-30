@@ -161,153 +161,54 @@ class CardSwap {
   }
 }
 
-/* ─── 3. DEPTH CAROUSEL (Submission Guidelines) ─────────────────────────── */
+/* ─── 3. DEPTH CAROUSEL (Mobile Snap Track only) ─────────────────────────── */
 class DepthCarousel {
   constructor(selector) {
     this.root = document.querySelector(selector);
     if (!this.root) return;
-    this.cards = Array.from(this.root.querySelectorAll('.depth-carousel__card'));
+    
+    this.track = this.root.querySelector('.dc-mobile-track');
+    if (!this.track) return;
+    
+    this.cards = Array.from(this.track.children);
     if (!this.cards.length) return;
-
-    // Config
-    this.CARD_W = 340;
-    this.CARD_H = 300;
-    this.DEPTH = 180;
-    this.SPREAD = 110;
-    this.TILT = 20;
-    this.FALLOFF = 0.25;
-    this.VISIBLE = 3;
-
-    this.pos = 0;
-    this.focus = 0;
+    
     this.n = this.cards.length;
-
     this._mobileInit();
-
-    if (window.innerWidth > 900) {
-      this._desktopInit();
-    }
-
-    window.addEventListener('resize', () => {
-      if (window.innerWidth <= 900) {
-        gsap.set(this.cards, { clearProps: 'all' });
-      } else {
-        this._layout(this.pos);
-      }
-    });
   }
 
-  /* ── DESKTOP ── */
-  _desktopInit() {
-    this._layout(this.pos);
-
-    this.root.querySelector('.depth-carousel__arrow--prev')
-      ?.addEventListener('click', () => this._go(-1));
-    this.root.querySelector('.depth-carousel__arrow--next')
-      ?.addEventListener('click', () => this._go(1));
-
-    this.cards.forEach((c, i) => c.addEventListener('click', () => this._goTo(i)));
-
-    // Autoplay
-    this._autoTimer = setInterval(() => {
-      if (!this.root.matches(':hover')) this._go(1);
-    }, 4000);
-  }
-
-  _go(step) { this._goTo(this.focus + step); }
-
-  _goTo(raw) {
-    const n = this.n;
-    const idx = ((raw % n) + n) % n;
-    let delta = idx - this.pos;
-    delta = ((delta % n) + n) % n;
-    if (delta > n / 2) delta -= n;
-
-    const target = this.pos + delta;
-    this.focus = idx;
-
-    const proxy = { p: this.pos };
-    gsap.to(proxy, {
-      p: target,
-      duration: 0.65,
-      ease: 'power3.out',
-      onUpdate: () => { this.pos = proxy.p; this._layout(this.pos); },
-      onComplete: () => { this.pos = ((proxy.p % n) + n) % n; this._layout(this.pos); },
-    });
-
-    // Update mobile dots too
-    this._updateDots(idx);
-  }
-
-  _layout(pos) {
-    if (window.innerWidth <= 900) return;
-    const n = this.n;
-
-    this.cards.forEach((el, i) => {
-      let d = i - pos;
-      d = ((d % n) + n) % n;
-      if (d > n / 2) d -= n;
-
-      const back = Math.max(0, d);
-      const shown = Math.abs(d) <= this.VISIBLE + 0.5;
-      const tx = this.SPREAD * d;
-      const tz = -this.DEPTH * d;
-      const ry = this.TILT * Math.min(Math.max(d, 0), 1);
-      const opacity = d < 0 ? Math.max(0, 1 + d) : shown ? 1 : 0;
-      const brightness = Math.max(0.15, 1 - back * this.FALLOFF);
-      const zi = Math.round(2000 - d * 20);
-
-      el.style.width = this.CARD_W + 'px';
-      el.style.height = this.CARD_H + 'px';
-      el.style.transform = `translate(-50%, -50%) translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg)`;
-      el.style.opacity = opacity;
-      el.style.filter = `brightness(${brightness})`;
-      el.style.zIndex = zi;
-      el.style.pointerEvents = shown && opacity > 0.05 ? 'auto' : 'none';
-    });
-  }
-
-  /* ── MOBILE — touch-swipe scrollable + dot pagination ── */
   _mobileInit() {
-    // Build dot indicators
     const dotsWrap = this.root.querySelector('.dc-dots');
-    if (dotsWrap) {
-      this.cards.forEach((_, i) => {
-        const dot = document.createElement('button');
-        dot.className = 'dc-dot' + (i === 0 ? ' is-active' : '');
-        dot.setAttribute('aria-label', `Slide ${i + 1}`);
-        dot.addEventListener('click', () => {
-          this._mobileSlideTo(i);
-          this._updateDots(i);
-          // sync desktop focus too
-          this.focus = i;
-        });
-        dotsWrap.appendChild(dot);
-      });
-      this._dots = Array.from(dotsWrap.querySelectorAll('.dc-dot'));
+    if (!dotsWrap) return;
+
+    this._dots = [];
+    for (let i = 0; i < this.n; i++) {
+      const d = document.createElement('div');
+      d.className = 'dc-dot' + (i === 0 ? ' is-active' : '');
+      d.addEventListener('click', () => this._goToCard(i));
+      this._dots.push(d);
+      dotsWrap.appendChild(d);
     }
 
-    // Wire mobile prev/next if present
-    this.root.querySelector('.depth-carousel__arrow--prev')
-      ?.addEventListener('click', () => {
-        const newIdx = ((this.focus - 1) + this.n) % this.n;
-        this._mobileSlideTo(newIdx);
-        this._updateDots(newIdx);
-        this.focus = newIdx;
-      });
-    this.root.querySelector('.depth-carousel__arrow--next')
-      ?.addEventListener('click', () => {
-        const newIdx = (this.focus + 1) % this.n;
-        this._mobileSlideTo(newIdx);
-        this._updateDots(newIdx);
-        this.focus = newIdx;
-      });
+    let isScrolling;
+    this.track.addEventListener('scroll', () => {
+      window.clearTimeout(isScrolling);
+      isScrolling = setTimeout(() => {
+        const center = this.track.scrollLeft + this.track.clientWidth / 2;
+        let closest = 0;
+        let minDiff = Infinity;
+        this.cards.forEach((c, i) => {
+          const cCenter = c.offsetLeft + c.clientWidth / 2;
+          const diff = Math.abs(cCenter - center);
+          if (diff < minDiff) { minDiff = diff; closest = i; }
+        });
+        this._updateDots(closest);
+      }, 50);
+    }, { passive: true });
   }
 
-  _mobileSlideTo(i) {
-    const track = this.root.querySelector('.dc-mobile-track');
-    if (!track) return;
-    const card = track.children[i];
+  _goToCard(i) {
+    const card = this.cards[i];
     if (!card) return;
     card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
   }
