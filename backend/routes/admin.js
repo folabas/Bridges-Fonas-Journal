@@ -104,6 +104,19 @@ router.get('/stats', auth, async (req, res) => {
 });
 
 // ────────────────────────────────────────────────────────────────────────────
+// GET /api/admin/articles
+// ────────────────────────────────────────────────────────────────────────────
+router.get('/articles', auth, async (req, res) => {
+  try {
+    const articles = await Article.find().sort({ createdAt: -1 });
+    res.json(articles);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ msg: 'Server Error' });
+  }
+});
+
+// ────────────────────────────────────────────────────────────────────────────
 // POST /api/admin/articles  (create)
 // ────────────────────────────────────────────────────────────────────────────
 router.post('/articles', auth, upload.single('pdf'), async (req, res) => {
