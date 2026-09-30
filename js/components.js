@@ -73,8 +73,8 @@ class CardSwap {
     this.cards = Array.from(this.root.querySelectorAll('.card-swap-card'));
     if (!this.cards.length) return;
 
-    this.cardW = 300;
-    this.cardH = 390;
+    this.cardW = 420;
+    this.cardH = 540;
     this.distX = 55;
     this.distY = 65;
     this.skew = 6;
@@ -319,8 +319,44 @@ class DepthCarousel {
 }
 
 /* ─── INIT ──────────────────────────────────────────────────────────────── */
+
+/* ─── 4. GUIDELINES ACCORDION (Desktop hover-expand) ──────────────────── */
+class GuidelinesAccordion {
+  constructor(selector) {
+    this.root = document.querySelector(selector);
+    if (!this.root || window.innerWidth <= 900) return;
+    this.cards = Array.from(this.root.querySelectorAll('.depth-carousel__stage .depth-carousel__card'));
+    if (!this.cards.length) return;
+    this._init();
+    window.addEventListener('resize', () => {
+      if (window.innerWidth <= 900) {
+        this.cards.forEach(c => { c.classList.remove('gc-active'); c.style.flexGrow = ''; });
+      } else {
+        this._apply(0);
+      }
+    });
+  }
+
+  _init() {
+    this._apply(0);
+    this.cards.forEach((card, i) => {
+      card.addEventListener('mouseenter', () => this._apply(i));
+    });
+    this.root.addEventListener('mouseleave', () => this._apply(0));
+  }
+
+  _apply(activeIdx) {
+    if (window.innerWidth <= 900) return;
+    this.cards.forEach((card, i) => {
+      card.classList.toggle('gc-active', i === activeIdx);
+      gsap.to(card, { flexGrow: i === activeIdx ? 2.5 : 1, duration: 0.5, ease: 'power3.out' });
+    });
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   new AccordionGallery('#scope-carousel');
   new CardSwap('#card-swap-container');
   new DepthCarousel('#guidelines-carousel');
+  new GuidelinesAccordion('#guidelines-carousel');
 });
