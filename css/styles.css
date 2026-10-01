@@ -1244,7 +1244,7 @@ a {
     gap: 24px !important;
   }
   .scroll-stack-card {
-    position: sticky;
+    position: sticky !important;
     top: var(--mobile-top, 7rem);
     z-index: var(--mobile-z, 10);
     margin-top: var(--mobile-mt, 2.5rem);
