@@ -43,6 +43,14 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 // @route   POST /api/articles/:id/download  (public — increments counter)
 router.post('/:id/download', async (req, res) => {
   try {
@@ -52,8 +60,46 @@ router.post('/:id/download', async (req, res) => {
       { new: true }
     );
     if (!article) return res.status(404).json({ msg: 'Not found' });
-    res.json({ pdfUrl: article.pdfUrl, downloads: article.downloads });
+
+    let finalUrl = article.pdfUrl;
+
+    if (article.pdfUrl && article.pdfUrl.includes('cloudinary.com')) {
+      // Determine if it was uploaded as raw or image
+      const isRaw = article.pdfUrl.includes('/raw/upload/');
+      
+      // Extract the public_id from the URL if pdfPublicId is not reliably set
+      let publicId = article.pdfPublicId;
+      if (!publicId) {
+        const parts = article.pdfUrl.split('/upload/');
+        if (parts.length === 2) {
+          // Remove version string (e.g. v1790766512/)
+          publicId = parts[1].replace(/^v\d+\//, '');
+          // For images, format is separate. For raw, extension is part of public_id.
+          if (!isRaw) {
+             publicId = publicId.replace(/\.pdf$/, '');
+          }
+        }
+      } else {
+         // If pdfPublicId was saved from multer, it might not have the extension for images, but for raw it usually does.
+         if (isRaw && !publicId.endsWith('.pdf')) {
+            publicId += '.pdf';
+         }
+      }
+
+      if (publicId) {
+        finalUrl = cloudinary.url(publicId, {
+          resource_type: isRaw ? 'raw' : 'image',
+          type: 'upload',
+          format: isRaw ? '' : 'pdf', 
+          flags: 'attachment',
+          sign_url: true,
+        });
+      }
+    }
+
+    res.json({ pdfUrl: finalUrl, downloads: article.downloads });
   } catch (err) {
+    console.error('Download Error:', err);
     res.status(500).json({ msg: 'Server Error' });
   }
 });
