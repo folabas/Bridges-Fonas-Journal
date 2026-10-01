@@ -1302,27 +1302,52 @@ a {
     font-size: 1.8rem;
   }
 
-  /* Mobile Call for Papers - Scroll Stack */
-  .bento-grid, .bento-grid-2 {
+  /* Mobile Call for Papers + Editorial Board - Scroll Stack */
+  .bento-grid, .bento-grid-2, .bento-grid-3 {
     display: flex;
     flex-direction: column;
     position: relative;
-    gap: 16px;
-    padding-bottom: 30px;
+    gap: 0;
+    padding-bottom: 40px;
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  .bento-grid::-webkit-scrollbar, .bento-grid-2::-webkit-scrollbar { display: none; }
+  .bento-grid::-webkit-scrollbar, .bento-grid-2::-webkit-scrollbar, .bento-grid-3::-webkit-scrollbar { display: none; }
+
+  /* Scroll stack: shared bento-cell sticky logic */
   .bento-cell {
     position: sticky;
     transition: transform 0.3s ease;
+    margin-top: 16px;
   }
   
-  /* Offsets for up to 4 bento cards */
-  .bento-cell:nth-child(1) { top: 100px; z-index: 1; }
-  .bento-cell:nth-child(2) { top: 114px; z-index: 2; }
-  .bento-cell:nth-child(3) { top: 128px; z-index: 3; }
-  .bento-cell:nth-child(4) { top: 142px; z-index: 4; }
+  /* Offsets for bento-cell cards (Aim section, etc.) */
+  .bento-cell:nth-child(1) { top: 80px; z-index: 1; }
+  .bento-cell:nth-child(2) { top: 96px; z-index: 2; }
+  .bento-cell:nth-child(3) { top: 112px; z-index: 3; }
+  .bento-cell:nth-child(4) { top: 128px; z-index: 4; }
+
+  /* Editorial Board scroll stack — larger offset since cards are 400px tall */
+  .bento-grid-3 .editorial-card {
+    position: sticky;
+    margin-top: 16px;
+    border-radius: 18px;
+    overflow: hidden;
+  }
+  .bento-grid-3 .editorial-card:nth-child(1) { top: 80px; z-index: 1; }
+  .bento-grid-3 .editorial-card:nth-child(2) { top: 100px; z-index: 2; }
+  .bento-grid-3 .editorial-card:nth-child(3) { top: 120px; z-index: 3; }
+  .bento-grid-3 .editorial-card:nth-child(4) { top: 140px; z-index: 4; }
+
+  /* Call for Papers sidebar-card scroll stack */
+  .bento-grid-2 .sidebar-card {
+    position: sticky;
+    margin-top: 16px;
+    border-radius: 20px;
+  }
+  .bento-grid-2 .sidebar-card:nth-child(1) { top: 80px; z-index: 1; }
+  .bento-grid-2 .sidebar-card:nth-child(2) { top: 104px; z-index: 2; }
+
 
   .guidelines-stack {
     display: flex;
