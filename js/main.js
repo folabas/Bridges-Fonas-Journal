@@ -80,7 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 
-  window.addEventListener('resize', initScrollStacks);
 
   const setupCarousel = () => {
     const carousel = document.getElementById('guidelines-carousel');
