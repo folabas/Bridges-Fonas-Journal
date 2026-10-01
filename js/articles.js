@@ -223,14 +223,8 @@ function openModal(article) {
     try {
       const res = await fetch(`${API}/api/articles/${a._id}/download`, { method: 'POST' });
       const data = await res.json();
-      // Trigger real download
-      const link = document.createElement('a');
-      link.href = data.pdfUrl;
-      link.download = a.title.replace(/[^a-z0-9]/gi, '_') + '.pdf';
-      link.target = '_blank';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      // Trigger real download (bypasses popup blockers and handles Cloudinary attachment safely)
+      window.location.href = data.pdfUrl;
       // Update counter in modal
       const dlCount = document.getElementById('am-dl-count');
       if (dlCount) dlCount.textContent = `${data.downloads} downloads`;

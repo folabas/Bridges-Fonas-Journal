@@ -595,6 +595,7 @@ a {
 .scope-card {
   padding: 24px;
   position: sticky;
+  margin-top: 10px;
   transition: transform 0.3s ease;
   overflow: hidden;
   display: flex;

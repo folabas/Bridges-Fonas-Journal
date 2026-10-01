@@ -93,6 +93,7 @@ router.post('/:id/download', async (req, res) => {
           format: isRaw ? '' : 'pdf', 
           flags: 'attachment',
           sign_url: true,
+          secure: true,
         });
       }
     }
