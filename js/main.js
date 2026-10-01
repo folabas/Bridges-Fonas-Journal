@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <p class="ac-authors">${(a.authors || []).join(', ')}</p>
             </div>
             <div class="ac-footer">
-              <a href="articles.html" class="ac-btn-view" style="text-decoration:none; display:inline-flex; align-items:center; gap:8px;">
+              <a href="articles.html?id=${a._id}" class="ac-btn-view" style="text-decoration:none; display:inline-flex; align-items:center; gap:8px;">
                 <i class="fa-solid fa-eye"></i> View Article
               </a>
             </div>

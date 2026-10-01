@@ -5,33 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BIJST Admin Workspace</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* ── Reset & Base ───────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg: #f3f5f9;
+  --bg: #F8F9FA;
   --surface: #ffffff;
-  --sidebar: rgba(255, 255, 255, 0.7);
-  --sidebar-text: #64748b;
-  --sidebar-active: #e0e7ff;
-  --sidebar-active-text: #4338ca;
-  --primary: #4f46e5;
-  --primary-hover: #4338ca;
-  --primary-light: #e0e7ff;
-  --green: #10b981;
-  --red: #ef4444;
+  --sidebar: rgba(255, 255, 255, 0.75);
+  --sidebar-text: #1C3F60;
+  --sidebar-active: #E1EAF2;
+  --sidebar-active-text: #1C3F60;
+  --primary: #1C3F60;
+  --primary-hover: #4A8CC0;
+  --primary-light: #E1EAF2;
+  --green: #2B8A3E;
+  --red: #C2255C;
   --yellow: #f59e0b;
-  --text: #0f172a;
-  --text-muted: #64748b;
-  --border: rgba(226, 232, 240, 0.8);
+  --text: #111111;
+  --text-muted: #6c757d;
+  --border: rgba(255, 255, 255, 0.6);
   --radius: 16px;
-  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
-  --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.06);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.05);
   --shadow-lg: 0 20px 40px rgba(15, 23, 42, 0.08);
 }
 body { 
-  font-family: 'Outfit', sans-serif; 
+  font-family: 'Inter', sans-serif; 
   background: var(--bg); 
   color: var(--text); 
   min-height: 100vh;
@@ -259,10 +259,19 @@ textarea { width: 100%; padding: 12px 16px; resize: vertical; min-height: 120px;
   .stats-grid { grid-template-columns: 1fr; }
   table, thead, tbody, th, td, tr { display: block; }
   thead tr { position: absolute; top: -9999px; left: -9999px; }
-  tr { margin-bottom: 16px; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); overflow: hidden; }
-  td { border: none !important; border-bottom: 1px solid var(--border) !important; position: relative; padding-left: 40% !important; border-radius: 0 !important; }
+  tr { 
+    margin-bottom: 16px; 
+    border-radius: 16px; 
+    border: 1px solid rgba(255, 255, 255, 0.8); 
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05); 
+    overflow: hidden; 
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  td { border: none !important; border-bottom: 1px solid rgba(0,0,0,0.05) !important; position: relative; padding: 16px 16px 16px 45% !important; border-radius: 0 !important; }
   td:last-child { border-bottom: 0 !important; }
-  td::before { content: attr(data-label); position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 35%; padding-right: 10px; white-space: nowrap; font-weight: 700; font-size: .8rem; color: var(--text-muted); text-transform: uppercase; }
+  td::before { content: attr(data-label); position: absolute; left: 16px; top: 16px; width: 35%; padding-right: 10px; white-space: nowrap; font-weight: 700; font-size: .8rem; color: var(--text-muted); text-transform: uppercase; }
 }
 
 /* ── Category chart bars ─────────────────────────────────────────────────── */
@@ -282,7 +291,9 @@ textarea { width: 100%; padding: 12px 16px; resize: vertical; min-height: 120px;
 <!-- ── Login ─────────────────────────────────────────────────────────────── -->
 <div class="login-wrap" id="login-screen">
   <div class="login-card">
-    <div class="login-logo"><div class="lm"><i class="fa-solid fa-book-open"></i></div></div>
+    <div class="login-logo" style="text-align: center; margin-bottom: 24px;">
+      <img src="Logo_half.png" alt="Logo" style="height:64px; border-radius:12px; box-shadow: var(--shadow-sm);">
+    </div>
     <h1 class="login-title">BIJST Workspace</h1>
     <p class="login-sub">Secure Journal Administration</p>
     <div class="login-group">
@@ -300,7 +311,7 @@ textarea { width: 100%; padding: 12px 16px; resize: vertical; min-height: 120px;
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">
-      <div class="logo-mark"><i class="fa-solid fa-book-open"></i></div>
+      <img src="Logo_half.png" alt="Logo" style="height:36px; border-radius:8px;">
       <span>BIJST Admin</span>
     </div>
     <nav class="sidebar-nav">
