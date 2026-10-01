@@ -248,23 +248,34 @@
         <span class="section-eyebrow">Call for Papers</span>
         <div class="section-line"></div>
       </div>
-      <div class="bento-grid anim-card">
+      <div class="bento-grid-2 anim-card">
         <!-- Main Bento Cell -->
         
         <!-- Submit CTA -->
-      <div class="sidebar-card glass-card anim-sidebar">
-        <div class="sidebar-card-header magenta">
-          <h4>Submit Your Manuscript</h4>
+        <div class="sidebar-card glass-card anim-sidebar">
+          <div class="sidebar-card-header magenta">
+            <h4>Submit Your Manuscript</h4>
+          </div>
+          <div class="sidebar-card-body submit-card-body">
+            <p>Ready to publish your research? Submit your manuscript through our secure online portal.</p>
+            <a href="javascript:void(0)" onclick="openComingSoonModal()" class="submit-btn glass-btn-primary">
+              Submit Manuscript <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
         </div>
-        <div class="sidebar-card-body submit-card-body">
-          <p>Ready to publish your research? Submit your manuscript through our secure online portal.</p>
-          <a href="javascript:void(0)" onclick="openComingSoonModal()" class="submit-btn glass-btn-primary">
-            Submit Manuscript <i class="fa-solid fa-arrow-right"></i>
-          </a>
-        </div>
-      </div>
 
-        
+        <!-- Manuscript Guidelines -->
+        <div class="sidebar-card glass-card anim-sidebar">
+          <div class="sidebar-card-header blue">
+            <h4>Manuscript Guidelines</h4>
+          </div>
+          <div class="sidebar-card-body submit-card-body">
+            <p>Please review our comprehensive guidelines before preparing your manuscript for submission.</p>
+            <a href="Bridges Manuscript Guidelines.docx" download class="submit-btn glass-btn-primary" style="background: var(--blue);">
+              Download Guidelines <i class="fa-solid fa-download"></i>
+            </a>
+          </div>
+        </div>
       </div>
 
       <!-- About the Journal -->
@@ -298,6 +309,23 @@
           <p>
             The primary aim of BIJST is to provide an international platform for the publication of original, high-quality, and impactful research that advances scientific knowledge, technological innovation, and interdisciplinary collaboration. Interdisciplinary studies that integrate multiple scientific disciplines are particularly encouraged.
           </p>
+        </div>
+      </div>
+
+      <!-- Latest Articles -->
+      <div class="section-header anim-section" id="latest-articles-header">
+        <span class="section-eyebrow">Latest Articles</span>
+        <div class="section-line"></div>
+      </div>
+      <div class="latest-articles-container anim-card">
+        <div id="latest-articles-grid" class="latest-grid">
+           <!-- Articles will be injected here via JS -->
+           <div style="text-align:center; padding: 20px; color:var(--text-muted); width: 100%;">Loading articles...</div>
+        </div>
+        <div style="text-align: center; margin-top: 32px; margin-bottom: 32px;">
+          <a href="articles.html" class="btn btn-primary glass-btn-primary" style="border-radius: 50px; padding: 12px 32px;">
+            See More Articles <i class="fa-solid fa-arrow-right"></i>
+          </a>
         </div>
       </div>
 
@@ -335,7 +363,7 @@
         <span class="section-eyebrow">Submission Guidelines</span>
         <div class="section-line"></div>
       </div>
-      <div class="bento-grid-3 anim-card">
+      <div class="guidelines-grid anim-card">
         <div class="bento-cell glass-card guideline-bento">
           <div class="guideline-icon green"><i class="fa-solid fa-file-lines"></i></div>
           <h5>Manuscript Requirements</h5>
@@ -517,9 +545,9 @@
           <h5>Resources</h5>
           <ul>
             <li><a href="javascript:void(0)" onclick="openComingSoonModal()">Submit Manuscript</a></li>
-            <li><a href="https://www.journals.lcu.edu.ng/" target="_blank">Other Journals</a></li>
+            <li><a href="Bridges Manuscript Guidelines.docx" download>Manuscript Template</a></li>
+            <li><a href="articles.html">Articles</a></li>
             <li><a href="mailto:editor@bijst.com.ng">Contact Editors</a></li>
-            <li><a href="https://www.bijst.com.ng">www.bijst.com.ng</a></li>
           </ul>
         </div>
       </div>

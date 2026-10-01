@@ -113,6 +113,50 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   setupCarousel();
 
+  // --- Latest Articles Fetcher ---
+  const latestGrid = document.getElementById('latest-articles-grid');
+  if (latestGrid) {
+    const API = 'https://bridges-journal.onrender.com';
+    // Use grid display for the wrapper
+    latestGrid.style.display = 'grid';
+    latestGrid.style.gridTemplateColumns = 'repeat(auto-fit, minmax(300px, 1fr))';
+    latestGrid.style.gap = '24px';
+
+    fetch(`${API}/api/articles?page=1&limit=2`)
+      .then(res => res.json())
+      .then(data => {
+        if (!data.articles || data.articles.length === 0) {
+          latestGrid.innerHTML = '<div style="text-align:center; padding: 20px; color:var(--text-muted); width: 100%;">No articles published yet.</div>';
+          return;
+        }
+        latestGrid.innerHTML = '';
+        data.articles.forEach((a) => {
+          const card = document.createElement('article');
+          card.className = 'ac-card';
+          card.innerHTML = `
+            <div class="ac-thumb" style="${a.thumbnailUrl ? `background-image:url('${a.thumbnailUrl}')` : ''}">
+              ${!a.thumbnailUrl ? '<i class="fa-solid fa-file-pdf ac-thumb-icon"></i>' : ''}
+              <span class="ac-badge">${a.category || 'Research'}</span>
+            </div>
+            <div class="ac-body">
+              <div class="ac-meta">${a.year || '2026'} &middot; Vol.&nbsp;${a.volume || '1'}, Issue&nbsp;${a.issue || '1'}</div>
+              <h3 class="ac-title">${a.title}</h3>
+              <p class="ac-authors">${(a.authors || []).join(', ')}</p>
+            </div>
+            <div class="ac-footer">
+              <a href="articles.html" class="ac-btn-view" style="text-decoration:none; display:inline-flex; align-items:center; gap:8px;">
+                <i class="fa-solid fa-eye"></i> View Article
+              </a>
+            </div>
+          `;
+          latestGrid.appendChild(card);
+        });
+      })
+      .catch(err => {
+        latestGrid.innerHTML = '<div style="text-align:center; padding: 20px; color:var(--danger); width: 100%;">Failed to load latest articles.</div>';
+      });
+  }
+
 });
 
 // Coming Soon Modal logic

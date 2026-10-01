@@ -740,6 +740,12 @@ a {
   grid-template-rows: auto auto;
   gap: 24px;
 }
+.bento-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 24px;
+}
 .bento-cell {
   padding: 40px;
 }
@@ -1297,7 +1303,7 @@ a {
   }
 
   /* Mobile Call for Papers - Scroll Stack */
-  .bento-grid {
+  .bento-grid, .bento-grid-2 {
     display: flex;
     flex-direction: column;
     position: relative;
@@ -1306,7 +1312,7 @@ a {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  .bento-grid::-webkit-scrollbar { display: none; }
+  .bento-grid::-webkit-scrollbar, .bento-grid-2::-webkit-scrollbar { display: none; }
   .bento-cell {
     position: sticky;
     transition: transform 0.3s ease;
@@ -2446,8 +2452,15 @@ a {
   gap: 24px;
   width: 100%;
 }
+.guidelines-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  width: 100%;
+}
 @media (max-width: 900px) {
   .bento-grid-3 { grid-template-columns: 1fr; }
+  .guidelines-grid { grid-template-columns: 1fr; }
 }
 
 .editorial-card {
