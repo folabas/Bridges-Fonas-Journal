@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bridges: An Integrative Journal of Science & Technology | LCU</title>
+  <title>Bridges Integrative Journal of Science & Technology. </title>
   <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css" crossorigin="anonymous">
 
   <!-- Typography: Inter for body -->
@@ -23,6 +23,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- Early server ping — fires immediately so Render cold-starts ASAP -->
+  <script>
+    (function(){
+      window.__API = 'https://bridges-journal.onrender.com';
+      // Store the promise so main.js can await it instead of making a second request
+      window.__articlesFetch = fetch(window.__API + '/api/articles?page=1&limit=100')
+        .then(function(r){ return r.json(); })
+        .catch(function(){ return null; });
+    })();
+  </script>
 </head>
 <body>
 
@@ -84,7 +94,7 @@
     <!-- Switching Text in Top Middle -->
     <div class="hero-switching-text-container">
       <div class="hero-switching-text">
-        <span id="switching-text">Call for Papers</span>
+        <span id="switching-text">Volume 1, Issue 1</span>
       </div>
     </div>
     
@@ -137,6 +147,32 @@
   <div class="top-bar">
     <marquee class="top-bar-text">Faculty of Natural and Applied Sciences • <span class="top-bar-divider"></span><span class="top-bar-text">Lead City University, Ibadan • </span><span class="top-bar-divider"></span><span class="top-bar-text last">Celebrating 20 Years of Excellence</span></marquee>
   </div>
+
+  <!-- About the Journal (moved here, immediately after marquee) -->
+  <section class="about-inline-section">
+    <div class="about-inline-inner main-container" style="padding-top:56px; padding-bottom:0;">
+      <div class="content-col">
+        <div class="section-header anim-section" id="about">
+          <span class="section-eyebrow">About the Journal</span>
+          <div class="section-line"></div>
+        </div>
+        <div class="card message-card glass-card anim-card">
+          <div class="card-body">
+            <h3 class="display-heading">Bridges Integrative Journal of Science and Technology (BIJST)</h3>
+            <p>
+              Bridges Integrative Journal of Science and Technology (BIJST) is a peer-reviewed, multidisciplinary scholarly journal dedicated to advancing innovative research across the sciences and technology. The journal provides a rigorous, reputable, and timely platform for the dissemination of high-quality original research, review articles, short communications, case studies, and technical reports that address contemporary scientific and technological challenges.
+            </p>
+            <p>
+              BIJST fosters interdisciplinary collaboration by publishing research that bridges traditional disciplinary boundaries and promotes the integration of knowledge across engineering, medicine, computing, mathematics, natural sciences, and the social sciences. The journal is committed to promoting scientific excellence, research integrity, innovation, and evidence-based solutions that contribute to sustainable development and societal advancement.
+            </p>
+            <p>
+              The journal welcomes submissions from researchers, academics, industry professionals, policymakers, and postgraduate students worldwide.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
     <!-- SCOPE SECTION (Carousel/Scroll Stack) -->
   <section class="scope-section" id="scope">
@@ -242,10 +278,10 @@
   <!-- MAIN CONTENT -->
   <main class="main-container">
     <div class="content-col">
-
-      <!-- Call for Papers (Bento Grid) -->
+      
+      <!-- Submit Manuscript (Bento Grid) -->
       <div class="section-header anim-section">
-        <span class="section-eyebrow">Call for Papers</span>
+        <span class="section-eyebrow">Submit Manuscript</span>
         <div class="section-line"></div>
       </div>
       <div class="bento-grid-2 anim-card">
@@ -278,26 +314,6 @@
         </div>
       </div>
 
-      <!-- About the Journal -->
-      <div class="section-header anim-section" id="about">
-        <span class="section-eyebrow">About the Journal</span>
-        <div class="section-line"></div>
-      </div>
-      <div class="card message-card glass-card anim-card">
-        <div class="card-body">
-          <h3 class="display-heading">Bridges Integrative Journal of Science and Technology (BIJST)</h3>
-          <p>
-            Bridges Integrative Journal of Science and Technology (BIJST) is a peer-reviewed, multidisciplinary scholarly journal dedicated to advancing innovative research across the sciences and technology. The journal provides a rigorous, reputable, and timely platform for the dissemination of high-quality original research, review articles, short communications, case studies, and technical reports that address contemporary scientific and technological challenges.
-          </p>
-          <p>
-            BIJST fosters interdisciplinary collaboration by publishing research that bridges traditional disciplinary boundaries and promotes the integration of knowledge across engineering, medicine, computing, mathematics, natural sciences, and the social sciences. The journal is committed to promoting scientific excellence, research integrity, innovation, and evidence-based solutions that contribute to sustainable development and societal advancement.
-          </p>
-          <p>
-            The journal welcomes submissions from researchers, academics, industry professionals, policymakers, and postgraduate students worldwide.
-          </p>
-        </div>
-      </div>
-
       <!-- Aim -->
       <div class="section-header anim-section">
         <span class="section-eyebrow">Our Aim</span>
@@ -312,14 +328,27 @@
         </div>
       </div>
 
-      <!-- Latest Articles -->
+      <!-- All Articles -->
       <div class="section-header anim-section" id="latest-articles-header">
-        <span class="section-eyebrow">Latest Articles</span>
+        <span class="section-eyebrow">Articles</span>
         <div class="section-line"></div>
       </div>
       <div class="latest-articles-container anim-card">
+        <!-- Server wake-up hint (shown after 5s via JS) -->
+        <div id="articles-load-hint" style="display:none; text-align:center; padding: 12px 0 20px; color: var(--text-muted); font-size: 0.875rem;">
+          <i class="fa-solid fa-circle-notch fa-spin" style="margin-right:6px; color:var(--blue);"></i>
+          Server is waking up&hellip; this may take up to 30 seconds on first load.
+        </div>
         <div id="latest-articles-grid" class="latest-grid">
-           <!-- Articles will be injected here via JS -->
+           <!-- Articles injected by JS \u2014 skeletons shown while loading -->
+           <div class="article-card-skeleton">
+             <div class="sk-thumb"></div>
+             <div class="sk-body">
+               <div class="sk-line sk-title"></div>
+               <div class="sk-line sk-short"></div>
+               <div class="sk-line sk-xshort"></div>
+             </div>
+           </div>
            <div class="article-card-skeleton">
              <div class="sk-thumb"></div>
              <div class="sk-body">
@@ -337,10 +366,33 @@
              </div>
            </div>
         </div>
-        <div style="text-align: center; margin-top: 32px; margin-bottom: 32px;">
-          <a href="articles.html" class="btn btn-primary glass-btn-primary" style="border-radius: 50px; padding: 12px 32px;">
-            See More Articles <i class="fa-solid fa-arrow-right"></i>
-          </a>
+      </div>
+
+      <!-- Article Detail Modal (inline, for homepage) -->
+      <div class="article-modal" id="article-modal">
+        <div class="am-box glass-card">
+          <button class="am-close" id="am-close-btn" aria-label="Close">&times;</button>
+          <div class="am-inner">
+            <div class="am-thumb-col">
+              <div class="am-thumb" id="am-thumb"></div>
+              <div class="am-info">
+                <div class="am-info-row"><span class="am-info-label">Year</span><span class="am-info-val" id="am-year"></span></div>
+                <div class="am-info-row"><span class="am-info-label">Volume</span><span class="am-info-val" id="am-vol"></span></div>
+                <div class="am-info-row"><span class="am-info-label">Issue</span><span class="am-info-val" id="am-issue"></span></div>
+                <div class="am-info-row"><span class="am-info-label">Pages</span><span class="am-info-val" id="am-pages"></span></div>
+              </div>
+            </div>
+            <div class="am-content-col">
+              <span class="am-category" id="am-category"></span>
+              <h2 class="am-title" id="am-title"></h2>
+              <p class="am-authors" id="am-authors"></p>
+              <div class="am-keywords" id="am-keywords"></div>
+              <h4 class="am-abstract-label">Abstract</h4>
+              <p class="am-abstract" id="am-abstract"></p>
+              <div class="am-actions" id="am-actions"></div>
+              <div class="am-dl-meta" id="am-dl-count"></div>
+            </div>
+          </div>
         </div>
       </div>
 

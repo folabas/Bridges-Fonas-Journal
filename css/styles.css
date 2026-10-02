@@ -1,5 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&display=swap');
 
+/* About inline section (placed between marquee and scope) */
+.about-inline-section {
+  width: 100%;
+  background: transparent;
+}
+.about-inline-inner {
+  /* Reuse main-container layout — single column with sidebar hidden here */
+  display: block;
+}
+.about-inline-inner .content-col {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+
 :root {
   /* Color Palette Premium Light Theme */
   --bg-primary: #F8F7F4;
@@ -1271,6 +1288,7 @@ a {
 }
 @media (max-width: 768px) {
   .header-inner { padding: 12px 16px; }
+  .card { padding: 24px; }
   .desktop-nav { display: none; }
   .mobile-nav-toggle { 
     display: flex; 

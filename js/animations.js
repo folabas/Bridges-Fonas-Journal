@@ -151,21 +151,22 @@ document.addEventListener('DOMContentLoaded', () => {
       );
     });
 
-    // Sidebar Cards staggered
-    gsap.fromTo(".anim-sidebar",
-      { opacity: 0, x: 30 },
-      { 
-        opacity: 1, 
-        x: 0, 
-        duration: 0.8, 
-        stagger: 0.15, 
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".sidebar",
-          start: "top 85%",
+    // Sidebar Cards & Bento Grid Sidebar Cards
+    gsap.utils.toArray(".anim-sidebar").forEach(card => {
+      gsap.fromTo(card,
+        { opacity: 0, x: 30 },
+        { 
+          opacity: 1, 
+          x: 0, 
+          duration: 0.8, 
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: card,
+            start: "top 85%",
+          }
         }
-      }
-    );
+      );
+    });
 
     // Taped Footer Animation
     gsap.fromTo(".footer-large-name",
@@ -188,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   const switchingTextEl = document.getElementById('switching-text');
   if (switchingTextEl && typeof gsap !== 'undefined') {
-    const texts = ["Call for Papers", "Volume 1, Issue 1"];
+    const texts = ["Volume 1, Issue 1", "BIJST"];
     let currentIndex = 0;
 
     setInterval(() => {
