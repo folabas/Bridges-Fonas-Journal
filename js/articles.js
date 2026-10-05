@@ -9,6 +9,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!grid) return;
 
+  const urlParams = new URLSearchParams(window.location.search);
+  let volumeFilter = urlParams.get('volume');
+
+  const volGrid = document.getElementById('volume-selection');
+  const arcContent = document.getElementById('archive-content');
+
+  if (!volumeFilter) {
+    if (volGrid) volGrid.style.display = 'grid';
+    if (arcContent) arcContent.style.display = 'none';
+    return; // Don't fetch articles yet
+  } else {
+    if (volGrid) volGrid.style.display = 'none';
+    if (arcContent) arcContent.style.display = 'block';
+  }
+
   const isMobile   = window.innerWidth <= 768;
   const LIMIT      = isMobile ? 3 : 6;
   let page         = 1;
@@ -44,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     showSkeletons();
     try {
       let url = `${API}/api/articles?page=${page}&limit=${LIMIT}`;
+      if (volumeFilter) url += `&volume=${volumeFilter}`;
       if (search)   url += `&search=${encodeURIComponent(search)}`;
       if (year)     url += `&year=${year}`;
       if (category) url += `&category=${encodeURIComponent(category)}`;

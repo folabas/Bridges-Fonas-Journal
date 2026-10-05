@@ -11,6 +11,7 @@ router.get('/', async (req, res) => {
 
     const query = {};
     if (req.query.year)   query.year = req.query.year;
+    if (req.query.volume) query.volume = req.query.volume;
     if (req.query.category) query.category = { $regex: req.query.category, $options: 'i' };
     if (req.query.search) {
       query.$or = [
